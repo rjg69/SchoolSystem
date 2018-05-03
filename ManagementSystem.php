@@ -297,15 +297,13 @@ class savviorSchool{
               SavviorSchool s
                 ";
 */
-        $link = mysqli_connect("localhost", "ryan_intern", "intern", "ryan_intern");
-
-        // Check connection
-        if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
-        }
+        $servername = "10.99.100.54";
+        $username = "sa";
+        $password = "capcom5^";
+        $dbname = "ryan_intern";
 
         // Attempt select query execution
-        $sql = "SELECT
+        $q = "SELECT
               s.ID
               s.StudentName
               s.StudentImage
@@ -315,9 +313,18 @@ class savviorSchool{
             FROM
               SavviorSchool s";
 
-        $stmt = $pdo->query($q);
-        $stmt->execute();
-        $results = $stmt->fetchAll();
+        echo "<table align = 'center' width = '70%'>";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $results = $dbh->query($q, PDO::FETCH_ASSOC);
+
+        $conn = new mysqli($servername, $username, $password);
+        if($conn->connect_error){
+            die("Connection ailed: " . $conn->connect_error);
+        }
+        echo "Connected successfully";
+
+        var_dump($results);
 
        $count = count($results);
         for($i = 0; $i < $count; $i++){
@@ -336,10 +343,19 @@ class savviorSchool{
 <style>
     header{
         color: darkblue;
+        font-size: 60px;
     }
 
     h2{
         color: navy;
+        font-size: 60px;
+    }
+
+    p{
+        color: navy;
+        font-size: 25px;
+        text-align: center;
+
     }
 
 
@@ -363,20 +379,65 @@ class savviorSchool{
 
 <ul class="nav nav-tabs">
     <li class="active">
-        <a href="ManagementSystem.php">Home Page</a>
+        <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "Return to Home Page">Home Page</a>
     </li>
     <li>
-        <a href="DataStudent.php">Student</a>
+        <a href="DataStudent.php" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
     </li>
     <li>
-        <a href="DataBook.php">Book</a>
+        <a href="DataBook.php" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
     </li>
     <li>
-        <a href="DataClass.php">Class</a>
+        <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
     </li>
 </ul>
 <p>  </p>
-<p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page.</p>
+<p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data can be accessed using the tabs above.</p>
+
+
+<?php
+
+    echo "Current Student Data";
+    $i = 0;
+
+    $servername = "10.99.100.54";
+    $username = "sa";
+    $password = "capcom5^";
+    $dbname = "ryan_intern";
+
+$q = "
+        SELECT
+            s.ID
+            s.StudentName
+            s.StudentImage
+            s.ClassTitle
+            s.BookTitle
+            s.BookImage
+        FROM
+            SavviorSchool s
+        ";
+
+    $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+    $results = $dbh->query($q, PDO::FETCH_ASSOC);
+
+    $conn = new mysqli($servername, $username, $password);
+    if($conn->connect_error){
+        die("Connection ailed: " . $conn->connect_error);
+    }
+    echo "Connected successfully";
+
+    $count = count($results);
+    echo "<table align = 'center' width = '70%'><tr>";
+
+    for($i = 0; $i < $count; $i++){
+        if(($i % 4) == 0 && ($i != 0)){
+            echo "</tr><tr>";
+        }
+        echo "<td>".$results[$i]."</td>";
+    }
+
+    echo "</tr></table>";
+?>
 
 </body>
 
