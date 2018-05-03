@@ -20,6 +20,8 @@ Assignment #1 - Design a management system for a school, where a school administ
 
 -->
 
+
+
 <?php
 
 class savviorSchool{
@@ -27,6 +29,7 @@ class savviorSchool{
     private $tableData;
     private $changeData;
     private $input;
+
 
     /****************************************************************
      * PULL ALL DATA FROM TEH DESIGNATED TABLE
@@ -271,9 +274,77 @@ class savviorSchool{
         return null;
     }
 
+    /****************************************************************
+     * CALL QUERY AND EXECUTE FUNCTION ASSOCIATED
+     ****************************************************************/
+    public function displayData(){
+        echo "Current Class Data";
+
+       /* $servername = "10.99.100.54";
+        $username = "ryan_intern";
+        $password = "intern";
+        $dbname = "ryan_intern";
+
+        $q = "
+            SELECT
+              s.ID
+              s.StudentName
+              s.StudentImage
+              s.ClassTitle
+              s.BookTitle
+              s.BookImage
+            FROM
+              SavviorSchool s
+                ";
+*/
+        $link = mysqli_connect("localhost", "ryan_intern", "intern", "ryan_intern");
+
+        // Check connection
+        if($link === false){
+            die("ERROR: Could not connect. " . mysqli_connect_error());
+        }
+
+        // Attempt select query execution
+        $sql = "SELECT
+              s.ID
+              s.StudentName
+              s.StudentImage
+              s.ClassTitle
+              s.BookTitle
+              s.BookImage
+            FROM
+              SavviorSchool s";
+
+        $stmt = $pdo->query($q);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+       $count = count($results);
+        for($i = 0; $i < $count; $i++){
+            if(($i % 4) == 0 && ($i != 0)){
+                echo "</tr><tr>";
+            }
+            echo "<td>".$results[$i]."</td>";
+        }
+
+        echo "</tr></table>";
+    }
 }
 
 ?>
+
+<style>
+    header{
+        color: darkblue;
+    }
+
+    h2{
+        color: navy;
+    }
+
+
+</style>
+
 <header>
     <h1 align = "center"><u><b></b>
         Savvior School District</b></u></h1>
@@ -288,7 +359,7 @@ class savviorSchool{
 
 <body>
 
-<h2 align = "center">Home Page</h2>
+<h2 align = "center"><u>Home Page</u></h2>
 
 <ul class="nav nav-tabs">
     <li class="active">

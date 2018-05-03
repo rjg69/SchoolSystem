@@ -8,8 +8,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <h1 align = "center"><u><b></b>
+            Savvior School District</b></u></h1>
 </head>
+
+
 <body>
+
+<style>
+    header{
+        color: darkblue;
+    }
+
+    button{
+        color: red;
+        width: 100%;
+    }
+
+    .btn-group{
+        color: red;
+        width: 100%;
+    }
+
+    h2{
+        color: navy;
+    }
+
+
+</style>
 
 <!--
     In this section, display the Student Table data and provide buttons to add, edit, and delete
@@ -36,8 +63,8 @@
     Add button & delete button
 -->
 <div class="btn-group">
-    <button type="button" class="btn btn-primary">Add</button>
-    <button type="button" class="btn btn-primary">Remove</button>
+    <button type="button" class="btn btn-primary" width = "100%">Add</button>
+    <button type="button" class="btn btn-primary" width = "100%">Remove</button>
 </div>
 
 <!--
@@ -57,45 +84,35 @@
 
 
 <?php
-include("conn.php");
-//$query = "select field1, fieldn from table [where clause][group by clause][order by clause][limit clause]";
 
-$query = "SELECT 
-            s.BookTitle
+    echo "Current Book Data";
+    $i = 0;
+
+    $q = "
+        SELECT
             s.ID
-          FROM
-            SavviorSchool s";
-$result = conn($query);
-if (($result)||(mysql_errno == 0))
-{
-    echo "<table width='100%'><tr>";
-    if (mysql_num_rows($result)>0)
-    {
-        //loop thru the field names to print the correct headers
-        $i = 0;
-        while ($i < mysql_num_fields($result))
-        {
-            echo "<th>". mysql_field_name($result, $i) . "</th>";
-            $i++;
-        }
-        echo "</tr>";
+            s.ClassTitle
+            s.BookTitle
+            s.BookImage
+        FROM
+            SavviorSchool s
+        ";
 
-//display the data
-        while ($rows = mysql_fetch_array($result,MYSQL_ASSOC))
-        {
-            echo "<tr>";
-            foreach ($rows as $data)
-            {
-                echo "<td align='center'>". $data . "</td>";
-            }
+    $stmt = $this->dbh->prepare($q);
+    $stmt->execute();
+    $results = $stmt->fetchAll();
+
+    $count = count($results);
+    echo "<table><tr>";
+
+    for($i = 0; $i < $count; $i++){
+        if(($i % 4) == 0 && ($i != 0)){
+            echo "</tr><tr>";
         }
-    }else{
-        echo "<tr><td colspan='" . ($i+1) . "'>No Results found!</td></tr>";
+        echo "<td>".$results[$i]."</td>";
     }
-    echo "</table>";
-}else{
-    echo "Error in running query :". mysql_error();
-}
+
+    echo "</tr></table>";
 ?>
 
 </body>
