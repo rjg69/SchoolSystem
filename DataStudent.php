@@ -340,6 +340,7 @@
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $dbh->exec($sql);
 
+            #Refresh page one time after executing
             if(!isset($_GET['reload'])){
                 echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
             }

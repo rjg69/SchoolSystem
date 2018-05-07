@@ -259,7 +259,7 @@
         $dbh->exec($sql);
 
         if(!isset($_GET['reload'])){
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
 
         #https://www.codeproject.com/Articles/8681/Uploading-Downloading-Pictures-to-from-a-SQL-Serve
@@ -290,7 +290,7 @@
         $dbh->exec($sql);
 
         if(!isset($_GET['reload'])){
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
 
@@ -332,7 +332,7 @@
         $dbh->exec($sql);
 
         if(!isset($_GET['reload'])){
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
 
     }
