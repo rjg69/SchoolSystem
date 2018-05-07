@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <h1 align = "center"><u><b>
             Savvior School District</b></u></h1>
@@ -21,12 +22,14 @@
     }
 
     button{
-        color: red;
+        color: white;
+        background-color: darkred;
         width: 100%;
     }
 
     .btn-group{
-        color: red;
+        color: white;
+        background-color: darkred;
         width: 100%;
     }
 
@@ -38,6 +41,12 @@
         position: relative;
         top: 20px;
     }
+
+    p{
+        position: relative;
+        top: 20px;
+    }
+
 
 
 </style>
@@ -85,11 +94,13 @@
         <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <li><a href="#">Class Title</a></li>
-        <li><a href="#">Book Title</a></li>
-        <li><a href="#">Book Image</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Image</a></li>
     </ul>
 </div>
+
+<p>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
 
 <!--
     Add Modal
@@ -105,7 +116,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action = "" method = "GET">
                     <h2>Name</h2><br>
                     <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
@@ -114,10 +125,10 @@
                     <input type = "text" name = "ClassTitle"><br>
                     <h2>Book</h2><br>
                     <input type = "text" name = "BookTitle"><br>
+                    <input type = "submit" value = "Submit">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -144,10 +155,10 @@
                     <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
+                    <input type = "submit" value = "Submit">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -177,10 +188,10 @@
                     <input type = "text" name = "ClassTitle"><br>
                     <h2>Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
+                    <input type = "submit" value = "Submit">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -222,6 +233,110 @@
         $results [] = $entry;
     }
 
+    if(isset($_GET['submit'])){
+        add();
+    }
+
+    /****************************************************************
+     * ADD A NEW STUDENT WITH ALL AVAILABLE DATA PROVIDED
+     ****************************************************************/
+    function add()
+    {
+        $id = $_GET['id'];
+        $studName = $_GET['StudentName'];
+        $class = $_GET['ClassTitle'];
+        $book = $_GET['BookTitle'];
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        $changeData[] = $id;
+
+        $sql = "INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$id', '$studName', '$class', '$book')";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        if(!isset($_GET['reload'])){
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
+
+        #https://www.codeproject.com/Articles/8681/Uploading-Downloading-Pictures-to-from-a-SQL-Serve
+    }
+
+    if(isset($_GET['submit1'])){
+        delete();
+    }
+
+    /****************************************************************
+     * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID TO BE REMOVED
+     ****************************************************************/
+    function delete()
+    {
+        $name = $_GET['StudentName'];
+        $id = $_GET['id'];
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        /*Delete all data in the table row if specified by the Bootstrap Modal input*/
+        $changeData[] = $id;
+
+        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        if(!isset($_GET['reload'])){
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
+    }
+
+    if(isset($_GET['submit2'])){
+        edit();
+    }
+
+    /****************************************************************
+     * EDIT DESIGNATED STUDENT VALUES
+     ****************************************************************/
+    function edit()
+    {
+        if($_GET['StudentName']){
+            $name = $_GET['StudentName'];
+        }
+
+        if($_GET['id']){
+            $id = $_GET['id'];
+        }else{
+            $id = null;
+        }
+
+        if($_GET['ClassTitle']){
+            $class = $_GET['ClassTitle'];
+        }
+
+        if($_GET['BookTitle']){
+            $book = $_GET['BookTitle'];
+        }
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        $changeData[] = $id;
+        $sql = "UPDATE SavviorSchool SET 'StudentName' = '$name', 'ClassTitle' = '$class', 'BookTitle' = '$book' WHERE 'ID' = '$id'";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        if(!isset($_GET['reload'])){
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
+
+    }
+
     echo "<table align = 'center' width = '70%'><tr>";
 
     echo "<td width = '25%'><u>ID</u></td>";
@@ -246,6 +361,8 @@ foreach($results as $val){
         echo "</tr><tr>";
     }
     echo "</tr></table>";
+
+    return  $returnData;
 ?>
 
 </body>

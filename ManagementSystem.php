@@ -93,58 +93,23 @@ class savviorSchool{
         return $tableData;
     }
 
-    /****************************************************************
-     * GET INPUT FROM THE USER
-     ****************************************************************/
-    public function getInput(){
-        /*Pull data from the Bootstrap Modal to be send into the necessary function*/
-        $input = array();
-
-    }
-
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID TO BE REMOVED
      ****************************************************************/
-    public function delete($input){
+    public function delete($id, $name){
+        $username = "sa";
+        $password = "capcom5^";
+
         /*Delete all data in the table row if specified by the Bootstrap Modal input*/
+        $changeData[] = $id;
 
-        /*
-         DELETE FROM SavviorSchool
-         WHERE ID = '9'
-         */
+        $q = "DELETE FROM SavviorSchool WHERE 'ID' = $id AND 'StudentName' = $name;";
 
-        $changeData[] = $input;
-        if($input['type'] == 'student'){
-            foreach($input as $key => $object){
-                $this->execQuery(
-                    "DELETE FROM SavviorSchool WHERE 'ID' = :name;",
-                    array(
-                        ':name' => $object['StudentName']
-                    )
-                );
-            }
-        }
-        if($input['type'] == 'book'){
-            foreach($input as $key => $object){
-                $this->execQuery(
-                    "DELETE FROM SavviorSchool WHERE 'ID' = :name;",
-                    array(
-                        ':name' => $object['BookTitle']
-                    )
-                );
-            }
-        }
-        if($input['type'] == 'class'){
-            foreach($input as $key => $object){
-                $this->execQuery(
-                    "DELETE FROM SavviorSchool WHERE 'ID' = :name;",
-                    array(
-                        ':name' => $object['ClassTitle']
-                    )
-                );
-            }
-        }
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($q);
+
     }
 
     /****************************************************************
@@ -175,55 +140,7 @@ class savviorSchool{
          */
 
         $changeData[] = $input;
-        if($input['type'] == 'student'){
-            foreach($input as $key => $object){
-                $this->execQuery(
-                    "INSERT INTO SavviorSchool VALUES(StudentName, ID)",
-                    array(
-                        $this['StudentName'] = $object['StudentName'],
-                        $this['ID'] = $object['ID']
-                    )
-                );
-            }
-        }else if($input['type'] == 'book'){
-            foreach($input as $key => $object) {
-                $this->execQuery(
-                    "INSERT INTO SavviorSchool VALUES(BookTitle, ID)",
-                    array(
-                        $this['BookTitle'] = $object['BookTitle'],
-                        $this['ID'] = $object['ID']
-                    )
-                );
-            }
-        }else if($input['type'] == 'class'){
-            foreach($input as $key => $object){
-                $this->execQuery(
-                    "INSERT INTO SavviorSchool VALUES(ClassTitle, ID)",
-                    array(
-                        $this['ClassTitle'] = $object['ClassTitle'],
-                        $this['ID'] = $object['ID']
-                    )
-                );
-            }
-        }else if($input['type'] == 'studentPhoto'){
-            foreach($input as $key => $object){
-                $this->execQuery(
-                    "INSERT INTO SavviorSchool VALUES(StudentPhoto)",
-                    array(
-                        $this['StudentPhoto'] = $object['StudentPhoto']
-                    )
-                );
-            }
-        }else if($input['type'] == 'bookPhoto'){
-            foreach($input as $key => $object){
-                $this->execQuery(
-                    "INSERT INTO SavviorSchool VALUES(BookPhoto)",
-                    array(
-                        $this['BookPhoto'] = $object['BookPhoto']
-                    )
-                );
-            }
-        }
+
 
     }
 
@@ -299,24 +216,34 @@ class savviorSchool{
 <style>
     header{
         color: darkblue;
-        font-size: 60px;
+    }
+
+    button{
+        color: white;
+        background-color: darkred;
+        width: 100%;
+    }
+
+    .btn-group{
+        color: white;
+        background-color: darkred;
+        width: 100%;
     }
 
     h2{
         color: navy;
-        font-size: 60px;
-    }
-
-    p{
-        color: navy;
-        font-size: 25px;
-        text-align: center;
     }
 
     table{
         position: relative;
         top: 20px;
     }
+
+    p{
+        position: relative;
+        top: 20px;
+    }
+
 
 
 </style>
@@ -353,7 +280,6 @@ class savviorSchool{
 </ul>
 <p>  </p>
 <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
-
 
 <?php
 
@@ -429,7 +355,7 @@ $q = "
 
 
 
-
+    return  $returnData;
     #foreach($returnData as $result){
     #    echo "<td>" . print_r($result[key]) . "</td>";
     #    echo "<td>" . print_r($result['StudentName']) . "</td>";
