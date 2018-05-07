@@ -69,8 +69,12 @@
     Add button & delete button
 -->
 <div class="btn-group">
-    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">Add</button>
-    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">Remove</button>
+    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
+        <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
+    </button>
+    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
+        <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white>Remove</a>
+    </button>
 </div>
 
 <!--
@@ -87,20 +91,96 @@
     </ul>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog">
+<!--
+    Add Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "AddModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title" id = "modalLabel">Add Student</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <form>
+                    <h2>Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                    <h2>Class</h2><br>
+                    <input type = "text" name = "ClassTitle"><br>
+                    <h2>Book</h2><br>
+                    <input type = "text" name = "BookTitle"><br>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--
+    Remove Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "RemoveModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remove Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h2>Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h2>Student Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                    <h2>Class Title</h2><br>
+                    <input type = "text" name = "ClassTitle"><br>
+                    <h2>Book Title</h2><br>
+                    <input type = "text" name = "BookTitle"><br>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

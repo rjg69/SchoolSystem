@@ -69,8 +69,12 @@
     Add button & delete button, to be put in top right since only one item will be affected at a time
 -->
 <div class="btn-group">
-    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">Add</button>
-    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">Remove</button>
+    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
+        <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
+    </button>
+    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
+        <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white>Remove</a>
+    </button>
 </div>
 
 <!--
@@ -81,74 +85,104 @@
         <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <li><a href="#">Student Name</a></li>
-        <li><a href="#">Student Image</a></li>
-        <li><a href="#">Class Title</a></li>
-        <li><a href="#">Book Title</a></li>
-        <li><a href="#">Book Image</li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Student Name</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Student Image</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Image</a></li>
     </ul>
 </div>
 
 <!--
-    Modal intended upon taking in input to be added to the table
+    Add Modal
 -->
-<div class="modal" tabindex="-1" role="dialog">
+
+<div class="modal" tabindex="-1" role="dialog" id = "AddModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Student Input</h5>
+                <h5 class="modal-title" id = "modalLabel">Add Student</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Please input the necessary data for the student you wish to update/create.</p>
-                <textarea rows = "1" cols = "50">
-
-                </textarea>
-                <textarea rows = "1" cols = "50">
-
-                </textarea>
-                <textarea rows = "1" cols = "50">
-
-                </textarea>
-                <img src = "" alt = "" height = "" width = "">
-                <img src = "" alt = "" height = "" width = "">
-                <div class = "dropdown">
-                    <button class = "btn btn-secondary dropdown-toggle" type = "button" id = "dropdownMenuButton" data-toggle = "dropdown" aria-haspopup = "true" aria-expanded = "false">
-                        Select Type
-                    </button>
-                    <div class = "dropdown-menu" aria-labelledby = "dropdownMenuButton" >
-                        <a class = "dropdown-item" href = "#">Student</a>
-                        <a class = "dropdown-item" href = "#">Book</a>
-                        <a class = "dropdown-item" href = "#">Class</a>
-                        <a class = "dropdown-item" href = "#">Student Photo</a>
-                        <a class = "dropdown-item" href = "#">Book Photo</a>
-                    </div>
-                </div>
+                <form>
+                    <h2>Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                    <h2>Class</h2><br>
+                    <input type = "text" name = "ClassTitle"><br>
+                    <h2>Book</h2><br>
+                    <input type = "text" name = "BookTitle"><br>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog">
+
+<!--
+    Remove Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "RemoveModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title">Remove Student</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <form>
+                    <h2>Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h2>Student Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                    <h2>Class Title</h2><br>
+                    <input type = "text" name = "ClassTitle"><br>
+                    <h2>Book Title</h2><br>
+                    <input type = "text" name = "BookTitle"><br>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
