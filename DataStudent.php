@@ -332,7 +332,9 @@
             $password = "capcom5^";
 
             $changeData[] = $id;
-            $sql = "UPDATE SavviorSchool SET 'StudentName' = '$name', 'ClassTitle' = '$class', 'BookTitle' = '$book' WHERE 'ID' = '$id'";
+            $sql = ("UPDATE SavviorSchool 
+                    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book' 
+                    WHERE ID = '$id'");
 
             $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
