@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <h1 align = "center"><u><b></b>
+    <h1 align = "center"><u><b>
             Savvior School District</b></u></h1>
     <title>Class</title>
     <meta charset="UTF-8">
@@ -12,6 +12,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
+<!--
+    Add style conventions using CSS
+-->
 <style>
     header{
         color: darkblue;
@@ -31,16 +34,21 @@
         color: navy;
     }
 
+    table{
+        position: relative;
+        top: 20px;
+    }
+
 
 </style>
 
 <body>
 
 <!--
-    In this section, display the Student Table data and provide buttons to add, edit, and delete
+    In this section, display the Class Table data and provide buttons to add, edit, and delete
 -->
 
-<h2 align = "center"><u><b>Class Data</b></u></h2>
+<h2 align = "center"><u>Class Data</u></h2>
 
 <ul class="nav nav-tabs">
     <li>
@@ -79,11 +87,33 @@
     </ul>
 </div>
 
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <?php
 
-    echo "Current Class Data";
+    #echo "Current Class Data";
     $i = 0;
+    $results = array();
+    $reportData = array();
 
     $servername = "10.99.100.54";
     $username = "sa";
@@ -92,33 +122,50 @@
 
     $q = "
         SELECT
-            s.ID
-            s.ClassTitle
-            s.BookTitle
+            s.ID,
+            s.ClassTitle,
+            s.BookTitle,
             s.BookImage
         FROM
             SavviorSchool s
         ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-    $results = $dbh->query($q, PDO::FETCH_ASSOC);
+    $data = $dbh->query($q, PDO::FETCH_ASSOC);
 
     $conn = new mysqli($servername, $username, $password);
     if($conn->connect_error){
         die("Connection ailed: " . $conn->connect_error);
     }
-    echo "Connected successfully";
+    #echo "Connected successfully";
 
-    $count = count($results);
-    echo "<table align = 'center' width = '70%'><tr>";
-
-    for($i = 0; $i < $count; $i++){
-        if(($i % 4) == 0 && ($i != 0)){
-            echo "</tr><tr>";
-        }
-        echo "<td>".$results[$i]."</td>";
+    foreach($data as $entry){
+        $results [] = $entry;
     }
 
+    echo "<table align = 'center' width = '70%'><tr>";
+
+    echo "<td width = '25%'><u>ID</u></td>";
+    echo "<td width = '25%'><u>Class Title</u></td>";
+    echo "<td width = '25%'><u>Book Title</u></td>";
+    echo "<td width = '25%'><u>Book Image</u></td>";
+    echo "</tr><tr>";
+
+    foreach($results as $val){
+        $key = $val['ID'];
+        echo "<td>" . $val['ID'] . "</td>";
+        if(!array_key_exists($key, $reportData)){
+            $returnData[$key] = array(
+                'ClassTitle' => $val['ClassTitle'],
+                'BookTitle' => $val['BookTitle'],
+                'BookImage' => $val['BookImage']
+            );
+        }
+        echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
+        echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
+        echo "<td>" . $returnData[$key]['BookImage'] . "</td>";
+        echo "</tr><tr>";
+    }
     echo "</tr></table>";
 ?>
 

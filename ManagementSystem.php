@@ -108,6 +108,12 @@ class savviorSchool{
      ****************************************************************/
     public function delete($input){
         /*Delete all data in the table row if specified by the Bootstrap Modal input*/
+
+        /*
+         DELETE FROM SavviorSchool
+         WHERE ID = '9'
+         */
+
         $changeData[] = $input;
         if($input['type'] == 'student'){
             foreach($input as $key => $object){
@@ -162,6 +168,12 @@ class savviorSchool{
      ****************************************************************/
     public function add($input){
         /*Add all data in the table if specified by the Bootstrap Modal input*/
+
+        /*
+         INSERT INTO Savvior School (ID, StudentName, ClassTitle, BookTitle)
+         VALUES ('4', 'Example Guy', 'Some Class', 'Another Book I wont read')
+         */
+
         $changeData[] = $input;
         if($input['type'] == 'student'){
             foreach($input as $key => $object){
@@ -219,6 +231,13 @@ class savviorSchool{
      * ALTER DATA IN THE LIST WITH THE CORRESPONDING KEY VALUE
      ****************************************************************/
     public function edit($input){
+
+        /*
+         UPDATE SavviorSchools
+         WHERE StudentName = 'Name'
+         VALUES ClassTitle = 'NewClass'
+         */
+
         $this->dbh->beginTransaction();
 
         $this->execQuery( "UPDATE SavviorSchool SET WHERE id = :id",
@@ -273,69 +292,6 @@ class savviorSchool{
 
         return null;
     }
-
-    /****************************************************************
-     * CALL QUERY AND EXECUTE FUNCTION ASSOCIATED
-     ****************************************************************/
-    public function displayData(){
-        echo "Current Class Data";
-
-       /* $servername = "10.99.100.54";
-        $username = "ryan_intern";
-        $password = "intern";
-        $dbname = "ryan_intern";
-
-        $q = "
-            SELECT
-              s.ID
-              s.StudentName
-              s.StudentImage
-              s.ClassTitle
-              s.BookTitle
-              s.BookImage
-            FROM
-              SavviorSchool s
-                ";
-*/
-        $servername = "10.99.100.54";
-        $username = "sa";
-        $password = "capcom5^";
-        $dbname = "ryan_intern";
-
-        // Attempt select query execution
-        $q = "SELECT
-              s.ID
-              s.StudentName
-              s.StudentImage
-              s.ClassTitle
-              s.BookTitle
-              s.BookImage
-            FROM
-              SavviorSchool s";
-
-        echo "<table align = 'center' width = '70%'>";
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $results = $dbh->query($q, PDO::FETCH_ASSOC);
-
-        $conn = new mysqli($servername, $username, $password);
-        if($conn->connect_error){
-            die("Connection ailed: " . $conn->connect_error);
-        }
-        echo "Connected successfully";
-
-        var_dump($results);
-
-       $count = count($results);
-        for($i = 0; $i < $count; $i++){
-            if(($i % 4) == 0 && ($i != 0)){
-                echo "</tr><tr>";
-            }
-            echo "<td>".$results[$i]."</td>";
-        }
-
-        echo "</tr></table>";
-    }
 }
 
 ?>
@@ -355,14 +311,18 @@ class savviorSchool{
         color: navy;
         font-size: 25px;
         text-align: center;
+    }
 
+    table{
+        position: relative;
+        top: 20px;
     }
 
 
 </style>
 
 <header>
-    <h1 align = "center"><u><b></b>
+    <h1 align = "center"><u><b>
         Savvior School District</b></u></h1>
     <title>Savvior School District</title>
     <meta charset="utf-8">
@@ -379,7 +339,7 @@ class savviorSchool{
 
 <ul class="nav nav-tabs">
     <li class="active">
-        <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "Return to Home Page">Home Page</a>
+        <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home Page</a>
     </li>
     <li>
         <a href="DataStudent.php" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
@@ -392,51 +352,92 @@ class savviorSchool{
     </li>
 </ul>
 <p>  </p>
-<p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data can be accessed using the tabs above.</p>
+<p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
 
 
 <?php
 
-    echo "Current Student Data";
+   #echo "Current Student Data";
     $i = 0;
+    $results = array();
+    $reportData = array();
 
     $servername = "10.99.100.54";
     $username = "sa";
     $password = "capcom5^";
     $dbname = "ryan_intern";
 
+
+
 $q = "
         SELECT
-            s.ID
-            s.StudentName
-            s.StudentImage
-            s.ClassTitle
-            s.BookTitle
+            s.ID,
+            s.StudentName,
+            s.StudentImage,
+            s.ClassTitle,
+            s.BookTitle,
             s.BookImage
         FROM
             SavviorSchool s
         ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-    $results = $dbh->query($q, PDO::FETCH_ASSOC);
+    $data = $dbh->query($q, PDO::FETCH_ASSOC);
+
+    #Alternative Method of Pulling Data
+    #$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    #$data = $dbh->query($q);
+    #$sth = $dbh->prepare($q);
+    #$sth->execute();
+    #$data = $sth->fetch(PDO::FETCH_ASSOC);
 
     $conn = new mysqli($servername, $username, $password);
     if($conn->connect_error){
         die("Connection ailed: " . $conn->connect_error);
     }
-    echo "Connected successfully";
+    #echo "Connected successfully ";
 
-    $count = count($results);
-    echo "<table align = 'center' width = '70%'><tr>";
-
-    for($i = 0; $i < $count; $i++){
-        if(($i % 4) == 0 && ($i != 0)){
-            echo "</tr><tr>";
-        }
-        echo "<td>".$results[$i]."</td>";
+    foreach($data as $entry){
+        $results [] = $entry;
     }
 
+    echo "<table align = 'center' width = '70%'><tr>";
+
+    echo "<td width = '25%'><u>ID</u></td>";
+    echo "<td width = '25%'><u>Student Name</u></td>";
+    echo "<td width = '25%'><u>Class Title</u></td>";
+    echo "<td width = '25%'><u>Book Title</u></td>";
+    echo "</tr><tr>";
+
+    foreach($results as $val){
+        $key = $val['ID'];
+        echo "<td>" . $val['ID'] . "</td>";
+        if(!array_key_exists($key, $reportData)){
+            $returnData[$key] = array(
+              'StudentName' => $val['StudentName'],
+              'ClassTitle' => $val['ClassTitle'],
+              'BookTitle' => $val['BookTitle']
+            );
+        }
+        echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
+        echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
+        echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
+        echo "</tr><tr>";
+    }
     echo "</tr></table>";
+
+
+
+
+
+    #foreach($returnData as $result){
+    #    echo "<td>" . print_r($result[key]) . "</td>";
+    #    echo "<td>" . print_r($result['StudentName']) . "</td>";
+    #    echo "<td>" . print_r($result['ClassTitle']) . "</td>";
+    #    echo "<td>" . print_r($result['BookTitle']) . "</td>";
+    #    echo "</tr><tr>";
+    #}
+
 ?>
 
 </body>
