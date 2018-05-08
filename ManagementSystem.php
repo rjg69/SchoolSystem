@@ -222,6 +222,10 @@ class savviorSchool{
 
 <?php
 
+    /*********************************************
+     * https://www.formget.com/login-form-in-php/     sessions example
+     *********************************************/
+
     session_start();
 
     if(isset($_SESSIONS['login_user'])){

@@ -505,8 +505,10 @@
         echo "<td width = '20%'><u>Book Image</u></td>";
         echo "</tr><tr>";
 
+        $j = 0;
 
         foreach ($results as $val) {
+            $j = $j + 1;
             $key = $val['ID'];
             echo "<td>" . $val['ID'] . "</td>";
             if (!array_key_exists($key, $reportData)) {
@@ -516,11 +518,15 @@
                     'BookTitle' => $val['BookTitle']
                 );
             }
+
+            $picName = $returnData[$key]['StudentName'];
+            $bookName = $returnData[$key]['BookTitle'];
+
             echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-            echo "<td>" . "<img src = 'C:\wamp64\www\SchoolSystem\StudentPhotos\student1.jpg' />". "</td>";
+            echo "<td>" . "<img src = 'StudentPhotos\\" . $picName .".jpg' />". "</td>";
             echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
             echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td>" . "<img src = 'C:\wamp64\www\SchoolSystem\BookPhotos\algebraBook.jpg' />". "</td>";
+            echo "<td>" . "<img src = 'BookPhotos\book". $bookName .".jpg' />". "</td>";
             echo "</tr><tr>";
         }
         echo "</tr></table>";
@@ -569,6 +575,16 @@
     }
 
 
+    /**********************************************************************************************
+     * Assignment 8
+     *
+     * http://php.net/manual/en/function.fputcsv.php -- export student and class data to text files
+     * https://stackoverflow.com/questions/15501463/creating-csv-file-with-php
+     *
+     * Assignment 9
+     *
+     * https://stackoverflow.com/questions/15699301/export-mysql-data-to-excel-in-php
+     **********************************************************************************************/
 ?>
 
 </body>
