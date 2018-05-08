@@ -11,6 +11,25 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!---->
+    <script src='select2/dist/js/select2.min.js' type='text/javascript'></script>
+    <!-- CSS -->
+    <link href='select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+
+    <script>
+        $(document).ready(function(){
+
+            // Initialize select2
+            $("#myInput").select2();
+
+            // Read selected option
+            $('#but_read').click(function(){
+                var username = $('#myInput option:selected').text();
+                var userid = $('#myInput').val();
+
+            });
+        });
+    </script>
 </head>
 
 <!--
@@ -24,13 +43,20 @@
     button{
         color: white;
         background-color: darkred;
-        width: 100%;
+        width: 10%;
     }
 
     .btn-group{
         color: white;
-        background-color: darkred;
+        background-color: darkorange;
         width: 100%;
+        position: relative;
+        text-align: center;
+    }
+
+    div.btn-group{
+        margin: 0 auto;
+        text-align: center;
     }
 
     h2{
@@ -39,7 +65,16 @@
 
     table{
         position: relative;
-        top: 20px;
+        top: 50px;
+    }
+
+    select{
+        color: white;
+        background-color: #1775B3;
+        position: relative;
+        text-align: center;
+        align-content: center;
+        height: 40px;
     }
 
     p{
@@ -90,24 +125,8 @@
     </button>
 </div>
 
-
-<!--
-    Update button, to be added to each row of the table to specify which item to update
--->
-<div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table">Update
-        <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-        <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Student Name</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Student Image</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Image</a></li>
-    </ul>
-</div>
-
-<p position = relative top = "200px">Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
+<p position = relative top = "200px" align = 'center'>Using the buttons provided, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
+<p position = relative top = "100px" align = 'center'>To update data, utilize the dropdown menu at the bottom of the page.</p>
 
 <!--
     Add Modal
@@ -173,10 +192,10 @@
 </div>
 
 <!--
-    Update Modal
+    Update Student Name Modal
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateStudentNameModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -187,14 +206,126 @@
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
                     <h2>Student Name</h2><br>
                     <input type = "text" name = "StudentName"><br>
+                    <input type = "submit" value = "click" name = "submit2">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Student Image Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateStudentImageModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method = "get" action = "DataStudent.php">
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                    <h2>Student Image</h2><br>
+                    <input type = "text" name = "StudentImage"><br>
+                    <input type = "submit" value = "click" name = "submit2">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Class Title Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassTitleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
+                    <input type = "submit" value = "click" name = "submit2">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Book Title Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookTitleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method = "get" action = "DataStudent.php">
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
                     <h2>Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
+                    <input type = "submit" value = "click" name = "submit2">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Book Image Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookImageModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method = "get" action = "DataStudent.php">
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                    <h2>Book Image</h2><br>
+                    <input type = "text" name = "BookImage"><br>
                     <input type = "submit" value = "click" name = "submit2">
                 </form>
             </div>
@@ -350,10 +481,12 @@
 
         echo "<table align = 'center' width = '70%'><tr>";
 
-        echo "<td width = '25%'><u>ID</u></td>";
-        echo "<td width = '25%'><u>Student Name</u></td>";
-        echo "<td width = '25%'><u>Class Title</u></td>";
-        echo "<td width = '25%'><u>Book Title</u></td>";
+        echo "<td width = '15%'><u>ID</u></td>";
+        echo "<td width = '15%'><u>Student Name</u></td>";
+        echo "<td width = '20%'><u>Student Image</u></td>";
+        echo "<td width = '15%'><u>Class Title</u></td>";
+        echo "<td width = '15%'><u>Book Title</u></td>";
+        echo "<td width = '20%'><u>Book Image</u></td>";
         echo "</tr><tr>";
 
 
@@ -368,15 +501,37 @@
                 );
             }
             echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
+            echo "<td>" /*. $returnData[$key]['StudentImage'] */. "</td>";
             echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
             echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
+            echo "<td>" /*. $returnData[$key]['BookImage']*/ . "</td>";
             echo "</tr><tr>";
         }
         echo "</tr></table>";
 
 
 ?>
+<br/>
+<br/>
+<br/>
+<br/>
 
+
+<!--
+    Update button
+-->
+<div align = "center" class = "dropdown">
+    <select id='selUser'>
+        <option value = '0' href="#" data-toggle = "modal" data-target = "#">Select Option</option>
+        <option value = '1' href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</option>
+        <option value = '2' href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</option>
+        <option value = '3' href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</option>
+        <option value = '4' href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</option>
+        <option value = '5' href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</option>
+    </select>
+
+    <button class="btn btn-primary" type="button" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table" data-target = $modalTarget>Update</button><br/>
+</div>
 
 </body>
 </html>
