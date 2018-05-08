@@ -93,25 +93,6 @@ class savviorSchool{
         return $tableData;
     }
 
-
-    /****************************************************************
-     * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID TO BE REMOVED
-     ****************************************************************/
-    public function delete($id, $name){
-        $username = "sa";
-        $password = "capcom5^";
-
-        /*Delete all data in the table row if specified by the Bootstrap Modal input*/
-        $changeData[] = $id;
-
-        $q = "DELETE FROM SavviorSchool WHERE 'ID' = $id AND 'StudentName' = $name;";
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $dbh->exec($q);
-
-    }
-
     /****************************************************************
      * GENERATE LIST OF CHANGES TO USER/BOOK/CLASS DATA
      ****************************************************************/
@@ -126,51 +107,6 @@ class savviorSchool{
 
         return $arrChanges;
     }
-
-
-    /****************************************************************
-     * INSERT ALL DATA PROVIDED INTO THE TABLE
-     ****************************************************************/
-    public function add($input){
-        /*Add all data in the table if specified by the Bootstrap Modal input*/
-
-        /*
-         INSERT INTO Savvior School (ID, StudentName, ClassTitle, BookTitle)
-         VALUES ('4', 'Example Guy', 'Some Class', 'Another Book I wont read')
-         */
-
-        $changeData[] = $input;
-
-
-    }
-
-    /****************************************************************
-     * ALTER DATA IN THE LIST WITH THE CORRESPONDING KEY VALUE
-     ****************************************************************/
-    public function edit($input){
-
-        /*
-         UPDATE SavviorSchools
-         WHERE StudentName = 'Name'
-         VALUES ClassTitle = 'NewClass'
-         */
-
-        $this->dbh->beginTransaction();
-
-        $this->execQuery( "UPDATE SavviorSchool SET WHERE id = :id",
-            array(
-                ':id' => $input['key']['ID'],
-                ':studName' => $input['key']['StudentName'],
-                ':classTitle' => $input['key']['ClassTitle'],
-                ':bookTitle' => $input['key']['BookTitle'],
-                ':studImage' => $input['key']['StudentImage'],
-                ':bookImage' => $input['key']['BookImage']
-            )
-        );
-
-        $this->dbh->commit();
-    }
-
 
     /****************************************************************
      * CONSTRUCTOR -- ESTABLISH SQL CONNECTION
@@ -236,12 +172,15 @@ class savviorSchool{
 
     table{
         position: relative;
-        top: 20px;
+        top: 50px;
     }
 
     p{
+        color: navy;
         position: relative;
         top: 20px;
+        font-size: x-large;
+        text-align: center;
     }
 
 
@@ -283,6 +222,19 @@ class savviorSchool{
 
 <?php
 
+    session_start();
+
+    if(isset($_SESSIONS['login_user'])){
+        unset($_SESSIONS['login_user']);
+        unset($_SESSIONS['password']);
+    }else{
+
+    }
+
+
+
+
+
    #echo "Current Student Data";
     $i = 0;
     $results = array();
@@ -295,7 +247,7 @@ class savviorSchool{
 
 
 
-$q = "
+    $q = "
         SELECT
             s.ID,
             s.StudentName,
@@ -354,16 +306,47 @@ $q = "
 
 
 
+    /*******************************************************
+     * Create Class Lists, Ensure 1 Book Per Class
+     *******************************************************/
+    $classes = array();
+    $books = array();
 
-    return  $returnData;
-    #foreach($returnData as $result){
-    #    echo "<td>" . print_r($result[key]) . "</td>";
-    #    echo "<td>" . print_r($result['StudentName']) . "</td>";
-    #    echo "<td>" . print_r($result['ClassTitle']) . "</td>";
-    #    echo "<td>" . print_r($result['BookTitle']) . "</td>";
-    #    echo "</tr><tr>";
-    #}
+    foreach($returnData as $entry){
+          $classes[] = $entry['ClassTitle'];
+          $books[] = $entry['BookTitle'];
+    }
 
+    ksort($classes);
+    ksort($books);
+
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+
+    $classBookTie = array();
+    $i = 0;
+    foreach($classes AS $class){
+        $key = $class;
+        if(!array_key_exists($key, $classBookTie)){
+            $classBookTie[$key] = array(
+              'BookTitle' => $books[$i],
+            );
+        }
+        $i = $i + 1;
+    }
+
+    foreach($returnData as $result){
+        $key = $result['ClassTitle'];
+        if(!array_key_exists($key, $classBookTie)){
+            if($classBookTie['BookTitle'] != $result['BookTitle']){
+                $result['BookTitle'] = $classBookTie['BookTitle'];
+            }
+        }
+    }
 ?>
 
 </body>

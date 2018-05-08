@@ -1,37 +1,22 @@
+/**
+ * Created by PhpStorm.
+ * User: savvior-intern2
+ * Date: 5/7/2018
+ * Time: 4:56 PM
+ */
+
 <!DOCTYPE html>
 <html lang="en">
-
 
 <head>
     <h1 align = "center"><u><b>
             Savvior School District</b></u></h1>
-    <title>Book</title>
+    <title>Class</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <script type = "text/javascript">
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-    </script>
 </head>
 
 <!--
@@ -60,7 +45,7 @@
 
     table{
         position: relative;
-        top: 50px;
+        top: 20px;
     }
 
     p{
@@ -69,16 +54,15 @@
     }
 
 
-
 </style>
 
 <body>
 
 <!--
-    In this section, display the Book Table data and provide buttons to add, edit, and delete
+    In this section, display the Class Table data and provide buttons to add, edit, and delete
 -->
 
-<h2 align = "center"><u>Book Data</u></h2>
+<h2 align = "center"><u>Class Data</u></h2>
 
 <ul class="nav nav-tabs">
     <li>
@@ -87,10 +71,10 @@
     <li>
         <a href="DataStudent.php" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
     </li>
-    <li class="active">
+    <li>
         <a href="DataBook.php" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
     </li>
-    <li>
+    <li class = "active">
         <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
     </li>
 </ul>
@@ -115,14 +99,12 @@
         <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Title</a></li>
     </ul>
 </div>
 
-<p position = relative top = "100px" align = 'center'>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
-<p position = relative top = "100px" align = 'center'>To update data, utilize the dropdown menu at the bottom of the page.</p>
+<p>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
 
 <!--
     Add Modal
@@ -138,7 +120,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action = "" method = "GET">
+                <form>
                     <h2>Name</h2><br>
                     <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
@@ -188,10 +170,10 @@
 </div>
 
 <!--
-    Update Class Title Modal
+    Update Modal
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassTitleModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -202,37 +184,12 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <h2>Student Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
-                    <input type = "submit" value = "Submit">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--
-    Update Book Title Modal
--->
-
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookTitleModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
                     <h2>Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
                     <input type = "submit" value = "Submit">
@@ -245,38 +202,10 @@
     </div>
 </div>
 
-<!--
-    Update Book Image Modal
--->
-
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookImageModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
-                    <h2>Book Image</h2><br>
-                    <input type = "blob" name = "bookImage"><br>
-                    <input type = "submit" value = "Submit">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <?php
 
-    #echo "Current Book Data";
+    #echo "Current Class Data";
     $i = 0;
     $results = array();
     $reportData = array();
@@ -335,7 +264,7 @@
         $dbh->exec($sql);
 
         if(!isset($_GET['reload'])){
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
 
         #https://www.codeproject.com/Articles/8681/Uploading-Downloading-Pictures-to-from-a-SQL-Serve
@@ -366,7 +295,7 @@
         $dbh->exec($sql);
 
         if(!isset($_GET['reload'])){
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
@@ -401,14 +330,14 @@
         $password = "capcom5^";
 
         $changeData[] = $id;
-        $sql = "UPDATE SavviorSchool SET 'ClassTitle' = '$class', 'BookTitle' = '$book' WHERE 'ID' = '$id'";
+        $sql = "UPDATE SavviorSchool SET 'StudentName' = '$name', 'ClassTitle' = '$class', 'BookTitle' = '$book' WHERE 'ID' = '$id'";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
 
         if(!isset($_GET['reload'])){
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
 
     }
@@ -421,7 +350,7 @@
     echo "<td width = '25%'><u>Book Image</u></td>";
     echo "</tr><tr>";
 
-foreach($results as $val){
+    foreach($results as $val){
         $key = $val['ID'];
         echo "<td>" . $val['ID'] . "</td>";
         if(!array_key_exists($key, $reportData)){
@@ -437,49 +366,6 @@ foreach($results as $val){
         echo "</tr><tr>";
     }
     echo "</tr></table>";
-
-
-    /*******************************************************
-     * Create Class Lists, Ensure 1 Book Per Class
-     *******************************************************/
-    $classes = array();
-    $books = array();
-
-    foreach($returnData as $entry){
-        $classes[] = $entry['ClassTitle'];
-        $books[] = $entry['BookTitle'];
-    }
-
-    ksort($classes);
-    ksort($books);
-
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-
-    $classBookTie = array();
-    $i = 0;
-    foreach($classes AS $class){
-        $key = $class;
-        if(!array_key_exists($key, $classBookTie)){
-            $classBookTie[$key] = array(
-                'BookTitle' => $books[$i],
-            );
-        }
-        $i = $i + 1;
-    }
-
-    foreach($returnData as $result){
-        $key = $result['ClassTitle'];
-        if(!array_key_exists($key, $classBookTie)){
-            if($classBookTie['BookTitle'] != $result['BookTitle']){
-                $result['BookTitle'] = $classBookTie['BookTitle'];
-            }
-        }
-    }
 
     return  $returnData;
 ?>

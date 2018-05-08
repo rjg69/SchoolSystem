@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <!---->
     <script src='select2/dist/js/select2.min.js' type='text/javascript'></script>
     <!-- CSS -->
@@ -27,7 +28,13 @@
                 var username = $('#myInput option:selected').text();
                 var userid = $('#myInput').val();
 
+                $('#result').html("id : " + userid + ", name : " + username);
+
             });
+        });
+
+        $.validate({
+            lang: 'es'
         });
     </script>
 </head>
@@ -43,20 +50,13 @@
     button{
         color: white;
         background-color: darkred;
-        width: 10%;
+        width: 100%;
     }
 
     .btn-group{
         color: white;
-        background-color: darkorange;
+        background-color: #1775B3;
         width: 100%;
-        position: relative;
-        text-align: center;
-    }
-
-    div.btn-group{
-        margin: 0 auto;
-        text-align: center;
     }
 
     h2{
@@ -123,6 +123,22 @@
     <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
         <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white onclick = "delete();">Remove</a>
     </button>
+</div>
+
+<!--
+    Update button -- JQuery search: https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
+-->
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table">Update
+        <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+        <input class="form-control" id="myInput" type="text" placeholder="Search..">
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a></li>
+    </ul>
 </div>
 
 <p position = relative top = "200px" align = 'center'>Using the buttons provided, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
@@ -501,37 +517,59 @@
                 );
             }
             echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-            echo "<td>" /*. $returnData[$key]['StudentImage'] */. "</td>";
+            echo "<td>" . "<img src = 'C:\wamp64\www\SchoolSystem\StudentPhotos\student1.jpg' />". "</td>";
             echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
             echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td>" /*. $returnData[$key]['BookImage']*/ . "</td>";
+            echo "<td>" . "<img src = 'C:\wamp64\www\SchoolSystem\BookPhotos\algebraBook.jpg' />". "</td>";
             echo "</tr><tr>";
         }
         echo "</tr></table>";
 
 
+    /*******************************************************
+     * Create Class Lists, Ensure 1 Book Per Class
+     *******************************************************/
+    $classes = array();
+    $books = array();
+
+    foreach($returnData as $entry){
+        $classes[] = $entry['ClassTitle'];
+        $books[] = $entry['BookTitle'];
+    }
+
+    ksort($classes);
+    ksort($books);
+
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+
+    $classBookTie = array();
+    $i = 0;
+    foreach($classes AS $class){
+        $key = $class;
+        if(!array_key_exists($key, $classBookTie)){
+            $classBookTie[$key] = array(
+                'BookTitle' => $books[$i],
+            );
+        }
+        $i = $i + 1;
+    }
+
+    foreach($returnData as $result){
+        $key = $result['ClassTitle'];
+        if(!array_key_exists($key, $classBookTie)){
+            if($classBookTie['BookTitle'] != $result['BookTitle']){
+                $result['BookTitle'] = $classBookTie['BookTitle'];
+            }
+        }
+    }
+
+
 ?>
-<br/>
-<br/>
-<br/>
-<br/>
-
-
-<!--
-    Update button
--->
-<div align = "center" class = "dropdown">
-    <select id='selUser'>
-        <option value = '0' href="#" data-toggle = "modal" data-target = "#">Select Option</option>
-        <option value = '1' href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</option>
-        <option value = '2' href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</option>
-        <option value = '3' href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</option>
-        <option value = '4' href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</option>
-        <option value = '5' href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</option>
-    </select>
-
-    <button class="btn btn-primary" type="button" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table" data-target = $modalTarget>Update</button><br/>
-</div>
 
 </body>
 </html>

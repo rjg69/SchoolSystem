@@ -15,6 +15,7 @@
 <!--
     Add style conventions using CSS
 -->
+
 <style>
     header{
         color: darkblue;
@@ -38,7 +39,7 @@
 
     table{
         position: relative;
-        top: 20px;
+        top: 50px;
     }
 
     p{
@@ -75,6 +76,7 @@
 <!--
     Add button & delete button
 -->
+
 <div class="btn-group">
     <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
         <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
@@ -87,17 +89,19 @@
 <!--
     Update button
 -->
+
 <div class="dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table">Update
         <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a></li>
     </ul>
 </div>
 
-<p>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
+<p position = relative top = "100px" align = 'center'>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
+<p position = relative top = "100px" align = 'center'>To update data, utilize the dropdown menu at the bottom of the page.</p>
 
 <!--
     Add Modal
@@ -163,10 +167,10 @@
 </div>
 
 <!--
-    Update Modal
+    Update Class Title Modal
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassTitleModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -177,12 +181,37 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <h2>Student Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
+                    <input type = "submit" value = "Submit">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Book Title Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookTitleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
                     <h2>Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
                     <input type = "submit" value = "Submit">
@@ -359,6 +388,49 @@
         echo "</tr><tr>";
     }
     echo "</tr></table>";
+
+
+    /*******************************************************
+     * Create Class Lists, Ensure 1 Book Per Class
+     *******************************************************/
+    $classes = array();
+    $books = array();
+
+    foreach($returnData as $entry){
+        $classes[] = $entry['ClassTitle'];
+        $books[] = $entry['BookTitle'];
+    }
+
+    ksort($classes);
+    ksort($books);
+
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+    echo "<br/>";
+
+    $classBookTie = array();
+    $i = 0;
+    foreach($classes AS $class){
+        $key = $class;
+        if(!array_key_exists($key, $classBookTie)){
+            $classBookTie[$key] = array(
+                'BookTitle' => $books[$i],
+            );
+        }
+        $i = $i + 1;
+    }
+
+    foreach($returnData as $result){
+        $key = $result['ClassTitle'];
+        if(!array_key_exists($key, $classBookTie)){
+            if($classBookTie['BookTitle'] != $result['BookTitle']){
+                $result['BookTitle'] = $classBookTie['BookTitle'];
+            }
+        }
+    }
 
     return  $returnData;
 ?>
