@@ -576,6 +576,13 @@
 
 
     /**********************************************************************************************
+     * Assignment 6
+     *
+     *
+     * Assignment 7
+     *
+     * https://www.formget.com/login-form-in-php/     sessions example
+     *
      * Assignment 8
      *
      * http://php.net/manual/en/function.fputcsv.php -- export student and class data to text files
@@ -584,6 +591,18 @@
      * Assignment 9
      *
      * https://stackoverflow.com/questions/15699301/export-mysql-data-to-excel-in-php
+     *
+     * Assignment 10
+     *
+     * 
+     *
+     * Assignment 11
+     *
+     * https://getbootstrap.com/docs/4.0/components/carousel/
+     *
+     * Assignment 12
+     *
+     * https://www.w3schools.com/html/html_responsive.asp
      **********************************************************************************************/
 ?>
 
