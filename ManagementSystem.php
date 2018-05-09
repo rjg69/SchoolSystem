@@ -207,32 +207,52 @@ class savviorSchool{
         left: 0%;
     }
 
+    .carousel-inner>.item>img{
+        margin:auto;
+    }
+
+    .carousel-indicators{
+        position: relative;
+        top: 5%;
+    }
+
+    .carousel{
+        height: 27%;
+        width: 60%;
+        position: relative;
+        top: 25px;
+        align: center;
+    }
+
 </style>
 
 <header>
-    <h1 align = "center"><u><b>
-        Savvior School District</b></u></h1>
+    <h1 align = "center"><u><b>Savvior School District</b></u></h1>
 
     <title>Savvior School District</title>
     <meta charset="utf-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1">
 
-    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
 
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script scr = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <script src="jquery.min.js"></script>
+    <script src="owlcarousel/owl.carousel.min.js"></script>
+    <script src="../assets/vendors/jquery.min.js"></script>
+    <script src="../assets/owlcarousel/owl.carousel.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
             $('#LoginModal').modal('show');
         });
     </script>
-
 </header>
 
 <body>
@@ -245,7 +265,7 @@ Login Modal - Displays on Page Load
 ====> Adjust logic to carry out when necessary: no changes made so far
 -->
 
-<!--
+
 <div class="modal" tabindex="-1" role="dialog" id = "LoginModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -260,17 +280,17 @@ Login Modal - Displays on Page Load
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
 </div>
--->
-
-
 
 <h2 align = "center"><u>Home Page</u></h2>
 
+<!--
+    Tabs
+-->
 <ul class="nav nav-tabs">
     <li class="active">
         <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home Page</a>
@@ -284,37 +304,76 @@ Login Modal - Displays on Page Load
     <li>
         <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
     </li>
-
-    <div class='btn-toolbar pull-right'>
-        <div class='btn-group'>
-            <button type='button' class='btn btn-primary' name = 'Logout' id = 'Logout'>Logout</button>
-        </div>
-    </div>
-    <div class='btn-toolbar pull-right'>
-        <div class='btn-group'>
-            <button type='button' class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport'>Export Excel File</button>
-        </div>
-    </div>
-    <div class='btn-toolbar pull-right'>
-        <div class='btn-group'>
-            <button type='button' class='btn btn-primary' name ='TextExport' id = 'TextExport'>Export Text File</button>
-        </div>
-    </div>
 </ul>
-<p>  </p>
+    <div class='btn-toolbar pull-right'>
+        <div class='btn-group'>
+            <button type='button' class='btn btn-primary' name = 'Logout' id = 'Logout' title = 'Logout'>Logout</button>
+        </div>
+    </div>
+    <div class='btn-toolbar pull-right'>
+        <div class='btn-group'>
+            <button type='button' class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport' title = 'ExcelExport'>Export Excel File</button>
+        </div>
+    </div>
+    <div class='btn-toolbar pull-right'>
+        <div class='btn-group'>
+            <button type='button' class='btn btn-primary' name ='TextExport' id = 'TextExport' title = 'TextExport'>Export Text File</button>
+        </div>
+    </div>
+
+<br />
 <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
+
+<div class="container" align = "center">
+    <h2 align = "center">Student Highlights</h2>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" align = "center">
+        <!-- Indicators -->
+        <ol class="carousel-indicators" align = "center">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" align = "center">
+            <div class="item active">
+                <img height = '100%' src="StudentPhotos\student3.jpg">
+            </div>
+
+            <div class="item">
+                <img height = '100%' src="StudentPhotos\student4.jpg">
+            </div>
+
+            <div class="item">
+                <img height = '100%' src="StudentPhotos\student9.jpg">
+            </div>
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
 
 <?php
 
     #echo "Current Student Data";
     $i = 0;
     $results = array();
-    $reportData = array();
+    $returnData = array();
 
     $servername = "10.99.100.54";
     $username = "sa";
     $password = "capcom5^";
     $dbname = "ryan_intern";
+
 
     /*********************************************
      * https://www.formget.com/login-form-in-php/     sessions example
@@ -325,16 +384,18 @@ Login Modal - Displays on Page Load
         unset($_SESSIONS['password']);
 
 
-    }else{
+    }else {
 
+        /****************************************************
+         * Check that username and password match properly
+         ****************************************************/
+        function checkUser()
+        {
+            $username = "sa";
+            $password = "capcom5^";
+            $userData = array();
 
-    }
-
-    function checkUser(){
-        $username = "sa";
-        $password = "capcom5^";
-
-        $una = "
+            $una = "
             SELECT
               u.Username,
               u.Password
@@ -342,137 +403,37 @@ Login Modal - Displays on Page Load
               UsersBase u
             ";
 
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $users = $dbh->query($una, PDO::FETCH_ASSOC);
+            $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+            $users = $dbh->query($una, PDO::FETCH_ASSOC);
 
-        foreach($users as $user){
-            $userData [] = $user;
-        }
+            foreach ($users as $user) {
+                $userData [] = $user;
+            }
 
-        $match = false;
+            $match = false;
 
-        foreach($userData as $user){
-           if(isset($_SESSIONS['login_user'])){
-                if($user['Username'] == ($_SESSION['login_user'])){
-                   if(isset($_SESSIONS['password'])){
-                       if($user['Password'] == $_SESSION['password']){
-                           $match = true;
-                       }
-                   }
+            foreach ($userData as $user) {
+                if (isset($_SESSIONS['login_user'])) {
+                    if ($user['Username'] == ($_SESSION['login_user'])) {
+                        if (isset($_SESSIONS['password'])) {
+                            if ($user['Password'] == $_SESSION['password']) {
+                                $match = true;
+                            }
+                        }
+                    }
                 }
             }
-        }
 
-        if($match == false){
-            echo "<script type = 'text/javascript'> 
+            if ($match == false) {
+                echo "<script type = 'text/javascript'> 
                     location.reload();
             </script>";
-        }
-    }
-
-    /**************************************************************
-     * Dynamic Table Display
-     **************************************************************/
-
-    $q = "
-        SELECT
-            s.ID,
-            s.StudentName,
-            s.StudentImage,
-            s.ClassTitle,
-            s.BookTitle,
-            s.BookImage
-        FROM
-            SavviorSchool s
-        ";
-
-    $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-    $data = $dbh->query($q, PDO::FETCH_ASSOC);
-
-    $conn = new mysqli($servername, $username, $password);
-    if($conn->connect_error){
-        die("Connection ailed: " . $conn->connect_error);
-    }
-    #echo "Connected successfully ";
-
-    foreach($data as $entry){
-        $results [] = $entry;
-    }
-
-    echo "<table align = 'center' width = '70%'><tr>";
-
-    echo "<td width = '25%'><u>ID</u></td>";
-    echo "<td width = '25%'><u>Student Name</u></td>";
-    echo "<td width = '25%'><u>Class Title</u></td>";
-    echo "<td width = '25%'><u>Book Title</u></td>";
-    echo "</tr><tr>";
-
-    foreach($results as $val){
-        $key = $val['ID'];
-        echo "<td>" . $val['ID'] . "</td>";
-        if(!array_key_exists($key, $reportData)){
-            $returnData[$key] = array(
-              'StudentName' => $val['StudentName'],
-              'ClassTitle' => $val['ClassTitle'],
-              'BookTitle' => $val['BookTitle']
-            );
-        }
-        echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-        echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
-        echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-        echo "</tr><tr>";
-    }
-    echo "</tr></table>";
-
-
-
-    /*******************************************************
-     * Create Class Lists, Ensure 1 Book Per Class
-     *******************************************************/
-    $classes = array();
-    $books = array();
-
-    foreach($returnData as $entry){
-          $classes[] = $entry['ClassTitle'];
-          $books[] = $entry['BookTitle'];
-    }
-
-    ksort($classes);
-    ksort($books);
-
-    $classBookTie = array();
-    $i = 0;
-    foreach($classes AS $class){
-        $key = $class;
-        if(!array_key_exists($key, $classBookTie)){
-            $classBookTie[$key] = array(
-              'BookTitle' => $books[$i],
-            );
-        }
-        $i = $i + 1;
-    }
-
-    foreach($returnData as $result){
-        $key = $result['ClassTitle'];
-        if(!array_key_exists($key, $classBookTie)){
-            if($classBookTie['BookTitle'] != $result['BookTitle']){
-                $result['BookTitle'] = $classBookTie['BookTitle'];
             }
         }
-    }
 
-
-    /*******************************************
-     * Export to text file
-     *******************************************/
-
-    if(isset($_GET['TextExport'])){
-        exportTxt();
-    }
-
-    function exportTxt(){
-        $username = "sa";
-        $password = "capcom5^";
+        /**************************************************************
+         * Dynamic Table Display
+         **************************************************************/
 
         $q = "
         SELECT
@@ -487,60 +448,164 @@ Login Modal - Displays on Page Load
         ";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
+        $data = $dbh->query($q, PDO::FETCH_ASSOC);
 
-        $fp = fopen('FullData.csv', 'w');
+        $conn = new mysqli($servername, $username, $password);
+        if ($conn->connect_error) {
+            die("Connection ailed: " . $conn->connect_error);
+        }
+        #echo "Connected successfully ";
 
-        foreach($returnData as $entry){
-            fputcsv($fp, $entry);
+        foreach ($data as $entry) {
+            $results [] = $entry;
         }
 
-        fclose($fp);
-    }
+        echo "<table align = 'center' width = '70%'><tr>";
+
+        echo "<td width = '25%'><u>ID</u></td>";
+        echo "<td width = '25%'><u>Student Name</u></td>";
+        echo "<td width = '25%'><u>Class Title</u></td>";
+        echo "<td width = '25%'><u>Book Title</u></td>";
+        echo "</tr><tr>";
+
+        foreach ($results as $val) {
+            $key = $val['ID'];
+            echo "<td>" . $val['ID'] . "</td>";
+            if (!array_key_exists($key, $returnData)) {
+                $returnData[$key] = array(
+                    'StudentName' => $val['StudentName'],
+                    'ClassTitle' => $val['ClassTitle'],
+                    'BookTitle' => $val['BookTitle']
+                );
+            }
+            echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
+            echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
+            echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
+            echo "</tr><tr>";
+        }
+        echo "</tr></table>";
 
 
-    /*******************************************
-     * Logout
-     *******************************************/
+        /*******************************************************
+         * Create Class Lists, Ensure 1 Book Per Class
+         *******************************************************/
+        $classes = array();
+        $books = array();
 
-    if(isset($_GET['Logout'])){
-        endSession();
-    }
+        foreach ($returnData as $entry) {
+            $classes[] = $entry['ClassTitle'];
+            $books[] = $entry['BookTitle'];
+        }
 
-    function endSession(){
-        session_destroy();
-    }
+        ksort($classes);
+        ksort($books);
 
-    /*
-     * Login again
-     * echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/ManagementSystem.php?reload=1">'; (reload page)
-     */
+        $classBookTie = array();
+        $i = 0;
+        foreach ($classes AS $class) {
+            $key = $class;
+            if (!array_key_exists($key, $classBookTie)) {
+                $classBookTie[$key] = array(
+                    'BookTitle' => $books[$i],
+                );
+            }
+            $i = $i + 1;
+        }
+
+        foreach ($returnData as $result) {
+            $key = $result['ClassTitle'];
+            if (!array_key_exists($key, $classBookTie)) {
+                if ($classBookTie['BookTitle'] != $result['BookTitle']) {
+                    $result['BookTitle'] = $classBookTie['BookTitle'];
+                }
+            }
+        }
 
 
-    /*******************************************
-     * Export to excel file
-     *******************************************/
-    if(isset($_GET['ExcelExport'])){
-        exportExcel($returnData);
-    }
+        /*******************************************
+         * Export to text file
+         *******************************************/
+        function exportTxt()
+        {
+            //works if ran on load, not when called by the button
 
-    function exportExcel($returnData)
-    {
-        $filename = "excel_full_data" . date('Y/m/d') . ".xls";
+            $username = "sa";
+            $password = "capcom5^";
 
-        header("Content: attachment; filename =\"$filename\"");
-        header("Content Type: application/vnd.ms-excel");
+            $q = "
+                SELECT
+                    s.ID,
+                    s.StudentName,
+                    s.StudentImage,
+                    s.ClassTitle,
+                    s.BookTitle,
+                    s.BookImage
+                FROM
+                    SavviorSchool s
+                ";
 
-        $flag = false;
-        foreach ($returnData as $row) {
-            if (!$flag) {
-                echo implode("\t", array_keys($row)) . "\n";
-                $flag = true;
+            $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+            $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
+
+            $fp = fopen('FullData.csv', "w");
+
+            foreach ($returnData as $entry) {
+                    fputcsv($fp, $entry);
             }
 
-            array_walk($row, 'filterData');
-            echo implode("\t", array_values($row)) . "\n";
+            fclose($fp);
         }
+
+        if(!isset($_GET['TextExport'])){
+            exportTxt();
+        }
+
+
+        /*******************************************
+         * Logout
+         *******************************************/
+
+        if (isset($_GET['Logout'])) {
+            endSession();
+        }
+
+        function endSession()
+        {
+            session_destroy();
+        }
+
+        /*
+         * Login again
+         * echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/ManagementSystem.php?reload=1">'; (reload page)
+         */
+
+
+        /*******************************************
+         * Export to excel file
+         *******************************************/
+        if (isset($_GET['ExcelExport'])) {
+            exportExcel($returnData);
+        }
+
+        function exportExcel($returnData)
+        {
+            $filename = "excel_full_data" . date('Y/m/d') . ".xls";
+
+            header("Content: attachment; filename =\"$filename\"");
+            header("Content Type: application/vnd.ms-excel");
+
+            $flag = false;
+            foreach ($returnData as $row) {
+                if (!$flag) {
+                    echo implode("\t", array_keys($row)) . "\n";
+                    $flag = true;
+                }
+
+                array_walk($row, 'filterData');
+                echo implode("\t", array_values($row)) . "\n";
+            }
+        }
+
     }
 
 ?>
