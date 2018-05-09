@@ -24,6 +24,8 @@ Assignment #1 - Design a management system for a school, where a school administ
 
 <?php
 
+session_start();
+
 class savviorSchool{
 
     private $tableData;
@@ -149,20 +151,33 @@ class savviorSchool{
 
 ?>
 
+<!--
+    Add style conventions using CSS
+-->
 <style>
     header{
         color: darkblue;
     }
 
     button{
+        background-color: darkred;
+        color: white;
+        width: 100%;
+    }
+
+    .modal-footer{
         color: white;
         background-color: darkred;
-        width: 100%;
+    }
+
+    .modal-header{
+        color: white;
+        background-color: #1775B3;
     }
 
     .btn-group{
         color: white;
-        background-color: darkred;
+        background-color: #1775B3;
         width: 100%;
     }
 
@@ -175,31 +190,84 @@ class savviorSchool{
         top: 50px;
     }
 
-    p{
-        color: navy;
+    select{
+        color: white;
+        background-color: #1775B3;
         position: relative;
-        top: 20px;
-        font-size: x-large;
         text-align: center;
+        align-content: center;
+        height: 40px;
     }
 
-
+    p{
+        position: relative;
+        text-align: center;
+        top: 25px;
+        color: navy;
+        left: 0%;
+    }
 
 </style>
 
 <header>
     <h1 align = "center"><u><b>
         Savvior School District</b></u></h1>
+
     <title>Savvior School District</title>
     <meta charset="utf-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+
     <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script scr = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#LoginModal').modal('show');
+        });
+    </script>
 
 </header>
 
 <body>
+
+<!--
+Login Modal - Displays on Page Load
+====> Switch display from 'show' to 'hide' in javascript above to avoid loading more than once
+====> Switch back to 'show' when logout occurs
+====> Check username & password to database data
+====> Adjust logic to carry out when necessary: no changes made so far
+-->
+
+<!--
+<div class="modal" tabindex="-1" role="dialog" id = "LoginModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">User Login</h3>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    <input type="text" name="username" placeholder="Enter your username" required>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                    <input class = 'pull-right' type="submit" value="Submit">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+
+
 
 <h2 align = "center"><u>Home Page</u></h2>
 
@@ -216,30 +284,29 @@ class savviorSchool{
     <li>
         <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
     </li>
+
+    <div class='btn-toolbar pull-right'>
+        <div class='btn-group'>
+            <button type='button' class='btn btn-primary' name = 'Logout' id = 'Logout'>Logout</button>
+        </div>
+    </div>
+    <div class='btn-toolbar pull-right'>
+        <div class='btn-group'>
+            <button type='button' class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport'>Export Excel File</button>
+        </div>
+    </div>
+    <div class='btn-toolbar pull-right'>
+        <div class='btn-group'>
+            <button type='button' class='btn btn-primary' name ='TextExport' id = 'TextExport'>Export Text File</button>
+        </div>
+    </div>
 </ul>
 <p>  </p>
 <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
 
 <?php
 
-    /*********************************************
-     * https://www.formget.com/login-form-in-php/     sessions example
-     *********************************************/
-
-    session_start();
-
-    if(isset($_SESSIONS['login_user'])){
-        unset($_SESSIONS['login_user']);
-        unset($_SESSIONS['password']);
-    }else{
-
-    }
-
-
-
-
-
-   #echo "Current Student Data";
+    #echo "Current Student Data";
     $i = 0;
     $results = array();
     $reportData = array();
@@ -249,7 +316,63 @@ class savviorSchool{
     $password = "capcom5^";
     $dbname = "ryan_intern";
 
+    /*********************************************
+     * https://www.formget.com/login-form-in-php/     sessions example
+     *********************************************/
 
+    if(isset($_SESSIONS['login_user'])){
+        unset($_SESSIONS['login_user']);
+        unset($_SESSIONS['password']);
+
+
+    }else{
+
+
+    }
+
+    function checkUser(){
+        $username = "sa";
+        $password = "capcom5^";
+
+        $una = "
+            SELECT
+              u.Username,
+              u.Password
+            FROM
+              UsersBase u
+            ";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $users = $dbh->query($una, PDO::FETCH_ASSOC);
+
+        foreach($users as $user){
+            $userData [] = $user;
+        }
+
+        $match = false;
+
+        foreach($userData as $user){
+           if(isset($_SESSIONS['login_user'])){
+                if($user['Username'] == ($_SESSION['login_user'])){
+                   if(isset($_SESSIONS['password'])){
+                       if($user['Password'] == $_SESSION['password']){
+                           $match = true;
+                       }
+                   }
+                }
+            }
+        }
+
+        if($match == false){
+            echo "<script type = 'text/javascript'> 
+                    location.reload();
+            </script>";
+        }
+    }
+
+    /**************************************************************
+     * Dynamic Table Display
+     **************************************************************/
 
     $q = "
         SELECT
@@ -265,13 +388,6 @@ class savviorSchool{
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
     $data = $dbh->query($q, PDO::FETCH_ASSOC);
-
-    #Alternative Method of Pulling Data
-    #$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    #$data = $dbh->query($q);
-    #$sth = $dbh->prepare($q);
-    #$sth->execute();
-    #$data = $sth->fetch(PDO::FETCH_ASSOC);
 
     $conn = new mysqli($servername, $username, $password);
     if($conn->connect_error){
@@ -324,13 +440,6 @@ class savviorSchool{
     ksort($classes);
     ksort($books);
 
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-
     $classBookTie = array();
     $i = 0;
     foreach($classes AS $class){
@@ -351,6 +460,89 @@ class savviorSchool{
             }
         }
     }
+
+
+    /*******************************************
+     * Export to text file
+     *******************************************/
+
+    if(isset($_GET['TextExport'])){
+        exportTxt();
+    }
+
+    function exportTxt(){
+        $username = "sa";
+        $password = "capcom5^";
+
+        $q = "
+        SELECT
+            s.ID,
+            s.StudentName,
+            s.StudentImage,
+            s.ClassTitle,
+            s.BookTitle,
+            s.BookImage
+        FROM
+            SavviorSchool s
+        ";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
+
+        $fp = fopen('FullData.csv', 'w');
+
+        foreach($returnData as $entry){
+            fputcsv($fp, $entry);
+        }
+
+        fclose($fp);
+    }
+
+
+    /*******************************************
+     * Logout
+     *******************************************/
+
+    if(isset($_GET['Logout'])){
+        endSession();
+    }
+
+    function endSession(){
+        session_destroy();
+    }
+
+    /*
+     * Login again
+     * echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/ManagementSystem.php?reload=1">'; (reload page)
+     */
+
+
+    /*******************************************
+     * Export to excel file
+     *******************************************/
+    if(isset($_GET['ExcelExport'])){
+        exportExcel($returnData);
+    }
+
+    function exportExcel($returnData)
+    {
+        $filename = "excel_full_data" . date('Y/m/d') . ".xls";
+
+        header("Content: attachment; filename =\"$filename\"");
+        header("Content Type: application/vnd.ms-excel");
+
+        $flag = false;
+        foreach ($returnData as $row) {
+            if (!$flag) {
+                echo implode("\t", array_keys($row)) . "\n";
+                $flag = true;
+            }
+
+            array_walk($row, 'filterData');
+            echo implode("\t", array_values($row)) . "\n";
+        }
+    }
+
 ?>
 
 </body>
