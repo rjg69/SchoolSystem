@@ -175,6 +175,10 @@ class savviorSchool{
         background-color: #1775B3;
     }
 
+    .btn-toolbar{
+        width: 33.59%;
+    }
+
     .btn-group{
         color: white;
         background-color: #1775B3;
@@ -386,6 +390,9 @@ Login Modal - Displays on Page Load
 
     }else {
 
+        if(isset($_SESSIONS['Username'])){
+            checkUser();
+        }
         /****************************************************
          * Check that username and password match properly
          ****************************************************/
@@ -425,9 +432,7 @@ Login Modal - Displays on Page Load
             }
 
             if ($match == false) {
-                echo "<script type = 'text/javascript'> 
-                    location.reload();
-            </script>";
+                echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/ManagementSystem.php?reload=1">';
             }
         }
 

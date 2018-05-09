@@ -53,6 +53,10 @@
         width: 100%;
     }
 
+    .btn-toolbar{
+        width: 33.59%;
+    }
+
     .btn-group{
         color: white;
         background-color: #1775B3;
@@ -112,6 +116,22 @@
     </li>
 </ul>
 
+<div class='btn-toolbar pull-right'>
+    <div class='btn-group'>
+        <button type='button' class='btn btn-primary' data-toggle = "tooltip" data-placement = "top" title = "Logout of Account" name = 'Logout'>Logout</button>
+    </div>
+</div>
+<div class='btn-toolbar pull-right'>
+    <div class='btn-group'>
+        <button type='button' class='btn btn-primary' data-toggle = "tooltip" data-placement = "top" title = "Send to Excel File" name = 'ExcelExport'>Export Excel File</button>
+    </div>
+</div>
+<div class='btn-toolbar pull-right'>
+    <div class='btn-group'>
+        <button type='button' class='btn btn-primary' data-toggle = "tooltip" data-placement = "top" title = "Send to Text File" name = 'TextExport'>Export Text File</button>
+    </div>
+</div>
+
 
 <!--
     Add button & delete button, to be put in top right since only one item will be affected at a time
@@ -167,7 +187,7 @@
                     <input type = "text" name = "ClassTitle"><br>
                     <h2>Book</h2><br>
                     <input type = "text" name = "BookTitle"><br>
-                    <input type = "submit" value = "click" name = "submit">
+                    <input class = 'pull-right' type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
             <div class="modal-footer">
@@ -574,6 +594,91 @@
         }
     }
 
+    /*******************************************
+     * Export to text file
+     *******************************************/
+
+    if(isset($_GET['TextExport'])){
+        exportTxt();
+    }
+
+    function exportTxt()
+    {
+        //works if ran on load, not when called by the button
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        $q = "
+                    SELECT
+                        s.ID,
+                        s.StudentName,
+                        s.StudentImage,
+                        s.ClassTitle,
+                        s.BookTitle,
+                        s.BookImage
+                    FROM
+                        SavviorSchool s
+                    ";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
+
+        $fp = fopen('FullData.csv', "w");
+
+        foreach ($returnData as $entry) {
+            fputcsv($fp, $entry);
+        }
+
+        fclose($fp);
+    }
+
+
+    /*******************************************
+     * Logout
+     *******************************************/
+
+    if (isset($_GET['Logout'])) {
+        endSession();
+    }
+
+    function endSession()
+    {
+        session_destroy();
+    }
+
+    /*
+     * Login again
+     * echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/ManagementSystem.php?reload=1">'; (reload page)
+     */
+
+
+    /*******************************************
+     * Export to excel file
+     *******************************************/
+    if (isset($_GET['ExcelExport'])) {
+        exportExcel($returnData);
+    }
+
+    function exportExcel($returnData)
+    {
+        $filename = "excel_full_data" . date('Y/m/d') . ".xls";
+
+        header("Content: attachment; filename =\"$filename\"");
+        header("Content Type: application/vnd.ms-excel");
+
+        $flag = false;
+        foreach ($returnData as $row) {
+            if (!$flag) {
+                echo implode("\t", array_keys($row)) . "\n";
+                $flag = true;
+            }
+
+            array_walk($row, 'filterData');
+            echo implode("\t", array_values($row)) . "\n";
+        }
+    }
+
 
     /**********************************************************************************************
      * Assignment 6
@@ -582,6 +687,7 @@
      * Assignment 7
      *
      * https://www.formget.com/login-form-in-php/     sessions example
+     * https://www.johnmorrisonline.com/build-php-login-form-using-sessions/
      *
      * Assignment 8
      *
@@ -599,6 +705,7 @@
      * Assignment 11
      *
      * https://getbootstrap.com/docs/4.0/components/carousel/
+     * https://codepen.io/grbav/pen/qNZjPy
      *
      * Assignment 12
      *
