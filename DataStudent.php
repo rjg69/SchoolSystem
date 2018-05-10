@@ -435,8 +435,6 @@
             if(!isset($_GET['reload'])){
                 echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
             }
-
-            #https://www.codeproject.com/Articles/8681/Uploading-Downloading-Pictures-to-from-a-SQL-Serve
         }
 
         if(isset($_GET['submit1'])){
@@ -610,16 +608,16 @@
         $password = "capcom5^";
 
         $q = "
-                    SELECT
-                        s.ID,
-                        s.StudentName,
-                        s.StudentImage,
-                        s.ClassTitle,
-                        s.BookTitle,
-                        s.BookImage
-                    FROM
-                        SavviorSchool s
-                    ";
+              SELECT
+                s.ID,
+                s.StudentName,
+                s.StudentImage,
+                s.ClassTitle,
+                s.BookTitle,
+                s.BookImage
+              FROM
+                SavviorSchool s
+              ";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
@@ -640,6 +638,8 @@
 
     if (isset($_GET['Logout'])) {
         endSession();
+
+        header('Location: http://www.testproject.test/LoginPage');
     }
 
     function endSession()
@@ -647,35 +647,70 @@
         session_destroy();
     }
 
-    /*
-     * Login again
-     * echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/ManagementSystem.php?reload=1">'; (reload page)
-     */
-
 
     /*******************************************
      * Export to excel file
      *******************************************/
-    if (isset($_GET['ExcelExport'])) {
-        exportExcel($returnData);
+    if (isset($_POST['ExcelExport'])) {
+        exportExcel();
     }
 
-    function exportExcel($returnData)
+    function exportExcel()
     {
-        $filename = "excel_full_data" . date('Y/m/d') . ".xls";
+        $DB_Server = '10.99.100.54';
+        $DB_Username = "sa";
+        $DB_Password = 'capcom5^';
+        $DB_DBName = 'ryan_intern';
+        $DB_TBLName = 'UsersBase';
+        $xls_filename = "excel_full_data" . date('Y-m-d') . ".xlsx";
 
-        header("Content: attachment; filename =\"$filename\"");
-        header("Content Type: application/vnd.ms-excel");
+        /***** DO NOT EDIT BELOW LINES *****/
+        // Create MySQL connection
+        $sql = "Select * from $DB_TBLName";
+        $Connect = @mysql_connect($DB_Server, $DB_Username, $DB_Password) or die("Failed to connect to MySQL:<br />" . mysql_error() . "<br />" . mysql_errno());
+        // Select database
+        $Db = @mysql_select_db($DB_DBName, $Connect) or die("Failed to select database:<br />" . mysql_error(). "<br />" . mysql_errno());
+        // Execute query
+        $result = @mysql_query($sql,$Connect) or die("Failed to execute query:<br />" . mysql_error(). "<br />" . mysql_errno());
 
-        $flag = false;
-        foreach ($returnData as $row) {
-            if (!$flag) {
-                echo implode("\t", array_keys($row)) . "\n";
-                $flag = true;
+        // Header info settings
+        header("Content-Type: application/xls");
+        header("Content-Disposition: attachment; filename=$xls_filename");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        /***** Start of Formatting for Excel *****/
+        // Define separator (defines columns in excel &amp; tabs in word)
+        $sep = "\t"; // tabbed character
+
+        // Start of printing column names as names of MySQL fields
+        for ($i = 0; $i<mysql_num_fields($result); $i++) {
+            echo mysql_field_name($result, $i) . "\t";
+        }
+        print("\n");
+        // End of printing column names
+
+        // Start while loop to get data
+        while($row = mysql_fetch_row($result))
+        {
+            $schema_insert = "";
+            for($j=0; $j<mysql_num_fields($result); $j++)
+            {
+                if(!isset($row[$j])) {
+                    $schema_insert .= "NULL".$sep;
+                }
+                elseif ($row[$j] != "") {
+                    $schema_insert .= "$row[$j]".$sep;
+                }
+                else {
+                    $schema_insert .= "".$sep;
+                }
             }
-
-            array_walk($row, 'filterData');
-            echo implode("\t", array_values($row)) . "\n";
+            $schema_insert = str_replace($sep."$", "", $schema_insert);
+            $schema_insert = preg_replace("/\r\n|\n\r|\n|\r/", " ", $schema_insert);
+            $schema_insert .= "\t";
+            print(trim($schema_insert));
+            print "\n";
         }
     }
 
@@ -706,6 +741,7 @@
      *
      * https://getbootstrap.com/docs/4.0/components/carousel/
      * https://codepen.io/grbav/pen/qNZjPy
+     * https://owlcarousel2.github.io/OwlCarousel2/demos/responsive.html
      *
      * Assignment 12
      *

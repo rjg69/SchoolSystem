@@ -503,6 +503,7 @@
     function endSession()
     {
         session_destroy();
+        header('Location: http://www.testproject.test/LoginPage');
     }
 
     /*
