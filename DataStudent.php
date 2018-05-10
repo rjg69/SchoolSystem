@@ -373,17 +373,22 @@
 </div>
 
 <?php
-        #echo "Current Student Data";
-        $i = 0;
-        $results = array();
-        $reportData = array();
 
-        $servername = "10.99.100.54";
-        $username = "sa";
-        $password = "capcom5^";
-        $dbname = "ryan_intern";
+$continue = include 'LoginCheck.php';
 
-        $q = "
+if($continue == true) {
+
+    #echo "Current Student Data";
+    $i = 0;
+    $results = array();
+    $reportData = array();
+
+    $servername = "10.99.100.54";
+    $username = "sa";
+    $password = "capcom5^";
+    $dbname = "ryan_intern";
+
+    $q = "
         SELECT
             s.ID,
             s.StudentName,
@@ -393,161 +398,161 @@
             SavviorSchool s
         ";
 
+    $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+    $data = $dbh->query($q, PDO::FETCH_ASSOC);
+
+    $conn = new mysqli($servername, $username, $password);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    #echo "Connected successfully";
+
+    foreach ($data as $entry) {
+        $results [] = $entry;
+    }
+
+
+    if (isset($_GET['submit'])) {
+        add();
+    }
+
+    /****************************************************************
+     * ADD A NEW STUDENT WITH ALL AVAILABLE DATA PROVIDED
+     ****************************************************************/
+    function add()
+    {
+        $id = $_GET['id'];
+        $studName = $_GET['StudentName'];
+        $class = $_GET['ClassTitle'];
+        $book = $_GET['BookTitle'];
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        $changeData[] = $id;
+
+        $sql = "INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$id', '$studName', '$class', '$book')";
+
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $data = $dbh->query($q, PDO::FETCH_ASSOC);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
 
-        $conn = new mysqli($servername, $username, $password);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
-        #echo "Connected successfully";
+    }
 
-        foreach ($data as $entry) {
-            $results [] = $entry;
+    if (isset($_GET['submit1'])) {
+        delete();
+    }
+
+    /****************************************************************
+     * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID TO BE REMOVED
+     ****************************************************************/
+    function delete()
+    {
+        $name = $_GET['StudentName'];
+        $id = $_GET['id'];
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        /*Delete all data in the table row if specified by the Bootstrap Modal input*/
+        $changeData[] = $id;
+
+        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
+    }
 
+    if (isset($_GET['submit2'])) {
+        edit();
+    }
 
-        if(isset($_GET['submit'])){
-            add();
-        }
-
-        /****************************************************************
-         * ADD A NEW STUDENT WITH ALL AVAILABLE DATA PROVIDED
-         ****************************************************************/
-        function add()
-        {
-            $id = $_GET['id'];
-            $studName = $_GET['StudentName'];
-            $class = $_GET['ClassTitle'];
-            $book = $_GET['BookTitle'];
-
-            $username = "sa";
-            $password = "capcom5^";
-
-            $changeData[] = $id;
-
-            $sql = "INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$id', '$studName', '$class', '$book')";
-
-            $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $dbh->exec($sql);
-
-            if(!isset($_GET['reload'])){
-                echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-            }
-        }
-
-        if(isset($_GET['submit1'])){
-            delete();
-        }
-
-        /****************************************************************
-         * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID TO BE REMOVED
-         ****************************************************************/
-        function delete()
-        {
+    /****************************************************************
+     * EDIT DESIGNATED STUDENT VALUES
+     ****************************************************************/
+    function edit()
+    {
+        if ($_GET['StudentName']) {
             $name = $_GET['StudentName'];
+        }
+
+        if ($_GET['id']) {
             $id = $_GET['id'];
-
-            $username = "sa";
-            $password = "capcom5^";
-
-            /*Delete all data in the table row if specified by the Bootstrap Modal input*/
-            $changeData[] = $id;
-
-            $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-
-            $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $dbh->exec($sql);
-
-            if(!isset($_GET['reload'])){
-                echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-            }
+        } else {
+            $id = null;
         }
 
-        if(isset($_GET['submit2'])){
-            edit();
+        if ($_GET['ClassTitle']) {
+            $class = $_GET['ClassTitle'];
         }
 
-        /****************************************************************
-         * EDIT DESIGNATED STUDENT VALUES
-         ****************************************************************/
-        function edit()
-        {
-            if($_GET['StudentName']){
-                $name = $_GET['StudentName'];
-            }
+        if ($_GET['BookTitle']) {
+            $book = $_GET['BookTitle'];
+        }
 
-            if($_GET['id']){
-                $id = $_GET['id'];
-            }else{
-                $id = null;
-            }
+        $username = "sa";
+        $password = "capcom5^";
 
-            if($_GET['ClassTitle']){
-                $class = $_GET['ClassTitle'];
-            }
-
-            if($_GET['BookTitle']){
-                $book = $_GET['BookTitle'];
-            }
-
-            $username = "sa";
-            $password = "capcom5^";
-
-            $changeData[] = $id;
-            $sql = ("UPDATE SavviorSchool 
+        $changeData[] = $id;
+        $sql = ("UPDATE SavviorSchool 
                     SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book' 
                     WHERE ID = '$id'");
 
-            $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $dbh->exec($sql);
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
 
-            #Refresh page one time after executing
-            if(!isset($_GET['reload'])){
-                echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-            }
-
+        #Refresh page one time after executing
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
 
+    }
 
-        echo "<table align = 'center' width = '70%'><tr>";
 
-        echo "<td width = '15%'><u>ID</u></td>";
-        echo "<td width = '15%'><u>Student Name</u></td>";
-        echo "<td width = '20%'><u>Student Image</u></td>";
-        echo "<td width = '15%'><u>Class Title</u></td>";
-        echo "<td width = '15%'><u>Book Title</u></td>";
-        echo "<td width = '20%'><u>Book Image</u></td>";
+    echo "<table align = 'center' width = '70%'><tr>";
+
+    echo "<td width = '15%'><u>ID</u></td>";
+    echo "<td width = '15%'><u>Student Name</u></td>";
+    echo "<td width = '20%'><u>Student Image</u></td>";
+    echo "<td width = '15%'><u>Class Title</u></td>";
+    echo "<td width = '15%'><u>Book Title</u></td>";
+    echo "<td width = '20%'><u>Book Image</u></td>";
+    echo "</tr><tr>";
+
+    $j = 0;
+
+    foreach ($results as $val) {
+        $j = $j + 1;
+        $key = $val['ID'];
+        echo "<td>" . $val['ID'] . "</td>";
+        if (!array_key_exists($key, $reportData)) {
+            $returnData[$key] = array(
+                'StudentName' => $val['StudentName'],
+                'ClassTitle' => $val['ClassTitle'],
+                'BookTitle' => $val['BookTitle']
+            );
+        }
+
+        $picName = $returnData[$key]['StudentName'];
+        $bookName = $returnData[$key]['BookTitle'];
+
+        echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
+        echo "<td>" . "<img src = 'StudentPhotos\\" . $picName . ".jpg' />" . "</td>";
+        echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
+        echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
+        echo "<td>" . "<img src = 'BookPhotos\book" . $bookName . ".jpg' />" . "</td>";
         echo "</tr><tr>";
-
-        $j = 0;
-
-        foreach ($results as $val) {
-            $j = $j + 1;
-            $key = $val['ID'];
-            echo "<td>" . $val['ID'] . "</td>";
-            if (!array_key_exists($key, $reportData)) {
-                $returnData[$key] = array(
-                    'StudentName' => $val['StudentName'],
-                    'ClassTitle' => $val['ClassTitle'],
-                    'BookTitle' => $val['BookTitle']
-                );
-            }
-
-            $picName = $returnData[$key]['StudentName'];
-            $bookName = $returnData[$key]['BookTitle'];
-
-            echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-            echo "<td>" . "<img src = 'StudentPhotos\\" . $picName .".jpg' />". "</td>";
-            echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
-            echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td>" . "<img src = 'BookPhotos\book". $bookName .".jpg' />". "</td>";
-            echo "</tr><tr>";
-        }
-        echo "</tr></table>";
+    }
+    echo "</tr></table>";
 
 
     /*******************************************************
@@ -556,7 +561,7 @@
     $classes = array();
     $books = array();
 
-    foreach($returnData as $entry){
+    foreach ($returnData as $entry) {
         $classes[] = $entry['ClassTitle'];
         $books[] = $entry['BookTitle'];
     }
@@ -573,9 +578,9 @@
 
     $classBookTie = array();
     $i = 0;
-    foreach($classes AS $class){
+    foreach ($classes AS $class) {
         $key = $class;
-        if(!array_key_exists($key, $classBookTie)){
+        if (!array_key_exists($key, $classBookTie)) {
             $classBookTie[$key] = array(
                 'BookTitle' => $books[$i],
             );
@@ -583,10 +588,10 @@
         $i = $i + 1;
     }
 
-    foreach($returnData as $result){
+    foreach ($returnData as $result) {
         $key = $result['ClassTitle'];
-        if(!array_key_exists($key, $classBookTie)){
-            if($classBookTie['BookTitle'] != $result['BookTitle']){
+        if (!array_key_exists($key, $classBookTie)) {
+            if ($classBookTie['BookTitle'] != $result['BookTitle']) {
                 $result['BookTitle'] = $classBookTie['BookTitle'];
             }
         }
@@ -596,7 +601,7 @@
      * Export to text file
      *******************************************/
 
-    if(isset($_GET['TextExport'])){
+    if (isset($_GET['TextExport'])) {
         exportTxt();
     }
 
@@ -669,9 +674,9 @@
         $sql = "Select * from $DB_TBLName";
         $Connect = @mysql_connect($DB_Server, $DB_Username, $DB_Password) or die("Failed to connect to MySQL:<br />" . mysql_error() . "<br />" . mysql_errno());
         // Select database
-        $Db = @mysql_select_db($DB_DBName, $Connect) or die("Failed to select database:<br />" . mysql_error(). "<br />" . mysql_errno());
+        $Db = @mysql_select_db($DB_DBName, $Connect) or die("Failed to select database:<br />" . mysql_error() . "<br />" . mysql_errno());
         // Execute query
-        $result = @mysql_query($sql,$Connect) or die("Failed to execute query:<br />" . mysql_error(). "<br />" . mysql_errno());
+        $result = @mysql_query($sql, $Connect) or die("Failed to execute query:<br />" . mysql_error() . "<br />" . mysql_errno());
 
         // Header info settings
         header("Content-Type: application/xls");
@@ -684,29 +689,25 @@
         $sep = "\t"; // tabbed character
 
         // Start of printing column names as names of MySQL fields
-        for ($i = 0; $i<mysql_num_fields($result); $i++) {
+        for ($i = 0; $i < mysql_num_fields($result); $i++) {
             echo mysql_field_name($result, $i) . "\t";
         }
         print("\n");
         // End of printing column names
 
         // Start while loop to get data
-        while($row = mysql_fetch_row($result))
-        {
+        while ($row = mysql_fetch_row($result)) {
             $schema_insert = "";
-            for($j=0; $j<mysql_num_fields($result); $j++)
-            {
-                if(!isset($row[$j])) {
-                    $schema_insert .= "NULL".$sep;
-                }
-                elseif ($row[$j] != "") {
-                    $schema_insert .= "$row[$j]".$sep;
-                }
-                else {
-                    $schema_insert .= "".$sep;
+            for ($j = 0; $j < mysql_num_fields($result); $j++) {
+                if (!isset($row[$j])) {
+                    $schema_insert .= "NULL" . $sep;
+                } elseif ($row[$j] != "") {
+                    $schema_insert .= "$row[$j]" . $sep;
+                } else {
+                    $schema_insert .= "" . $sep;
                 }
             }
-            $schema_insert = str_replace($sep."$", "", $schema_insert);
+            $schema_insert = str_replace($sep . "$", "", $schema_insert);
             $schema_insert = preg_replace("/\r\n|\n\r|\n|\r/", " ", $schema_insert);
             $schema_insert .= "\t";
             print(trim($schema_insert));
@@ -735,7 +736,7 @@
      *
      * Assignment 10
      *
-     * 
+     *
      *
      * Assignment 11
      *
@@ -747,6 +748,10 @@
      *
      * https://www.w3schools.com/html/html_responsive.asp
      **********************************************************************************************/
+
+}else{
+    header('Location: http://testproject.test/LoginPage.php');
+}
 ?>
 
 </body>

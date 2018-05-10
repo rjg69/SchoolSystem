@@ -19,419 +19,297 @@ Assignment #1 - Design a management system for a school, where a school administ
             https://www.w3schools.com/bootstrap/bootstrap_forms_inputs.asp
 
 -->
-<?php
-    session_start();
-?>
-<!--
-    Add style conventions using CSS
--->
-<style>
-    header{
-        color: darkblue;
-    }
-
-    button{
-        background-color: darkred;
-        color: white;
-        width: 100%;
-    }
-
-    .modal-footer{
-        color: white;
-        background-color: darkred;
-    }
-
-    .modal-header{
-        color: white;
-        background-color: #1775B3;
-    }
-
-    .btn-toolbar{
-        width: 33.59%;
-    }
-
-    .btn-group{
-        color: white;
-        background-color: #1775B3;
-        width: 100%;
-    }
-
-    h2{
-        color: navy;
-    }
-
-    table{
-        position: relative;
-        top: 50px;
-    }
-
-    select{
-        color: white;
-        background-color: #1775B3;
-        position: relative;
-        text-align: center;
-        align-content: center;
-        height: 40px;
-    }
-
-    p{
-        position: relative;
-        text-align: center;
-        top: 25px;
-        color: navy;
-        left: 0%;
-    }
-
-    .carousel-inner>.item>img{
-        margin:auto;
-    }
-
-    .carousel-indicators{
-        position: relative;
-        top: 5%;
-    }
-
-    .carousel{
-        height: 27%;
-        width: 60%;
-        position: relative;
-        top: 25px;
-        align: center;
-    }
-
-</style>
-
-<header>
-    <h1 align = "center"><u><b>Savvior School District</b></u></h1>
-
-    <title>Savvior School District</title>
-    <meta charset="utf-8">
-    <meta name = "viewport" content = "width = device-width, initial-scale = 1">
-
-
-    <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
-
-
-    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script scr = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="jquery.min.js"></script>
-    <script src="owlcarousel/owl.carousel.min.js"></script>
-    <script src="../assets/vendors/jquery.min.js"></script>
-    <script src="../assets/owlcarousel/owl.carousel.js"></script>
-
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#LoginModal').modal('show');
-        });
-    </script>
-</header>
-
-<body>
-
-    <h2 align = "center"><u>Home Page</u></h2>
-
     <!--
-        Tabs
+        Add style conventions using CSS
     -->
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home Page</a>
-        </li>
-        <li>
-            <a href="DataStudent.php" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
-        </li>
-        <li>
-            <a href="DataBook.php" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
-        </li>
-        <li>
-            <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
-        </li>
-    </ul>
-        <div class='btn-toolbar pull-right'>
-            <div class='btn-group'>
-                <button type='button' class='btn btn-primary' name = 'Logout' id = 'Logout' title = 'Logout'>Logout</button>
-            </div>
-        </div>
-        <div class='btn-toolbar pull-right'>
-            <div class='btn-group'>
-                <button type='button' class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport' title = 'Excel Export'>Export Excel File</button>
-            </div>
-        </div>
-        <div class='btn-toolbar pull-right'>
-            <div class='btn-group'>
-                <button type='button' class='btn btn-primary' name ='TextExport' id = 'TextExport' title = 'Text Export'>Export Text File</button>
-            </div>
-        </div>
-
-    <br />
-    <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
-
-    <!--
-        Carousel Code
-    -->
-    <div class="container" align = "center">
-        <h2 align = "center">Student Highlights</h2>
-        <div id="myCarousel" class="carousel slide" data-ride="carousel" align = "center">
-            <!-- Indicators -->
-            <ol class="carousel-indicators" align = "center">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" align = "center">
-                <div class="item active">
-                    <img height = '100%' src="StudentPhotos\student3.jpg">
-                </div>
-
-                <div class="item">
-                    <img height = '100%' src="StudentPhotos\student4.jpg">
-                </div>
-
-                <div class="item">
-                    <img height = '100%' src="StudentPhotos\student9.jpg">
-                </div>
-            </div>
-
-            <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div>
-
-
-    <!--
-        Export to Excel
-    -->
-    <div class="modal" tabindex="-1" role="dialog" id = "ExcelExport">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id = "modalLabel">Excel Export</h5>
-                </div>
-                <div class="modal-body">
-                    <form method = "post" action = "DataStudent.php">
-                        <h3>File Name:</h3>
-                        <input type = "text" name = "filenameExcel">
-                        <input class = 'pull-right' type = "submit" value = "Submit" name = "submite">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--
-        Logout
-    -->
-    <div class="modal" tabindex="-1" role="dialog" id = "LogoutModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id = "modalLabel">Logout</h5>
-                </div>
-                <div class="modal-body">
-                    <form method = "post" action = "DataStudent.php">
-                        <h3>Are you sure you'd like to log off?</h3>
-                        <p>Press "Log Off" to proceed or "Cancel" to continue with this session.</p>
-                        <input type = "submit" value = "Log Off" name = "submitl">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--
-        Export to Text
-    -->
-    <div class="modal" tabindex="-1" role="dialog" id = "TextModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id = "modalLabel">Export Text</h5>
-                </div>
-                <div class="modal-body">
-                    <form method = "post" action = "DataStudent.php">
-                        <h3>Please Enter the Filename:</h3>
-                        <input type = "text" name = "filenameText">
-                        <input class = 'pull-right' type = "submit" value = "Submit" name = "submitt">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<?php
-
-class savviorSchool{
-
-    private $tableData;
-    private $changeData;
-    private $input;
-
-    /****************************************************************
-     * PULL ALL DATA FROM TEH DESIGNATED TABLE
-     ****************************************************************/
-    public function getTableData(){
-        #type is the student, class, or book
-        #input is the student name, class name, or book title
-        $tableData = array();
-
-        //sql query, properly pulls all data from SavviorSchool
-        $q = "SELECT
-              s.ID,
-              s.StudentName,
-              s.ClassTitle,
-              s.BookTitle
-            FROM
-              SavviorSchool s";
-
-        /*Foreign Key Table
-         *
-         * SELECT
-         *      f.ID AS id,
-         * FROM
-         *      foreignTableStudent/Class
-         * INNER JOIN
-         *      foreignTableBook AS f ON foreignTableStudent/Class.ID = foreignTableBook.ID;
-         *
-         */
-
-        /*Join Table
-         *
-         * SELECT
-         *     c.ID as id
-         * FROM
-         *     classJoin AS c
-         * INNER JOIN
-         *      studentJoin ON classJoin.ClassID = studentJoin.ClassID
-         * INNER JOIN
-         *      bookJoin ON classJoin.BookID = bookJoin.BookID;
-         */
-
-        $stmt = $this->dbh->prepare($q);
-        $stmt->execute();
-        $results = $stmt->fetchAll();
-
-        if(count($results) == 0){ throw new Exception('No data returned'); }
-
-        foreach($results as $result){
-            $key = $result['ID'];
-            if(!array_key_exists($key, $tableData)){
-                $tableData[$key] = array(
-                    $tableData['StudentName'] = $result['StudentName'],
-                    $tableData['ClassTitle'] = $result['ClassTitle'],
-                    $tableData['BookTitle'] = $result['BookTitle'],
-                    $tableData['StudentImage'] = $result['StudentImage'],
-                    $tableData['BookImage'] = $result['BookImage']
-                );
-            }
+    <style>
+        header{
+            color: darkblue;
         }
 
-        return $tableData;
-    }
-
-    /****************************************************************
-     * GENERATE LIST OF CHANGES TO USER/BOOK/CLASS DATA
-     ****************************************************************/
-    public function listChanges($changeData, $oldData){
-        /*Track all changes made to the table*/
-        $arrChanges = array();
-        foreach(array_keys($changeData) as $sku){
-            if(!(key_exists($sku, $oldData) || key_exists(trim($sku), $oldData) || key_exists(strtoupper(trim($sku)), $oldData))){
-                $arrChanges[] = $sku;
-            }
+        button{
+            background-color: darkred;
+            color: white;
+            width: 100%;
         }
 
-        return $arrChanges;
-    }
+        .modal-footer{
+            color: white;
+            background-color: darkred;
+        }
 
-    /****************************************************************
-     * CONSTRUCTOR -- ESTABLISH SQL CONNECTION
-     ****************************************************************/
-    public function __construct(){
-        $this->runTime = date('Y-m-d H:i:s');
+        .modal-header{
+            color: white;
+            background-color: #1775B3;
+        }
+
+        .btn-toolbar{
+            width: 33.59%;
+        }
+
+        .btn-group{
+            color: white;
+            background-color: #1775B3;
+            width: 100%;
+        }
+
+        h2{
+            color: navy;
+        }
+
+        table{
+            position: relative;
+            top: 50px;
+        }
+
+        select{
+            color: white;
+            background-color: #1775B3;
+            position: relative;
+            text-align: center;
+            align-content: center;
+            height: 40px;
+        }
+
+        p{
+            position: relative;
+            text-align: center;
+            top: 25px;
+            color: navy;
+            left: 0%;
+        }
+
+        .carousel-inner>.item>img{
+            margin:auto;
+        }
+
+        .carousel-indicators{
+            position: relative;
+            top: 5%;
+        }
+
+        .carousel{
+            height: 27%;
+            width: 60%;
+            position: relative;
+            top: 25px;
+            align: center;
+        }
+
+    </style>
+
+    <header>
+        <h1 align = "center"><u><b>Savvior School District</b></u></h1>
+
+        <title>Savvior School District</title>
+        <meta charset="utf-8">
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+
+
+        <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+        <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
+
+
+        <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script scr = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="jquery.min.js"></script>
+        <script src="owlcarousel/owl.carousel.min.js"></script>
+        <script src="../assets/vendors/jquery.min.js"></script>
+        <script src="../assets/owlcarousel/owl.carousel.js"></script>
+
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#LoginModal').modal('show');
+            });
+        </script>
+    </header>
+
+    <body>
+
+        <h2 align = "center"><u>Home Page</u></h2>
+
+        <!--
+            Tabs
+        -->
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home Page</a>
+            </li>
+            <li>
+                <a href="DataStudent.php" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
+            </li>
+            <li>
+                <a href="DataBook.php" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
+            </li>
+            <li>
+                <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
+            </li>
+        </ul>
+            <div class='btn-toolbar pull-right'>
+                <div class='btn-group'>
+                    <button type='button' class='btn btn-primary' name = 'Logout' id = 'Logout' title = 'Logout'>Logout</button>
+                </div>
+            </div>
+            <div class='btn-toolbar pull-right'>
+                <div class='btn-group'>
+                    <button type='button' class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport' title = 'Excel Export'>Export Excel File</button>
+                </div>
+            </div>
+            <div class='btn-toolbar pull-right'>
+                <div class='btn-group'>
+                    <button type='button' class='btn btn-primary' name ='TextExport' id = 'TextExport' title = 'Text Export'>Export Text File</button>
+                </div>
+            </div>
+
+        <br />
+        <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
+
+        <!--
+            Carousel Code
+        -->
+        <div class="container" align = "center">
+            <h2 align = "center">Student Highlights</h2>
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" align = "center">
+                <!-- Indicators -->
+                <ol class="carousel-indicators" align = "center">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" align = "center">
+                    <div class="item active">
+                        <img height = '100%' src="StudentPhotos\student3.jpg">
+                    </div>
+
+                    <div class="item">
+                        <img height = '100%' src="StudentPhotos\student4.jpg">
+                    </div>
+
+                    <div class="item">
+                        <img height = '100%' src="StudentPhotos\student9.jpg">
+                    </div>
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+
+
+        <!--
+            Export to Excel
+        -->
+        <div class="modal" tabindex="-1" role="dialog" id = "ExcelExport">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id = "modalLabel">Excel Export</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method = "post" action = "DataStudent.php">
+                            <h3>File Name:</h3>
+                            <input type = "text" name = "filenameExcel">
+                            <input class = 'pull-right' type = "submit" value = "Submit" name = "submite">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+            Logout
+        -->
+        <div class="modal" tabindex="-1" role="dialog" id = "LogoutModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id = "modalLabel">Logout</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method = "post" action = "DataStudent.php">
+                            <h3>Are you sure you'd like to log off?</h3>
+                            <p>Press "Log Off" to proceed or "Cancel" to continue with this session.</p>
+                            <input type = "submit" value = "Log Off" name = "submitl">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+            Export to Text
+        -->
+        <div class="modal" tabindex="-1" role="dialog" id = "TextModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id = "modalLabel">Export Text</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method = "post" action = "DataStudent.php">
+                            <h3>Please Enter the Filename:</h3>
+                            <input type = "text" name = "filenameText">
+                            <input class = 'pull-right' type = "submit" value = "Submit" name = "submitt">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <?php
+
+    $continue = include 'LoginCheck.php';
+
+    if($continue == true) {
+
+        $i = 0;
+        $results = array();
+        $returnData = array();
+
         $servername = "10.99.100.54";
-        $username = "ryan_intern";
-        $password = "intern";
+        $username = "sa";
+        $password = "capcom5^";
         $dbname = "ryan_intern";
-
-        $this->dbh = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
-
-    }
-
-    /****************************************************************
-     * CALL QUERY AND EXECUTE FUNCTION ASSOCIATED
-     ****************************************************************/
-    private function execQuery($query, $params){
-        $errorMessage = '';
-        $stmt = $this->dbh->prepare($query);
-
-        $modParams = array();
-        foreach($params AS $key => $value){
-            $modKey = str_replace('/^:/', '', $key);
-            $modParams[$modKey] = $value;
-        }
-
-        $stmt->execute($modParams);
-
-        if($stmt->errorCode() != '00000'){
-            $errorInfoMessage = print_r($stmt->errorInfo(), 1);
-            $errorMessage = $errorMessage . "<p> Error Code: $stmt->errorCode() $errorInfoMessage </p>";
-            return $errorMessage;
-        }
-
-        return null;
-    }
-}
-
-    #echo "Current Student Data";
-    $i = 0;
-    $results = array();
-    $returnData = array();
-
-    $servername = "10.99.100.54";
-    $username = "sa";
-    $password = "capcom5^";
-    $dbname = "ryan_intern";
 
         /**************************************************************
          * Dynamic Table Display
          **************************************************************/
 
         $q = "
-        SELECT
-            s.ID,
-            s.StudentName,
-            s.StudentImage,
-            s.ClassTitle,
-            s.BookTitle,
-            s.BookImage
-        FROM
-            SavviorSchool s
-        ";
+            SELECT
+                s.ID,
+                s.StudentName,
+                s.StudentImage,
+                s.ClassTitle,
+                s.BookTitle,
+                s.BookImage
+            FROM
+                SavviorSchool s
+            ";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $data = $dbh->query($q, PDO::FETCH_ASSOC);
@@ -440,7 +318,6 @@ class savviorSchool{
         if ($conn->connect_error) {
             die("Connection ailed: " . $conn->connect_error);
         }
-        #echo "Connected successfully ";
 
         foreach ($data as $entry) {
             $results [] = $entry;
@@ -509,29 +386,27 @@ class savviorSchool{
          * Export to text file
          *******************************************/
 
-
-        if(isset($_POST['submitt'])){
+        if (isset($_POST['submitt'])) {
             exportTxt();
         }
 
         function exportTxt()
         {
             //works if ran on load, not when called by the button
-
             $username = "sa";
             $password = "capcom5^";
 
             $q = "
-                SELECT
-                    s.ID,
-                    s.StudentName,
-                    s.StudentImage,
-                    s.ClassTitle,
-                    s.BookTitle,
-                    s.BookImage
-                FROM
-                    SavviorSchool s
-                ";
+                    SELECT
+                        s.ID,
+                        s.StudentName,
+                        s.StudentImage,
+                        s.ClassTitle,
+                        s.BookTitle,
+                        s.BookImage
+                    FROM
+                        SavviorSchool s
+                    ";
 
             $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
             $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
@@ -544,7 +419,6 @@ class savviorSchool{
 
             fclose($fp);
         }
-
 
 
         /*******************************************
@@ -560,6 +434,7 @@ class savviorSchool{
             session_destroy();
             header('Location: http://www.testproject.test/LoginPage');
         }
+
 
 
         /*******************************************
@@ -588,7 +463,11 @@ class savviorSchool{
             }
         }
 
-?>
+    }else{
+        header('Location: http://testproject.test/LoginPage.php');
+    }
+
+    ?>
 
 </body>
 

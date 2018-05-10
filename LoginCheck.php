@@ -6,58 +6,45 @@
  * Time: 9:31 AM
  */
 
-/*********************************************
- * https://www.formget.com/login-form-in-php/
- *********************************************/
+function checkUser(){
 
-if(isset($_SESSION['login_user'])){
-    //check to make sure the username and password are right
-    //if they match, move on to the page
-    if (isset($_SESSION['Username'])) {
-        checkUser();
-    }
-    /****************************************************
-     * Check that username and password match properly
-     ****************************************************/
-    function checkUser()
-    {
-        //Declare connection variables
-        $username = "sa";
-        $password = "capcom5^";
-        $userData = array();
+    $repeat = true;
+    $continue = false;
 
-        //Pull all data
-        $una = "
+    if(isset($_REQUEST['Username']) && isset($_REQUEST['Password'])){
+        $username = 'sa';
+        $password = 'capcom5^';
+
+        $q = "
             SELECT
               u.Username,
               u.Password
             FROM
               UsersBase u
             ";
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $users = $dbh->query($una, PDO::FETCH_ASSOC);
-        foreach ($users as $user) {
-            $userData [] = $user;
-        }
-        $match = false;
 
-        //Check username and password match what is stored in the database
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $userData = $dbh->query($q, PDO::FETCH_ASSOC);
+
         foreach ($userData as $user) {
-            if (isset($_SESSION['login_user'])) {
-                if ($user['Username'] == ($_SESSION['login_user'])) {
-                    if (isset($_SESSION['password'])) {
-                        if ($user['Password'] == $_SESSION['password']) {
-                            $match = true;
+            if (isset($_REQUEST['Username'])) {
+                if ($user['Username'] == ($_REQUEST['Username'])) {
+                    if (isset($_REQUEST['Password'])) {
+                        if ($user['Password'] == $_REQUEST['Password']) {
+                            header("Location: http://testproject.test/ManagementSystem.php");
+                            $repeat = false;
+                            $continue = true;
                         }
                     }
                 }
             }
         }
-        if ($match == false) {
-            header('Location: http://www.testproject.test/LoginPage');
-            echo "<p>Incorrect account information provided. Please re-enter your information.</p>";
+
+        if($repeat == true){
+            header ("Location: http://testproject.test/LoginPage.php");
         }
     }
-}else{
-   header('Location: http://www.testproject.test/LoginPage');
+
+    return $continue;
 }
+?>

@@ -24,13 +24,6 @@
     <script src="../assets/vendors/jquery.min.js"></script>
     <script src="../assets/owlcarousel/owl.carousel.js"></script>
 
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#LoginModal').modal('show');
-        });
-    </script>
-
 </header>
 
 
@@ -139,71 +132,19 @@
      * Time: 9:32 AM
      */
 
+    include("LoginCheck.php");
+
+    if(isset($_SESSION)){
+        session_destroy();
+    }
     session_start();
 
     if(isset($_REQUEST['sendVals'])){
         checkUser();
     }
 
-    function checkUser(){
-
-        $repeat = true;
-
-        if(isset($_REQUEST['Username']) && isset($_REQUEST['Password'])){
-            $username = 'sa';
-            $password = 'capcom5^';
-
-            $q = "
-            SELECT
-              u.Username,
-              u.Password
-            FROM
-              UsersBase u
-            ";
-
-            $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-            $userData = $dbh->query($q, PDO::FETCH_ASSOC);
-
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
-            echo "<br />";
 
 
-            $display = var_dump($userData);
-            echo "<p>" . $display . "</p>";
-
-
-            foreach ($userData as $user) {
-                if (isset($_REQUEST['Username'])) {
-                    if ($user['Username'] == ($_REQUEST['Username'])) {
-                        if (isset($_REQUEST['Password'])) {
-                            if ($user['Password'] == $_REQUEST['Password']) {
-                                header('Location: http://www.testproject.test/ManagementSystem.php');
-                                $repeat = false;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if($repeat == true){
-                header ('Location: http://www.testproject.test/LoginPage.php');
-                echo "<p>Incorrect credentials, please try again.</p>";
-            }
-        }
-    }
 ?>
 </body>
 

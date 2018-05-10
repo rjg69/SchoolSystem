@@ -296,6 +296,10 @@
 
 <?php
 
+$continue = include 'LoginCheck.php';
+
+
+if($continue == true) {
     #echo "Current Book Data";
     $i = 0;
     $results = array();
@@ -320,16 +324,16 @@
     $data = $dbh->query($q, PDO::FETCH_ASSOC);
 
     $conn = new mysqli($servername, $username, $password);
-    if($conn->connect_error){
+    if ($conn->connect_error) {
         die("Connection ailed: " . $conn->connect_error);
     }
     #echo "Connected successfully";
 
-    foreach($data as $entry){
+    foreach ($data as $entry) {
         $results [] = $entry;
     }
 
-    if(isset($_GET['submit'])){
+    if (isset($_GET['submit'])) {
         add();
     }
 
@@ -354,14 +358,14 @@
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
 
-        if(!isset($_GET['reload'])){
+        if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
 
         #https://www.codeproject.com/Articles/8681/Uploading-Downloading-Pictures-to-from-a-SQL-Serve
     }
 
-    if(isset($_GET['submit1'])){
+    if (isset($_GET['submit1'])) {
         delete();
     }
 
@@ -385,12 +389,12 @@
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
 
-        if(!isset($_GET['reload'])){
+        if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
 
-    if(isset($_GET['submit2'])){
+    if (isset($_GET['submit2'])) {
         edit();
     }
 
@@ -399,21 +403,21 @@
      ****************************************************************/
     function edit()
     {
-        if($_GET['StudentName']){
+        if ($_GET['StudentName']) {
             $name = $_GET['StudentName'];
         }
 
-        if($_GET['id']){
+        if ($_GET['id']) {
             $id = $_GET['id'];
-        }else{
+        } else {
             $id = null;
         }
 
-        if($_GET['ClassTitle']){
+        if ($_GET['ClassTitle']) {
             $class = $_GET['ClassTitle'];
         }
 
-        if($_GET['BookTitle']){
+        if ($_GET['BookTitle']) {
             $book = $_GET['BookTitle'];
         }
 
@@ -427,7 +431,7 @@
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
 
-        if(!isset($_GET['reload'])){
+        if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
 
@@ -441,10 +445,10 @@
     echo "<td width = '25%'><u>Book Image</u></td>";
     echo "</tr><tr>";
 
-foreach($results as $val){
+    foreach ($results as $val) {
         $key = $val['ID'];
         echo "<td>" . $val['ID'] . "</td>";
-        if(!array_key_exists($key, $reportData)){
+        if (!array_key_exists($key, $reportData)) {
             $returnData[$key] = array(
                 'ClassTitle' => $val['ClassTitle'],
                 'BookTitle' => $val['BookTitle'],
@@ -465,7 +469,7 @@ foreach($results as $val){
     $classes = array();
     $books = array();
 
-    foreach($returnData as $entry){
+    foreach ($returnData as $entry) {
         $classes[] = $entry['ClassTitle'];
         $books[] = $entry['BookTitle'];
     }
@@ -482,9 +486,9 @@ foreach($results as $val){
 
     $classBookTie = array();
     $i = 0;
-    foreach($classes AS $class){
+    foreach ($classes AS $class) {
         $key = $class;
-        if(!array_key_exists($key, $classBookTie)){
+        if (!array_key_exists($key, $classBookTie)) {
             $classBookTie[$key] = array(
                 'BookTitle' => $books[$i],
             );
@@ -492,10 +496,10 @@ foreach($results as $val){
         $i = $i + 1;
     }
 
-    foreach($returnData as $result){
+    foreach ($returnData as $result) {
         $key = $result['ClassTitle'];
-        if(!array_key_exists($key, $classBookTie)){
-            if($classBookTie['BookTitle'] != $result['BookTitle']){
+        if (!array_key_exists($key, $classBookTie)) {
+            if ($classBookTie['BookTitle'] != $result['BookTitle']) {
                 $result['BookTitle'] = $classBookTie['BookTitle'];
             }
         }
@@ -505,7 +509,7 @@ foreach($results as $val){
      * Export to text file
      *******************************************/
 
-    if(isset($_GET['TextExport'])){
+    if (isset($_GET['TextExport'])) {
         exportTxt();
     }
 
@@ -587,7 +591,9 @@ foreach($results as $val){
         }
     }
 
-    return  $returnData;
+}else{
+    header('Location: http://testproject.test/LoginPage.php');
+}
 ?>
 
 </body>
