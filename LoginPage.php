@@ -1,5 +1,47 @@
 <html lang = "en">
+<?php
+session_start();
 
+    if(array_key_exists('Username', $_SESSION)){
+        header('Location: http://testproject.test/ManagementSystem.php');
+    }
+
+    if(array_key_exists('Username', $_POST) && array_key_exists('Password', $_POST)){
+
+        $username = 'sa';
+        $password = 'capcom5^';
+
+        $q = "
+                SELECT
+                  u.Username
+                FROM
+                  UsersBase u
+                WHERE
+                  u.Username = :username
+                AND
+                  u.Password = :password
+                  limit 1
+                ";
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $statement = $dbh->prepare($q);
+        $statement->bindParam('username', $_POST['Username']);
+        $statement->bindParam('password', $_POST['Password']);
+        $statement->execute();
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if($user == false){
+            unset($_SESSION['Username']);
+            unset($_SESSION['Password']);
+            header('Location: http://testproject.test/LoginPage.php');
+        }else{
+            $_SESSION['Username'] = $_POST['Username'];
+            header('Location: htt://testproject.test/MangementSystem.php');
+        }
+    }
+
+
+?>
 <header>
     <h1 align = "center"><u><b>Savvior School District</b></u></h1>
 
@@ -109,7 +151,7 @@
                     <input type="password" name="Password" placeholder="Enter your password" required>
                 </td>
                 <td width = "30%" align = "left">
-                    <input type="submit" value="Submit" name = "sendVals">
+                    <input type="submit" value="Submit" name = "sendVal">
                 </td>
             </tr>
         </table>
@@ -123,29 +165,6 @@
     <p><center>Please enter your username and password in the input boxes above.</center></p>
 
    <img class = "center" src = "SchoolPhotos\SchoolLogo.png">
-
-    <?php
-    /**
-     * Created by PhpStorm.
-     * User: savvior-intern2
-     * Date: 5/10/2018
-     * Time: 9:32 AM
-     */
-
-    include("LoginCheck.php");
-
-    if(isset($_SESSION)){
-        session_destroy();
-    }
-    session_start();
-
-    if(isset($_REQUEST['sendVals'])){
-        checkUser();
-    }
-
-
-
-?>
 </body>
 
 

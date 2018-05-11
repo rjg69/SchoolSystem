@@ -1,173 +1,7 @@
-<html lang = "en">
-<!--
-Assignment #1 - Design a management system for a school, where a school administrator can schedule students, classes, and books.
-        Ability to add, edit, and delete students, classes, and books.
-        Ability to add and remove students from their classes.
-        Ability to add and remove books from classes (one book per class)
-        Ability to upload student and book photos
-        Add/Edit/Delete functionality for a single table
-        Add/Edit/Delete functionality for 2 tables with foreign keys in second table
-        Add/Edit/Delete functionality for 3 tables, one of which will be a join table
-        This should use PDO and MySQL
-        Build your HTML interfaces using Bootstrap (http://getbootstrap.com)
-            Implement table, button, and panel classes
-            Implement Modal Windows
-            Implement Tooltips
-            Implement tabs
-
-            Input using Bootstrap:
-            https://www.w3schools.com/bootstrap/bootstrap_forms_inputs.asp
-
--->
-    <!--
-        Add style conventions using CSS
-    -->
-    <style>
-        header{
-            color: darkblue;
-        }
-
-        button{
-            background-color: darkred;
-            color: white;
-            width: 100%;
-        }
-
-        .modal-footer{
-            color: white;
-            background-color: darkred;
-        }
-
-        .modal-header{
-            color: white;
-            background-color: #1775B3;
-        }
-
-        .btn-toolbar{
-            width: 33.59%;
-        }
-
-        .btn-group{
-            color: white;
-            background-color: #1775B3;
-            width: 100%;
-        }
-
-        h2{
-            color: navy;
-        }
-
-        table{
-            position: relative;
-            top: 50px;
-        }
-
-        select{
-            color: white;
-            background-color: #1775B3;
-            position: relative;
-            text-align: center;
-            align-content: center;
-            height: 40px;
-        }
-
-        p{
-            position: relative;
-            text-align: center;
-            top: 25px;
-            color: navy;
-            left: 0%;
-        }
-
-        .carousel-inner>.item>img{
-            margin:auto;
-        }
-
-        .carousel-indicators{
-            position: relative;
-            top: 5%;
-        }
-
-        .carousel{
-            height: 27%;
-            width: 60%;
-            position: relative;
-            top: 25px;
-            align: center;
-        }
-
-    </style>
-
-    <header>
-        <h1 align = "center"><u><b>Savvior School District</b></u></h1>
-
-        <title>Savvior School District</title>
-        <meta charset="utf-8">
-        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
-
-
-        <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
-        <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
-
-
-        <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script scr = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="jquery.min.js"></script>
-        <script src="owlcarousel/owl.carousel.min.js"></script>
-        <script src="../assets/vendors/jquery.min.js"></script>
-        <script src="../assets/owlcarousel/owl.carousel.js"></script>
-
-
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $('#LoginModal').modal('show');
-            });
-        </script>
-    </header>
-
-    <body>
-
-        <h2 align = "center"><u>Home Page</u></h2>
-
-        <!--
-            Tabs
-        -->
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home Page</a>
-            </li>
-            <li>
-                <a href="DataStudent.php" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
-            </li>
-            <li>
-                <a href="DataBook.php" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
-            </li>
-            <li>
-                <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
-            </li>
-        </ul>
-            <div class='btn-toolbar pull-right'>
-                <div class='btn-group'>
-                    <button type='button' class='btn btn-primary' name = 'Logout' id = 'Logout' title = 'Logout'>Logout</button>
-                </div>
-            </div>
-            <div class='btn-toolbar pull-right'>
-                <div class='btn-group'>
-                    <button type='button' class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport' title = 'Excel Export'>Export Excel File</button>
-                </div>
-            </div>
-            <div class='btn-toolbar pull-right'>
-                <div class='btn-group'>
-                    <button type='button' class='btn btn-primary' name ='TextExport' id = 'TextExport' title = 'Text Export'>Export Text File</button>
-                </div>
-            </div>
-
-        <br />
+<?php
+    require_once('HeaderLayout.php');
+?>
+<body>
         <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
 
         <!--
@@ -234,28 +68,6 @@ Assignment #1 - Design a management system for a school, where a school administ
             </div>
         </div>
 
-        <!--
-            Logout
-        -->
-        <div class="modal" tabindex="-1" role="dialog" id = "LogoutModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id = "modalLabel">Logout</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form method = "post" action = "DataStudent.php">
-                            <h3>Are you sure you'd like to log off?</h3>
-                            <p>Press "Log Off" to proceed or "Cancel" to continue with this session.</p>
-                            <input type = "submit" value = "Log Off" name = "submitl">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!--
             Export to Text
@@ -281,6 +93,15 @@ Assignment #1 - Design a management system for a school, where a school administ
         </div>
 
     <?php
+
+    use PhpOffice\PhpSpreadsheet\Helper\Sample;
+    use PhpOffice\PhpSpreadsheet\IOFactory;
+    use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+    //$spreadsheet = new Spreadsheet();
+
+    //$spreadsheet->getProperties()->setCreator('Ryan Gabrin')->setLastModifiedBy('Ryan Gabrin')->setTitle('Spreadsheet')->setSubject('PHPSpreadsheet');
+    //$spreadsheet->getActiveSheet()->setTitle('Simple');
 
     $continue = include 'LoginCheck.php';
 
@@ -421,46 +242,61 @@ Assignment #1 - Design a management system for a school, where a school administ
         }
 
 
-        /*******************************************
-         * Logout
-         *******************************************/
-
-        if (isset($_POST['submitl'])) {
-            endSession();
-        }
-
-        function endSession()
-        {
-            session_destroy();
-            header('Location: http://www.testproject.test/LoginPage');
-        }
-
 
 
         /*******************************************
          * Export to excel file
          *******************************************/
         if (isset($_POST['submite'])) {
-            exportExcel($returnData);
+            exportExcel();
         }
 
-        function exportExcel($returnData)
+        function exportExcel()
         {
-            $filename = "excel_full_data" . date('Y/m/d') . ".xls";
-
-            header("Content: attachment; filename =\"$filename\"");
-            header("Content Type: application/vnd.ms-excel");
-
-            $flag = false;
-            foreach ($returnData as $row) {
-                if (!$flag) {
-                    echo implode("\t", array_keys($row)) . "\n";
-                    $flag = true;
-                }
-
-                array_walk($row, 'filterData');
-                echo implode("\t", array_values($row)) . "\n";
+            require_once __DIR__ . '/../../src/Bootstrap.php';
+            $helper = new Sample();
+            if ($helper->isCli()) {
+                $helper->log('This example should only be run from a Web Browser' . PHP_EOL);
+                return;
             }
+            // Create new Spreadsheet object
+            $spreadsheet = new Spreadsheet();
+                // Set document properties
+            $spreadsheet->getProperties()->setCreator('Ryan Gabrin')
+                ->setLastModifiedBy('Ryan Gabrin')
+                ->setTitle('Total Data')
+                ->setSubject('Full School Data')
+                ->setDescription('Excel Document with all school data, generated using PHP classes.')
+                ->setKeywords('office 2007 openxml php')
+                ->setCategory('Result file');
+            // Add some data
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A1', 'Hello')
+                ->setCellValue('B2', 'world!')
+                ->setCellValue('C1', 'Hello')
+                ->setCellValue('D2', 'world!');
+            // Miscellaneous glyphs, UTF-8
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A4', 'Miscellaneous glyphs')
+                ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
+            // Rename worksheet
+            $spreadsheet->getActiveSheet()->setTitle('TotalOutput');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $spreadsheet->setActiveSheetIndex(0);
+            // Redirect output to a client’s web browser (Xlsx)
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="01simple.xlsx"');
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+            // If you're serving to IE over SSL, then the following may be needed
+            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+            header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header('Pragma: public'); // HTTP/1.0
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save('php://output');
+            exit;
         }
 
     }else{
