@@ -30,6 +30,10 @@ require_once('HeaderLayout.php');
     </ul>
 </div>
 
+<br/>
+<h2><center><u>Book Data</u></center></h2>
+<br/>
+
 <p position = relative top = "100px" align = 'center'>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
 <p position = relative top = "100px" align = 'center'>To update data, utilize the dropdown menu at the bottom of the page.</p>
 
@@ -216,7 +220,6 @@ if($continue == true) {
     if ($conn->connect_error) {
         die("Connection ailed: " . $conn->connect_error);
     }
-    #echo "Connected successfully";
 
     foreach ($data as $entry) {
         $results [] = $entry;

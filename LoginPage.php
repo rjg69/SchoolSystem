@@ -66,6 +66,12 @@ session_start();
     <script src="../assets/vendors/jquery.min.js"></script>
     <script src="../assets/owlcarousel/owl.carousel.js"></script>
 
+
+    <script>
+        $.validate({
+            lang: 'es'
+        });
+    </script>
 </header>
 
 

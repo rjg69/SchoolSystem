@@ -37,7 +37,6 @@ Assignment #1 - Design a management system for a school, where a school administ
     button{
         background-color: darkred;
         color: white;
-        width: 100%;
     }
 
     .modal-footer{
@@ -50,14 +49,9 @@ Assignment #1 - Design a management system for a school, where a school administ
         background-color: #1775B3;
     }
 
-    .btn-toolbar{
-        width: 33.59%;
-    }
-
     .btn-group{
         color: white;
         background-color: #1775B3;
-        width: 100%;
     }
 
     h2{
@@ -134,18 +128,77 @@ Assignment #1 - Design a management system for a school, where a school administ
         $(document).ready(function(){
             $('#LoginModal').modal('show');
         });
+
+        $('.js-data-example-ajax').select2({
+            ajax: {
+                url: 'https://api.github.com/search/repositories',
+                dataType: 'json'
+                // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+            }
+        });
+
+        // jQuery not really required, it's here to overcome an inability to pass configuration options to the fiddle remotely
+        $(document).ready(function() {
+            // Custom example logic
+            function $(id) {
+                return document.getElementById(id);
+            }
+
+            var uploader = new plupload.Uploader({
+                runtimes : 'html5,flash,silverlight,html4',
+                browse_button : 'pickfiles', // you can pass in id...
+                container: $('container'), // ... or DOM Element itself
+                max_file_size : '10mb',
+
+                // Fake server response here
+                // url : '../upload.php',
+                url: "/echo/json",
+
+                flash_swf_url : 'http://rawgithub.com/moxiecode/moxie/master/bin/flash/Moxie.cdn.swf',
+                silverlight_xap_url : 'http://rawgithub.com/moxiecode/moxie/master/bin/silverlight/Moxie.cdn.xap',
+                filters : [
+                    {title : "Image files", extensions : "jpg,gif,png"},
+                    {title : "Zip files", extensions : "zip"}
+                ],
+
+                init: {
+                    PostInit: function() {
+                        $('filelist').innerHTML = '';
+
+                        $('uploadfiles').onclick = function() {
+                            uploader.start();
+                            return false;
+                        };
+                    },
+
+                    FilesAdded: function(up, files) {
+                        plupload.each(files, function(file) {
+                            $('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                        });
+                    },
+
+                    UploadProgress: function(up, file) {
+                        $(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                    },
+
+                    Error: function(up, err) {
+                        $('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+                    }
+                }
+            });
+
+            uploader.init();
+        });
     </script>
 </header>
 
 <body>
 
-<h2 align = "center"><u>Home Page</u></h2>
-
 <!--
     Tabs
 -->
 <ul class="nav nav-tabs">
-    <li class="active">
+    <li>
         <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home Page</a>
     </li>
     <li>
@@ -158,6 +211,7 @@ Assignment #1 - Design a management system for a school, where a school administ
         <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
     </li>
 </ul>
+
 <div class='btn-toolbar pull-right'>
     <div class='btn-group'>
         <a href = "Logout.php" class='btn btn-primary' id = 'Logout' title = 'Logout'>Logout</a>
@@ -165,12 +219,12 @@ Assignment #1 - Design a management system for a school, where a school administ
 </div>
 <div class='btn-toolbar pull-right'>
     <div class='btn-group'>
-        <button type='button' class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport' title = 'Excel Export'>Export Excel File</button>
+        <a href = "excExp.php" class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport' title = 'Excel Export'>Export Excel File</a>
     </div>
 </div>
 <div class='btn-toolbar pull-right'>
     <div class='btn-group'>
-        <button type='button' class='btn btn-primary' name ='TextExport' id = 'TextExport' title = 'Text Export'>Export Text File</button>
+        <a href = "textExp.php" class='btn btn-primary' name ='TextExport' id = 'TextExport' title = 'Text Export'>Export Text File</a>
     </div>
 </div>
 

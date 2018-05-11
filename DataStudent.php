@@ -3,16 +3,15 @@
 require_once('HeaderLayout.php');
 ?>
 <body>
-
-
+<br />
 <!--
     Add button & delete button, to be put in top right since only one item will be affected at a time
 -->
-<div class="btn-group">
-    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
+<div class="btn-group pull-right">
+    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
         <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
     </button>
-    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
+    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
         <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white onclick = "delete();">Remove</a>
     </button>
 </div>
@@ -20,7 +19,7 @@ require_once('HeaderLayout.php');
 <!--
     Update button -- JQuery search: https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
 -->
-<div class="dropdown">
+<div class="dropdown pull-right">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table">Update
         <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -32,6 +31,10 @@ require_once('HeaderLayout.php');
         <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a></li>
     </ul>
 </div>
+
+<br/>
+<h2><center><u>Student Data</u></center></h2>
+<br/>
 
 <p position = relative top = "200px" align = 'center'>Using the buttons provided, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
 <p position = relative top = "100px" align = 'center'>To update data, utilize the dropdown menu at the bottom of the page.</p>
@@ -277,22 +280,18 @@ if($continue == true) {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    #echo "Connected successfully";
 
     foreach ($data as $entry) {
         $results [] = $entry;
     }
 
 
-    if (isset($_GET['submit'])) {
-        add();
-    }
 
     /****************************************************************
-     * ADD A NEW STUDENT WITH ALL AVAILABLE DATA PROVIDED
+     *  ADD NEW STUDENT TO THE DATABASE
      ****************************************************************/
-    function add()
-    {
+    if (isset($_GET['submit'])) {
+
         $id = $_GET['id'];
         $studName = $_GET['StudentName'];
         $class = $_GET['ClassTitle'];
@@ -314,15 +313,13 @@ if($continue == true) {
         }
     }
 
-    if (isset($_GET['submit1'])) {
-        delete();
-    }
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID TO BE REMOVED
      ****************************************************************/
-    function delete()
-    {
+
+    if (isset($_GET['submit1'])) {
+
         $name = $_GET['StudentName'];
         $id = $_GET['id'];
 
@@ -343,17 +340,35 @@ if($continue == true) {
         }
     }
 
-    if (isset($_GET['submit2'])) {
-        edit();
-    }
+
 
     /****************************************************************
      * EDIT DESIGNATED STUDENT VALUES
      ****************************************************************/
-    function edit()
-    {
+
+    if (isset($_GET['submit2'])) {
+
+        $q = ("SELECT
+                   t.StudentName,
+                   t.ClassTitle,
+                   t.BookTitle
+               FROM
+                   SavviorSchool as t
+        ");
+
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $data = $dbh->query($q, PDO::FETCH_ASSOC);
+
+
         if ($_GET['StudentName']) {
             $name = $_GET['StudentName'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == 'ID'){
+                    $name = $data['id']['StudentName'];
+                }
+            }
         }
 
         if ($_GET['id']) {
@@ -362,12 +377,24 @@ if($continue == true) {
             $id = null;
         }
 
-        if ($_GET['ClassTitle']) {
+      /*  if ($_GET['ClassTitle']) {
             $class = $_GET['ClassTitle'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == 'ID'){
+                    $name = $data['id']['ClassTitle'];
+                }
+            }
         }
-
+      */
         if ($_GET['BookTitle']) {
             $book = $_GET['BookTitle'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == 'ID'){
+                    $name = $data['id']['BookTitle'];
+                }
+            }
         }
 
         $username = "sa";
@@ -385,9 +412,9 @@ if($continue == true) {
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-        }
+        }    }
 
-    }
+
 
 
     echo "<table align = 'center' width = '70%'><tr>";

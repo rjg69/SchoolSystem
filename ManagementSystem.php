@@ -2,8 +2,12 @@
     require_once('HeaderLayout.php');
 ?>
 <body>
+<br />
         <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
 
+        <br/>
+        <h2><center><u>Home Page</u></center></h2>
+        <br/>
         <!--
             Carousel Code
         -->
@@ -58,7 +62,7 @@
                         <form method = "post" action = "DataStudent.php">
                             <h3>File Name:</h3>
                             <input type = "text" name = "filenameExcel">
-                            <input class = 'pull-right' type = "submit" value = "Submit" name = "submite">
+                            <input class = 'pull-right' type = "submit" value = "Submit" name = "submite" onclick = "exportExcel();">
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -69,43 +73,8 @@
         </div>
 
 
-        <!--
-            Export to Text
-        -->
-        <div class="modal" tabindex="-1" role="dialog" id = "TextModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id = "modalLabel">Export Text</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form method = "post" action = "DataStudent.php">
-                            <h3>Please Enter the Filename:</h3>
-                            <input type = "text" name = "filenameText">
-                            <input class = 'pull-right' type = "submit" value = "Submit" name = "submitt">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     <?php
-
-    use PhpOffice\PhpSpreadsheet\Helper\Sample;
-    use PhpOffice\PhpSpreadsheet\IOFactory;
-    use PhpOffice\PhpSpreadsheet\Spreadsheet;
-
-    //$spreadsheet = new Spreadsheet();
-
-    //$spreadsheet->getProperties()->setCreator('Ryan Gabrin')->setLastModifiedBy('Ryan Gabrin')->setTitle('Spreadsheet')->setSubject('PHPSpreadsheet');
-    //$spreadsheet->getActiveSheet()->setTitle('Simple');
-
-    $continue = include 'LoginCheck.php';
-
-    if($continue == true) {
 
         $i = 0;
         $results = array();
@@ -201,107 +170,6 @@
                 }
             }
         }
-
-
-        /*******************************************
-         * Export to text file
-         *******************************************/
-
-        if (isset($_POST['submitt'])) {
-            exportTxt();
-        }
-
-        function exportTxt()
-        {
-            //works if ran on load, not when called by the button
-            $username = "sa";
-            $password = "capcom5^";
-
-            $q = "
-                    SELECT
-                        s.ID,
-                        s.StudentName,
-                        s.StudentImage,
-                        s.ClassTitle,
-                        s.BookTitle,
-                        s.BookImage
-                    FROM
-                        SavviorSchool s
-                    ";
-
-            $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-            $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
-
-            $fp = fopen('FullData.csv', "w");
-
-            foreach ($returnData as $entry) {
-                fputcsv($fp, $entry);
-            }
-
-            fclose($fp);
-        }
-
-
-
-
-        /*******************************************
-         * Export to excel file
-         *******************************************/
-        if (isset($_POST['submite'])) {
-            exportExcel();
-        }
-
-        function exportExcel()
-        {
-            require_once __DIR__ . '/../../src/Bootstrap.php';
-            $helper = new Sample();
-            if ($helper->isCli()) {
-                $helper->log('This example should only be run from a Web Browser' . PHP_EOL);
-                return;
-            }
-            // Create new Spreadsheet object
-            $spreadsheet = new Spreadsheet();
-                // Set document properties
-            $spreadsheet->getProperties()->setCreator('Ryan Gabrin')
-                ->setLastModifiedBy('Ryan Gabrin')
-                ->setTitle('Total Data')
-                ->setSubject('Full School Data')
-                ->setDescription('Excel Document with all school data, generated using PHP classes.')
-                ->setKeywords('office 2007 openxml php')
-                ->setCategory('Result file');
-            // Add some data
-            $spreadsheet->setActiveSheetIndex(0)
-                ->setCellValue('A1', 'Hello')
-                ->setCellValue('B2', 'world!')
-                ->setCellValue('C1', 'Hello')
-                ->setCellValue('D2', 'world!');
-            // Miscellaneous glyphs, UTF-8
-            $spreadsheet->setActiveSheetIndex(0)
-                ->setCellValue('A4', 'Miscellaneous glyphs')
-                ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
-            // Rename worksheet
-            $spreadsheet->getActiveSheet()->setTitle('TotalOutput');
-            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-            $spreadsheet->setActiveSheetIndex(0);
-            // Redirect output to a client’s web browser (Xlsx)
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="01simple.xlsx"');
-            header('Cache-Control: max-age=0');
-            // If you're serving to IE 9, then the following may be needed
-            header('Cache-Control: max-age=1');
-            // If you're serving to IE over SSL, then the following may be needed
-            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
-            header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-            header('Pragma: public'); // HTTP/1.0
-            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-            $writer->save('php://output');
-            exit;
-        }
-
-    }else{
-        header('Location: http://testproject.test/LoginPage.php');
-    }
 
     ?>
 
