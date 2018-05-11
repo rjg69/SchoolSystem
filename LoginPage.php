@@ -36,7 +36,7 @@ session_start();
             header('Location: http://testproject.test/LoginPage.php');
         }else{
             $_SESSION['Username'] = $_POST['Username'];
-            header('Location: htt://testproject.test/MangementSystem.php');
+            header('Location: http://testproject.test/ManagementSystem.php');
         }
     }
 
