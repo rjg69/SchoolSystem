@@ -176,7 +176,10 @@ require_once('HeaderLayout.php');
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Book Image</h2><br>
-                    <input type = "blob" name = "bookImage"><br>
+                    <div id="container">
+                        <a id="pickfiles" href="javascript:;">[Select file]</a>
+                    </div>
+                    <br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>

@@ -128,10 +128,57 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
+
+<!--
+    Update Student Image Script
+-->
+
+<script type = "text/javascript">
+    var uploader = new plupload.Uploader({
+        runtimes: 'html5, flash, silverlight, html4',
+        browse_button : 'pickfiles',
+        container: document.getElementById('container'),
+        url: "/DataStudent.php/upload",
+        fileter:{
+            max_file_size : '150mb',
+            mime_types: [
+                {title : "ImageFiles", extensions: "jpg, gif, png"}
+            ]
+        },
+
+        flash_swf_url : '/plupload/js/Moxie.xap',
+
+        init:{
+            PostInit: function(){
+                document.getElementById('filelist').innerHTML = '';
+                document.getElementById('submit2 ').onclick = function(){
+                    uploader.start();
+                    return false;
+                };
+            },
+
+            FilesAdded: function(up, files){
+                plupload.each(files, function(file){
+                    document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + '(
+                });
+            },
+
+            UploadProgress: function(up, file){
+                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent +
+            },
+
+            Error: function(up, err){
+                document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+            }
+        }
+    });
+    uploader.init();
+</script>
+
+
 <!--
     Update Student Image Modal
 -->
-
 <div class="modal" tabindex="-1" role="dialog" id = "UpdateStudentImageModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -238,6 +285,23 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
+
+<ul id = "sortable-basic">
+    <li class = "sortable"></li>
+    <li class = "sortable"></li>
+    <li class = "sortable"></li>
+</ul>
+
+<script>
+    function hint(element){
+        return element.clone().addClass("hint");
+    }
+
+    function placeholder(element){
+        return element.clone().addClass("placeholder").text("drop here");
+    }
+</script>
+
 <?php
 
 $continue = include 'LoginCheck.php';
@@ -277,7 +341,43 @@ if($continue == true) {
     }
 
 
+    /****************************************************************
+     *  ASSIGNMENT 6 - KENDOUI GRID COMPATIBILITY
+     ****************************************************************/
+    $dataSource = new \Kendo\Data\DataSource();
+    $dataSource->data($data);
 
+    $nameColumn = new \Kendo\UI\GridColumn();
+    $nameColumn->field('studentName');
+
+    $studImageColumn = new \Kendo\UI\GridColumn();
+    $studImageColumn->field('studentImage');
+
+    $classColumn = new \Kendo\UI\GridColumn();
+    $classColumn->field('classTitle');
+
+    $bookColumn = new \Kendo\UI\GridColumn();
+    $bookColumn->field('bookTitle');
+
+    $bookImageColumn = new \Kendo\UI\GridColumn();
+    $bookImageColumn->fields('bookImage');
+
+    $grid = new \Kendo\UI\Grid('grid');
+    $grid->addColumn($nameColumn, $studImageColumn, $classColumn, $bookColumn, $bookImageColumn)->dataSource($dataSource);
+
+    echo $grid->render();
+
+
+    /****************************************************************
+     *  ASSIGNMENT 6 - SORTABLE BOOK & CLASS LISTS
+     ****************************************************************/
+
+    $sortable = new \Kendo\UI\Sortable('#sortable-basic');
+    $sortable->hint(new \Kendo\JavaScriptFunction('hint'))->placeholder(new \Kendo\JavaScriptFunction('placeholder'));
+
+    echo $sortable->render();
+
+    
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE
      ****************************************************************/
@@ -368,7 +468,7 @@ if($continue == true) {
             $id = null;
         }
 
-      /*  if ($_GET['ClassTitle']) {
+        if ($_GET['ClassTitle']) {
             $class = $_GET['ClassTitle'];
         }else{
             foreach($data as $user){
@@ -377,16 +477,16 @@ if($continue == true) {
                 }
             }
         }
-      */
-       /* if ($_GET['BookTitle']) {
+
+        if ($_GET['BookTitle']) {
             $book = $_GET['BookTitle'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == 'ID'){
+        }else {
+            foreach ($data as $user) {
+                if ($data['id'] == 'ID') {
                     $name = $data['id']['BookTitle'];
                 }
             }
-        }*/
+        }
 
         $username = "sa";
         $password = "capcom5^";
@@ -436,11 +536,13 @@ if($continue == true) {
         $bookName = $returnData[$key]['BookTitle'];
 
         echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-        echo "<td>" . "<img src = 'StudentPhotos\\" . $picName . ".jpg' />" . "</td>";
+        echo "<td>" . "<img src = 'StudentPhotos\student" . $j . ".jpg' />" . "</td>";
         echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
         echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-        echo "<td>" . "<img src = 'BookPhotos\book" . $bookName . ".jpg' />" . "</td>";
+        echo "<td>" . "<img src = 'BookPhotos\book" . $j . ".jpg' />" . "</td>";
         echo "</tr><tr>";
+
+        $j += 1;
     }
     echo "</tr></table>";
 
@@ -486,125 +588,6 @@ if($continue == true) {
             }
         }
     }
-
-    /*******************************************
-     * Export to text file
-     *******************************************/
-
-    if (isset($_GET['TextExport'])) {
-        exportTxt();
-    }
-
-    function exportTxt()
-    {
-        //works if ran on load, not when called by the button
-
-        $username = "sa";
-        $password = "capcom5^";
-
-        $q = "
-              SELECT
-                s.ID,
-                s.StudentName,
-                s.StudentImage,
-                s.ClassTitle,
-                s.BookTitle,
-                s.BookImage
-              FROM
-                SavviorSchool s
-              ";
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
-
-        $fp = fopen('FullData.csv', "w");
-
-        foreach ($returnData as $entry) {
-            fputcsv($fp, $entry);
-        }
-
-        fclose($fp);
-    }
-
-
-    /*******************************************
-     * Logout
-     *******************************************/
-
-    if (isset($_GET['Logout'])) {
-        endSession();
-
-        header('Location: http://www.testproject.test/LoginPage');
-    }
-
-    function endSession()
-    {
-        session_destroy();
-    }
-
-
-    /*******************************************
-     * Export to excel file
-     *******************************************/
-    if (isset($_POST['ExcelExport'])) {
-        exportExcel();
-    }
-
-    function exportExcel()
-    {
-        $DB_Server = '10.99.100.54';
-        $DB_Username = "sa";
-        $DB_Password = 'capcom5^';
-        $DB_DBName = 'ryan_intern';
-        $DB_TBLName = 'UsersBase';
-        $xls_filename = "excel_full_data" . date('Y-m-d') . ".xlsx";
-
-        /***** DO NOT EDIT BELOW LINES *****/
-        // Create MySQL connection
-        $sql = "Select * from $DB_TBLName";
-        $Connect = @mysql_connect($DB_Server, $DB_Username, $DB_Password) or die("Failed to connect to MySQL:<br />" . mysql_error() . "<br />" . mysql_errno());
-        // Select database
-        $Db = @mysql_select_db($DB_DBName, $Connect) or die("Failed to select database:<br />" . mysql_error() . "<br />" . mysql_errno());
-        // Execute query
-        $result = @mysql_query($sql, $Connect) or die("Failed to execute query:<br />" . mysql_error() . "<br />" . mysql_errno());
-
-        // Header info settings
-        header("Content-Type: application/xls");
-        header("Content-Disposition: attachment; filename=$xls_filename");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-
-        /***** Start of Formatting for Excel *****/
-        // Define separator (defines columns in excel &amp; tabs in word)
-        $sep = "\t"; // tabbed character
-
-        // Start of printing column names as names of MySQL fields
-        for ($i = 0; $i < mysql_num_fields($result); $i++) {
-            echo mysql_field_name($result, $i) . "\t";
-        }
-        print("\n");
-        // End of printing column names
-
-        // Start while loop to get data
-        while ($row = mysql_fetch_row($result)) {
-            $schema_insert = "";
-            for ($j = 0; $j < mysql_num_fields($result); $j++) {
-                if (!isset($row[$j])) {
-                    $schema_insert .= "NULL" . $sep;
-                } elseif ($row[$j] != "") {
-                    $schema_insert .= "$row[$j]" . $sep;
-                } else {
-                    $schema_insert .= "" . $sep;
-                }
-            }
-            $schema_insert = str_replace($sep . "$", "", $schema_insert);
-            $schema_insert = preg_replace("/\r\n|\n\r|\n|\r/", " ", $schema_insert);
-            $schema_insert .= "\t";
-            print(trim($schema_insert));
-            print "\n";
-        }
-    }
-
 
     /**********************************************************************************************
      * Assignment 6
