@@ -111,9 +111,6 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
@@ -140,16 +137,16 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Student Image</h2><br>
-                    <input type = "text" name = "StudentImage"><br>
+                    <div id="container">
+                        <a id="pickfiles" href="javascript:;">[Select file]</a>
+                    </div>
+                    <br>
                     <input type = "submit" value = "click" name = "submit2">
                 </form>
             </div>
@@ -169,9 +166,6 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
@@ -198,9 +192,6 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
@@ -227,16 +218,16 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Book Image</h2><br>
-                    <input type = "text" name = "BookImage"><br>
+                    <div id="container">
+                        <a id="pickfiles" href="javascript:;">[Select file]</a>
+                    </div>
+                    <br>
                     <input type = "submit" value = "click" name = "submit2">
                 </form>
             </div>
@@ -365,7 +356,7 @@ if($continue == true) {
             $name = $_GET['StudentName'];
         }else{
             foreach($data as $user){
-                if($data['id'] == 'ID'){
+                if($data['id'] == $_GET['ID']){
                     $name = $data['id']['StudentName'];
                 }
             }
@@ -387,7 +378,7 @@ if($continue == true) {
             }
         }
       */
-        if ($_GET['BookTitle']) {
+       /* if ($_GET['BookTitle']) {
             $book = $_GET['BookTitle'];
         }else{
             foreach($data as $user){
@@ -395,7 +386,7 @@ if($continue == true) {
                     $name = $data['id']['BookTitle'];
                 }
             }
-        }
+        }*/
 
         $username = "sa";
         $password = "capcom5^";

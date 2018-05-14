@@ -1,0 +1,14 @@
+{
+    "name": "savvior-intern2/school-system",
+    "description": "Generated school system to save students, books, and classes",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ryan",
+            "email": "ryan@savvior.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.2"
+    }
+}
