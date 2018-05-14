@@ -2,7 +2,18 @@
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
+
+
+
+
+require 'kendoui\lib\Data\DataSource.php';
+
+
+
+
+
 ?>
+
 <body>
 <br />
 <!--
@@ -35,10 +46,10 @@ require_once('HeaderLayout.php');
 
 <br/>
 <h2><center><u>Student Data</u></center></h2>
-<br/>
+
+<hr width = 75%>
 
 <p position = relative top = "200px" align = 'center'>Using the buttons provided, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
-<p position = relative top = "100px" align = 'center'>To update data, utilize the dropdown menu at the bottom of the page.</p>
 
 <!--
     Add Modal
@@ -49,9 +60,6 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id = "modalLabel">Add Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
@@ -63,7 +71,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassTitle"><br>
                     <h2>Book</h2><br>
                     <input type = "text" name = "BookTitle"><br>
-                    <input class = 'pull-right' type = "submit" value = "Submit" name = "submit">
+                    <input type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
             <div class="modal-footer">
@@ -83,9 +91,6 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Remove Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
@@ -135,45 +140,34 @@ require_once('HeaderLayout.php');
 -->
 
 <script type = "text/javascript">
+
     var uploader = new plupload.Uploader({
-        runtimes: 'html5, flash, silverlight, html4',
-        browse_button : 'pickfiles',
-        container: document.getElementById('container'),
-        url: "/DataStudent.php/upload",
-        fileter:{
-            max_file_size : '150mb',
-            mime_types: [
-                {title : "ImageFiles", extensions: "jpg, gif, png"}
-            ]
-        },
-
-        flash_swf_url : '/plupload/js/Moxie.xap',
-
-        init:{
-            PostInit: function(){
-                document.getElementById('filelist').innerHTML = '';
-                document.getElementById('submit2 ').onclick = function(){
-                    uploader.start();
-                    return false;
-                };
-            },
-
-            FilesAdded: function(up, files){
-                plupload.each(files, function(file){
-                    document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + '(
-                });
-            },
-
-            UploadProgress: function(up, file){
-                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent +
-            },
-
-            Error: function(up, err){
-                document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-            }
-        }
+        browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
+        url: 'upload.php'
     });
+
     uploader.init();
+
+    uploader.bind('FilesAdded', function(up, files) {
+        var html = '';
+        plupload.each(files, function(file) {
+            html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
+        });
+        document.getElementById('filelist').innerHTML += html;
+    });
+
+    uploader.bind('UploadProgress', function(up, file) {
+        document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+    });
+
+    uploader.bind('Error', function(up, err) {
+        document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+    });
+
+    document.getElementById('start-upload').onclick = function() {
+        uploader.start();
+    };
+
 </script>
 
 
@@ -191,9 +185,17 @@ require_once('HeaderLayout.php');
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Student Image</h2><br>
+
+                    <ul id="filelist"></ul>
+                    <br />
+
                     <div id="container">
-                        <a id="pickfiles" href="javascript:;">[Select file]</a>
+                        <a id="browse" href="javascript:;">[Browse...]</a>
+                        <a id="start-upload" href="javascript:;">[Start Upload]</a>
                     </div>
+
+                    <br />
+                    <pre id="console"></pre>
                     <br>
                     <input type = "submit" value = "click" name = "submit2">
                 </form>
@@ -272,6 +274,18 @@ require_once('HeaderLayout.php');
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Book Image</h2><br>
+
+                    <ul id="filelist"></ul>
+                    <br />
+
+                    <div id="container">
+                        <a id="browse" href="javascript:;">[Browse...]</a>
+                        <a id="start-upload" href="javascript:;">[Start Upload]</a>
+                    </div>
+
+                    <br />
+                    <pre id="console"></pre>
+
                     <div id="container">
                         <a id="pickfiles" href="javascript:;">[Select file]</a>
                     </div>
@@ -288,11 +302,14 @@ require_once('HeaderLayout.php');
 
 <!--
     Sortable KendoUI functions and list structure
+
 <ul id = "sortable-basic">
     <li class = "sortable"></li>
     <li class = "sortable"></li>
     <li class = "sortable"></li>
 </ul>
+
+-->
 
 <script>
     function hint(element){
@@ -303,7 +320,7 @@ require_once('HeaderLayout.php');
         return element.clone().addClass("placeholder").text("drop here");
     }
 </script>
--->
+
 
 <?php
 
@@ -363,7 +380,7 @@ if($continue == true) {
     $bookColumn->field('bookTitle');
 
     $bookImageColumn = new \Kendo\UI\GridColumn();
-    $bookImageColumn->fields('bookImage');
+    $bookImageColumn->field('bookImage');
 
     $grid = new \Kendo\UI\Grid('grid');
     $grid->addColumn($nameColumn, $studImageColumn, $classColumn, $bookColumn, $bookImageColumn)->dataSource($dataSource);
@@ -593,6 +610,16 @@ if($continue == true) {
     }
 
     /**********************************************************************************************
+     * Assignment 3
+     * https://www.youtube.com/watch?v=tAcx8N0VcgY  -- MySQL to MSSQL tutorial
+     *https://docs.microsoft.com/en-us/sql/ssma/mysql/converting-mysql-databases-mysqltosql?view=sql-server-2017
+     *
+     * Assignment 4
+     * https://www.w3schools.com/jquery/jquery_ajax_get_post.asp -- $.ajax and $.post methods
+     *
+     * Assignment 5
+     * https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
+     *
      * Assignment 6
      *
      *
