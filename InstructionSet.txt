@@ -1,0 +1,61 @@
+
+Overview of Local Development environment on your computer
+    Editor - phpStorm or Sublime
+    SQL Yog (MySQL)
+    SQL Management Studio (Microsoft SQL)
+    Git
+    WAMP
+
+Assignment #1 - Design a management system for a school, where a school administrator can schedule students, classes, and books.
+    Ability to add, edit, and delete students, classes, and books.
+    Ability to add and remove students from their classes.
+    Ability to add and remove books from classes (one book per class)
+    Ability to upload student and book photos
+    Add/Edit/Delete functionality for a single table
+    Add/Edit/Delete functionality for 2 tables with foreign keys in second table
+    Add/Edit/Delete functionality for 3 tables, one of which will be a join table
+    This should use PDO and MySQL
+    Build your HTML interfaces using Bootstrap (http://getbootstrap.com)
+    Implement table, button, and panel classes
+    Implement Modal Windows
+    Implement Tooltips
+    Implement tabs
+
+Assignment #2 - On your own, add another table to the database with the relevant controls inside your program (e.g., library books, class room assignments)
+
+Assignment #3 - Make the above program work on MS SQL (you will need to recreate all tables in MS SQL)
+
+Assignment #4 - Add jQuery functionality to assignment #2 (MySQL, not MSSQL)
+    Make some functions work as AJAX with POST calls, such as having forms submit and having students added to the student table automatically
+
+Assignment #5 - Add additional jQuery / Javascript Libraries
+    Bootstrap Modals
+    https://getbootstrap.com/docs/3.3/javascript/
+    jQuery Validate - validate form input
+    http://formvalidator.net/
+    Select2 - searchable dropdown / multi-select boxes
+    https://select2.github.io/
+
+Assignment #6 - Using Composer / Autoload
+    Use Composer to install KendoUI
+    https://bitbucket.org/savvior/kendoui
+    Update your HTML tables to use KendoGrid
+    http://docs.telerik.com/kendo-ui/php/widgets/grid/overview
+    Make a list of sortable books or classes that saves the order to the database
+    http://docs.telerik.com/kendo-ui/php/widgets/sortable/overview
+
+Assignment #7 - Add login functionality using sessions
+
+Assignment #8 - Export student and class lists to text files ( fputcsv() )
+
+Assignment #9 - Implement PHP Excel to export all school information to a single Excel file (remember, you can have multiple worksheets)
+    https://github.com/PHPOffice/PHPExcel
+
+Assignment #10 - Update your uploader forms to use plupload
+    http://www.plupload.com/
+
+Assignment #11 - Add a carousel slider
+    http://owlgraphic.com/owlcarousel/demos/images.html
+    Set different numbers of photos per screen size.
+
+Assignment #12 - Read about responsive design and update your mini-site so it works on tablets and phones.  The Bootstrap Framework you've been building everything out with already has these capabilities baked in and will need implemented properly.
