@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
 <body>
@@ -285,7 +286,8 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
-
+<!--
+    Sortable KendoUI functions and list structure
 <ul id = "sortable-basic">
     <li class = "sortable"></li>
     <li class = "sortable"></li>
@@ -301,6 +303,7 @@ require_once('HeaderLayout.php');
         return element.clone().addClass("placeholder").text("drop here");
     }
 </script>
+-->
 
 <?php
 
@@ -377,7 +380,7 @@ if($continue == true) {
 
     echo $sortable->render();
 
-    
+
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE
      ****************************************************************/
