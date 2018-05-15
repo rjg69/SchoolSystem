@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <?php
+require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
 <body>
+<br />
 
 <!--
     Add button & delete button
 -->
 
-<div class="btn-group">
-    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
+<div class="btn-group pull-right">
+    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
         <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
     </button>
-    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
-        <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white>Remove</a>
+    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
+        <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white onclick = "delete();">Remove</a>
     </button>
 </div>
 
@@ -21,7 +23,7 @@ require_once('HeaderLayout.php');
     Update button
 -->
 
-<div class="dropdown">
+<div class="dropdown pull-right">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table">Update
         <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -33,10 +35,9 @@ require_once('HeaderLayout.php');
 
 <br/>
 <h2><center><u>Class Data</u></center></h2>
-<br/>
+<hr width = 75%>
 
 <p position = relative top = "100px" align = 'center'>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
-<p position = relative top = "100px" align = 'center'>To update data, utilize the dropdown menu at the bottom of the page.</p>
 
 <!--
     Add Modal
@@ -110,9 +111,6 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form>
@@ -139,9 +137,6 @@ require_once('HeaderLayout.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form>
@@ -171,6 +166,11 @@ if($continue == true) {
     $results = array();
     $reportData = array();
 
+
+    /****************************************************************
+     *  GET TOTAL DATA
+     ****************************************************************/
+
     $servername = "10.99.100.54";
     $username = "sa";
     $password = "capcom5^";
@@ -193,7 +193,6 @@ if($continue == true) {
     if ($conn->connect_error) {
         die("Connection ailed: " . $conn->connect_error);
     }
-    #echo "Connected successfully";
 
     foreach ($data as $entry) {
         $results [] = $entry;
@@ -302,6 +301,11 @@ if($continue == true) {
         }
 
     }
+
+
+    /****************************************************************
+     *  DYNAMIC TABLE DISPLAY
+     ****************************************************************/
 
     echo "<table align = 'center' width = '70%'><tr>";
 

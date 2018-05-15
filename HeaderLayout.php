@@ -105,6 +105,7 @@ Assignment #1 - Design a management system for a school, where a school administ
     <title>Savvior School District</title>
     <meta charset="utf-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 
 
     <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -122,6 +123,11 @@ Assignment #1 - Design a management system for a school, where a school administ
     <script src="owlcarousel/owl.carousel.min.js"></script>
     <script src="../assets/vendors/jquery.min.js"></script>
     <script src="../assets/owlcarousel/owl.carousel.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    <script type="text/javascript" src="js/plupload.full.min.js"></script>
+    <script src = "http//cdn.kendostatic.com/2014.2.903/js/jquery.min.js"></script>
+    <script src = "http://cdn.kendostatic.com/2014.2.903/js/kendo.all.min.js"></script>
 
 
     <script type="text/javascript">
@@ -136,7 +142,8 @@ Assignment #1 - Design a management system for a school, where a school administ
                 // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
             }
         });
-
+    </script>
+    <script>
         // jQuery not really required, it's here to overcome an inability to pass configuration options to the fiddle remotely
         $(document).ready(function() {
             // Custom example logic
@@ -190,8 +197,8 @@ Assignment #1 - Design a management system for a school, where a school administ
             uploader.init();
         });
 
-
-
+    </script>
+    <script>
         // jQuery not really required, it's here to overcome an inability to pass configuration options to the fiddle remotely
         $(document).ready(function() {
             // Custom example logic
@@ -245,6 +252,11 @@ Assignment #1 - Design a management system for a school, where a school administ
             uploader.init();
         });
 
+    </script>
+    <script>
+        $.validate({
+            lang: 'es'
+        });
     </script>
 </header>
 

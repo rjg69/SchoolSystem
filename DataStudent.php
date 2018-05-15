@@ -2,16 +2,6 @@
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
-
-
-
-
-require 'kendoui\lib\Data\DataSource.php';
-
-
-
-
-
 ?>
 
 <body>
@@ -333,6 +323,11 @@ if($continue == true) {
     $results = array();
     $reportData = array();
 
+
+    /****************************************************************
+     *  GET TOTAL DATA
+     ****************************************************************/
+
     $servername = "10.99.100.54";
     $username = "sa";
     $password = "capcom5^";
@@ -462,7 +457,8 @@ if($continue == true) {
         $q = ("SELECT
                    t.StudentName,
                    t.ClassTitle,
-                   t.BookTitle
+                   t.BookTitle,
+                   t.ID
                FROM
                    SavviorSchool as t
         ");
@@ -526,6 +522,9 @@ if($continue == true) {
         }    }
 
 
+    /****************************************************************
+     *  OUTPUT DYNAMIC TABLE DISPLAY
+     ****************************************************************/
 
 
     echo "<table align = 'center' width = '70%'><tr>";
@@ -611,17 +610,22 @@ if($continue == true) {
 
     /**********************************************************************************************
      * Assignment 3
+     *
      * https://www.youtube.com/watch?v=tAcx8N0VcgY  -- MySQL to MSSQL tutorial
-     *https://docs.microsoft.com/en-us/sql/ssma/mysql/converting-mysql-databases-mysqltosql?view=sql-server-2017
+     * https://docs.microsoft.com/en-us/sql/ssma/mysql/converting-mysql-databases-mysqltosql?view=sql-server-2017
      *
      * Assignment 4
+     *
      * https://www.w3schools.com/jquery/jquery_ajax_get_post.asp -- $.ajax and $.post methods
      *
      * Assignment 5
+     *
      * https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
      *
      * Assignment 6
      *
+     * http://docs.telerik.com/kendo-ui/php/widgets/grid/overview
+     * http://docs.telerik.com/kendo-ui/php/widgets/sortable/overview
      *
      * Assignment 7
      *
@@ -639,7 +643,7 @@ if($continue == true) {
      *
      * Assignment 10
      *
-     *
+     * http://www.plupload.com/
      *
      * Assignment 11
      *

@@ -30,12 +30,18 @@ if (isset($_POST['submite'])) {
              SavviorSchool s
           ";
 
-    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
+    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setCellValue('A1', "Hello World!");
+    $sheet->setTitle('Excel Export '. date(Y-m-d));
 
-    $writer = new Xlsx($spreadsheet);
-    $writer->save('hello world');
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+    $writer->save($filename . '.xlsx');
+
+
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment; filename =' . $filename . '.xlsx');
+    header('Cache-Control: max-age=0');
+    $writer->save('php://output');
 
 }
 

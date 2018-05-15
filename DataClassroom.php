@@ -1,44 +1,41 @@
-<!DOCTYPE html>
+/**
+ * Created by PhpStorm.
+ * User: savvior-intern2
+ * Date: 5/7/2018
+ * Time: 4:56 PM
+ */
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
 <body>
 <br />
-
 <!--
     Add button & delete button
 -->
-
-<div class="btn-group pull-right">
-    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
+<div class="btn-group">
+    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
         <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
     </button>
-    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
-        <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white onclick = "delete();">Remove</a>
+    <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
+        <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white>Remove</a>
     </button>
 </div>
 
 <!--
     Update button
 -->
-
-<div class="dropdown pull-right">
+<div class="dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table">Update
         <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class Title</a></li>
+        <li><a href="#" data-toggle = "modal" data-target = "#UpdateModal">Book Title</a></li>
     </ul>
 </div>
 
-<br/>
-<h2><center><u>Book Data</u></center></h2>
-<hr width = 75%>
-
-<p position = relative top = "100px" align = 'center'>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
+<p>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
 
 <!--
     Add Modal
@@ -51,15 +48,15 @@ require_once('HeaderLayout.php');
                 <h5 class="modal-title" id = "modalLabel">Add Student</h5>
             </div>
             <div class="modal-body">
-                <form action = "" method = "GET">
-                    <h2>Name</h2><br>
+                <form>
+                    <h2>Studen Name</h2><br>
                     <input type = "text" name = "StudentName"><br>
-                    <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
-                    <h2>Class</h2><br>
+                    <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
-                    <h2>Book</h2><br>
+                    <h2>Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
+                    <h2>Room Number</h2><br>
+                    <input type = "text" name = "RoomNumber"><br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>
@@ -83,10 +80,10 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form>
-                    <h2>Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
-                    <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <h2>Class Title</h2><br>
+                    <input type = "text" name = "ClassTitle"><br>
+                    <h2>Room Number</h2><br>
+                    <input type = "text" name = "RoomNumber"><br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>
@@ -98,10 +95,10 @@ require_once('HeaderLayout.php');
 </div>
 
 <!--
-    Update Class Title Modal
+    Update Modal Student
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassTitleModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -109,34 +106,12 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form>
+                    <h2>Student Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
-                    <input type = "submit" value = "Submit">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--
-    Update Book Title Modal
--->
-
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookTitleModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
                     <h2>Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
                     <input type = "submit" value = "Submit">
@@ -150,24 +125,55 @@ require_once('HeaderLayout.php');
 </div>
 
 <!--
-    Update Book Image Modal
+    Update Modal Class
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookImageModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
+                <h5 class="modal-title">Update Class</h5>
             </div>
             <div class="modal-body">
                 <form>
+                    <h2>Student Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
-                    <h2>Book Image</h2><br>
-                    <div id="container">
-                        <a id="pickfiles" href="javascript:;">[Select file]</a>
-                    </div>
-                    <br>
+                    <h2>Class Title</h2><br>
+                    <input type = "text" name = "ClassTitle"><br>
+                    <h2>Book Title</h2><br>
+                    <input type = "text" name = "BookTitle"><br>
+                    <input type = "submit" value = "Submit">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Modal Room
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Room Number</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h2>Student Name</h2><br>
+                    <input type = "text" name = "StudentName"><br>
+                    <h2>ID</h2><br>
+                    <input type = "text" name = "id"><br>
+                    <h2>Class Title</h2><br>
+                    <input type = "text" name = "ClassTitle"><br>
+                    <h2>Book Title</h2><br>
+                    <input type = "text" name = "BookTitle"><br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>
@@ -180,11 +186,7 @@ require_once('HeaderLayout.php');
 
 <?php
 
-$continue = include 'LoginCheck.php';
-
-
-if($continue == true) {
-    #echo "Current Book Data";
+    #echo "Current Class Data";
     $i = 0;
     $results = array();
     $reportData = array();
@@ -193,11 +195,6 @@ if($continue == true) {
     $username = "sa";
     $password = "capcom5^";
     $dbname = "ryan_intern";
-
-
-    /****************************************************************
-     *  GET TOTAL DATA
-     ****************************************************************/
 
     $q = "
         SELECT
@@ -213,15 +210,16 @@ if($continue == true) {
     $data = $dbh->query($q, PDO::FETCH_ASSOC);
 
     $conn = new mysqli($servername, $username, $password);
-    if ($conn->connect_error) {
+    if($conn->connect_error){
         die("Connection ailed: " . $conn->connect_error);
     }
+    #echo "Connected successfully";
 
-    foreach ($data as $entry) {
+    foreach($data as $entry){
         $results [] = $entry;
     }
 
-    if (isset($_GET['submit'])) {
+    if(isset($_GET['submit'])){
         add();
     }
 
@@ -246,14 +244,14 @@ if($continue == true) {
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
 
-        if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        if(!isset($_GET['reload'])){
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
 
         #https://www.codeproject.com/Articles/8681/Uploading-Downloading-Pictures-to-from-a-SQL-Serve
     }
 
-    if (isset($_GET['submit1'])) {
+    if(isset($_GET['submit1'])){
         delete();
     }
 
@@ -277,12 +275,12 @@ if($continue == true) {
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
 
-        if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        if(!isset($_GET['reload'])){
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
-    if (isset($_GET['submit2'])) {
+    if(isset($_GET['submit2'])){
         edit();
     }
 
@@ -291,21 +289,21 @@ if($continue == true) {
      ****************************************************************/
     function edit()
     {
-        if ($_GET['StudentName']) {
+        if($_GET['StudentName']){
             $name = $_GET['StudentName'];
         }
 
-        if ($_GET['id']) {
+        if($_GET['id']){
             $id = $_GET['id'];
-        } else {
+        }else{
             $id = null;
         }
 
-        if ($_GET['ClassTitle']) {
+        if($_GET['ClassTitle']){
             $class = $_GET['ClassTitle'];
         }
 
-        if ($_GET['BookTitle']) {
+        if($_GET['BookTitle']){
             $book = $_GET['BookTitle'];
         }
 
@@ -313,21 +311,20 @@ if($continue == true) {
         $password = "capcom5^";
 
         $changeData[] = $id;
-        $sql = "UPDATE SavviorSchool SET 'ClassTitle' = '$class', 'BookTitle' = '$book' WHERE 'ID' = '$id'";
+        $sql = "UPDATE SavviorSchool SET 'StudentName' = '$name', 'ClassTitle' = '$class', 'BookTitle' = '$book' WHERE 'ID' = '$id'";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
 
-        if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        if(!isset($_GET['reload'])){
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
 
     }
 
-
     /****************************************************************
-     *  DYNAMIC TABLE OUTPUT
+     * DYNAMIC TABLE DISPLAY
      ****************************************************************/
 
     echo "<table align = 'center' width = '70%'><tr>";
@@ -338,10 +335,10 @@ if($continue == true) {
     echo "<td width = '25%'><u>Book Image</u></td>";
     echo "</tr><tr>";
 
-    foreach ($results as $val) {
+    foreach($results as $val){
         $key = $val['ID'];
         echo "<td>" . $val['ID'] . "</td>";
-        if (!array_key_exists($key, $reportData)) {
+        if(!array_key_exists($key, $reportData)){
             $returnData[$key] = array(
                 'ClassTitle' => $val['ClassTitle'],
                 'BookTitle' => $val['BookTitle'],
@@ -355,138 +352,7 @@ if($continue == true) {
     }
     echo "</tr></table>";
 
-
-    /*******************************************************
-     * Create Class Lists, Ensure 1 Book Per Class
-     *******************************************************/
-    $classes = array();
-    $books = array();
-
-    foreach ($returnData as $entry) {
-        $classes[] = $entry['ClassTitle'];
-        $books[] = $entry['BookTitle'];
-    }
-
-    ksort($classes);
-    ksort($books);
-
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-
-    $classBookTie = array();
-    $i = 0;
-    foreach ($classes AS $class) {
-        $key = $class;
-        if (!array_key_exists($key, $classBookTie)) {
-            $classBookTie[$key] = array(
-                'BookTitle' => $books[$i],
-            );
-        }
-        $i = $i + 1;
-    }
-
-    foreach ($returnData as $result) {
-        $key = $result['ClassTitle'];
-        if (!array_key_exists($key, $classBookTie)) {
-            if ($classBookTie['BookTitle'] != $result['BookTitle']) {
-                $result['BookTitle'] = $classBookTie['BookTitle'];
-            }
-        }
-    }
-
-    /*******************************************
-     * Export to text file
-     *******************************************/
-
-    if (isset($_GET['TextExport'])) {
-        exportTxt();
-    }
-
-    function exportTxt()
-    {
-        //works if ran on load, not when called by the button
-
-        $username = "sa";
-        $password = "capcom5^";
-
-        $q = "
-                    SELECT
-                        s.ID,
-                        s.StudentName,
-                        s.StudentImage,
-                        s.ClassTitle,
-                        s.BookTitle,
-                        s.BookImage
-                    FROM
-                        SavviorSchool s
-                    ";
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $returnData = $dbh->query($q, PDO::FETCH_ASSOC);
-
-        $fp = fopen('FullData.csv', "w");
-
-        foreach ($returnData as $entry) {
-            fputcsv($fp, $entry);
-        }
-
-        fclose($fp);
-    }
-
-
-    /*******************************************
-     * Logout
-     *******************************************/
-
-    if (isset($_GET['Logout'])) {
-        endSession();
-    }
-
-    function endSession()
-    {
-        session_destroy();
-        header('Location: http://www.testproject.test/LoginPage');
-    }
-
-    /*
-     * Login again
-     * echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/ManagementSystem.php?reload=1">'; (reload page)
-     */
-
-
-    /*******************************************
-     * Export to excel file
-     *******************************************/
-    if (isset($_GET['ExcelExport'])) {
-        exportExcel($returnData);
-    }
-
-    function exportExcel($returnData)
-    {
-        $filename = "excel_full_data" . date('Y/m/d') . ".xls";
-
-        header("Content: attachment; filename =\"$filename\"");
-        header("Content Type: application/vnd.ms-excel");
-
-        $flag = false;
-        foreach ($returnData as $row) {
-            if (!$flag) {
-                echo implode("\t", array_keys($row)) . "\n";
-                $flag = true;
-            }
-
-            array_walk($row, 'filterData');
-            echo implode("\t", array_values($row)) . "\n";
-        }
-    }
-
-}else{
-    header('Location: http://testproject.test/LoginPage.php');
-}
+    return  $returnData;
 ?>
 
 </body>
