@@ -32,6 +32,15 @@
 
     </header>
 
+    <style>
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+    </style>
+
     <body>
         <!--
             Export to Excel
@@ -41,6 +50,7 @@
             <input type = "text" name = "filenameText">
             <input type = "submit" value = "Submit" data-toggle="modal" data-target=".bs-example-modal-lg" name = "submite">
         </form>
+
 
         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
             <div class="modal-dialog modal-lg" role="document">
@@ -53,4 +63,9 @@
                 </div>
             </div>
         </div>
+
+        <br/>
+        <br/>
+        <br/>
+        <img class = "center" src = "SchoolPhotos\SchoolLogo.png">
 </html>
