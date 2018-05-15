@@ -30,6 +30,15 @@
             });
         </script>
 
+        <script>
+            $('.button').click(function(){
+                $.ajax({
+                    type: "POST",
+                    url: "textExp.php",
+                    data: { next: true}
+                });
+            });
+        </script>
     </header>
 
     <style>
@@ -39,6 +48,14 @@
             margin-right: auto;
             width: 50%;
         }
+
+        .center2 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 20%;
+            text-align: center;
+        }
     </style>
 
     <body>
@@ -46,11 +63,10 @@
             Export to Text
         -->
         <br/>
-        <br/>
         <form method = "post" action = "textDownload.php">
-            <h3>Please Enter the Filename:</h3>
-            <input type = "text" name = "filenameText">
-            <input type = "submit" value = "Submit" data-toggle="modal" data-target=".bs-example-modal-lg"name = "submitt">
+            <h3><center>Please Enter the Filename:</center></h3>
+            <input class = "center2" type = "text" name = "filenameText">
+            <input class = "center2" type = "submit" value = "Submit" data-toggle="modal" data-target=".bs-example-modal-lg" name = "submitt">
         </form>
 
 
@@ -59,15 +75,21 @@
                 <div class="modal-content">
                     <h2>Congratulations!</h2><br/>
                     <p>Your data successfully exported to a CSV file!</p>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" width = "100%" data-dismiss="modal">Close</button>
-                </div>
+                    <div class="modal-footer">
+                        <button method = "post" type = "button" class="btn btn-secondary" data-dismiss="modal" name = "close" id = "close" onclick = "returnHome();">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <br/>
-        <br/>
-        <br/>
         <img class = "center" src = "SchoolPhotos\SchoolLogo.png">
+
+        <?php
+        if(isset($_POST['close'])){
+                header('Location: http://testproject.test/ManagementSystem.php');
+            }
+        ?>
+
+    </body>
 </html>
