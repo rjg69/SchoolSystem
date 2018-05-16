@@ -9,6 +9,7 @@ require_once('HeaderLayout.php');
 <!--
     Add button & delete button, to be put in top right since only one item will be affected at a time
 -->
+
 <div class="btn-group pull-right">
     <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
         <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
@@ -21,18 +22,44 @@ require_once('HeaderLayout.php');
 <!--
     Update button -- JQuery search: https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
 -->
+
 <div class="dropdown pull-right">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table">Update
+    <button class="dropbtn" onclick="myFunction()" type="button" data-placement = "top" title = "Update Entry in Table">Update
         <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-        <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a></li>
-        <li><a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a></li>
-    </ul>
+    <div id = "myDropdown" class = "dropdown-content">
+        <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
+        <a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a>
+        <a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a>
+        <a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a>
+        <a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a>
+        <a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a>
+    </div>
 </div>
+
+
+<script>
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+    
+</script>
 
 <br/>
 <h2><center><u>Student Data</u></center></h2>
@@ -54,13 +81,13 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
+                    <input type = "text" placeholder = "Student Name" name = "StudentName" data-validation = "length alphanumeric" data-validation-length="min4"><br>
                     <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
                     <h2>Class</h2><br>
-                    <input type = "text" name = "ClassTitle"><br>
+                    <input type = "text" placeholder = "Class Title" name = "ClassTitle" data-validation = "length alphanumeric"><br>
                     <h2>Book</h2><br>
-                    <input type = "text" name = "BookTitle"><br>
+                    <input type = "text" placeholder = "Book Title" name = "BookTitle" data-validation = "length alphanumeric"><br>
                     <input type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
@@ -85,10 +112,10 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
+                    <input type = "text" placeholder = "Student Name" name = "StudentName" data-validation = "length alphanumeric"><br>
                     <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
-                    <input href = "DataStudent.php" type = "submit" value = "click" name = "submit1">
+                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
+                    <input href = "DataStudent.php" type = "submit" value = "Submit" name = "submit1">
                 </form>
             </div>
             <div class="modal-footer">
@@ -111,10 +138,10 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
                     <h2>Student Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
-                    <input type = "submit" value = "click" name = "submit2">
+                    <input type = "text" placeholder = "Student Name" name = "StudentName" data-validation = "length alphanumeric"><br>
+                    <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
             <div class="modal-footer">
@@ -124,46 +151,10 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
-
-<!--
-    Update Student Image Script
--->
-
-<script type = "text/javascript">
-
-    var uploader = new plupload.Uploader({
-        browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
-        url: 'upload.php'
-    });
-
-    uploader.init();
-
-    uploader.bind('FilesAdded', function(up, files) {
-        var html = '';
-        plupload.each(files, function(file) {
-            html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
-        });
-        document.getElementById('filelist').innerHTML += html;
-    });
-
-    uploader.bind('UploadProgress', function(up, file) {
-        document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
-    });
-
-    uploader.bind('Error', function(up, err) {
-        document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-    });
-
-    document.getElementById('start-upload').onclick = function() {
-        uploader.start();
-    };
-
-</script>
-
-
 <!--
     Update Student Image Modal
 -->
+
 <div class="modal" tabindex="-1" role="dialog" id = "UpdateStudentImageModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -173,7 +164,7 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
                     <h2>Student Image</h2><br>
 
                     <ul id="filelist"></ul>
@@ -187,7 +178,7 @@ require_once('HeaderLayout.php');
                     <br />
                     <pre id="console"></pre>
                     <br>
-                    <input type = "submit" value = "click" name = "submit2">
+                    <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
             <div class="modal-footer">
@@ -196,6 +187,63 @@ require_once('HeaderLayout.php');
         </div>
     </div>
 </div>
+
+<!--
+    Update Student Image Script
+-->
+
+<script type = "text/javascript">
+    // Custom example logic
+
+    var uploader = new plupload.Uploader({
+        runtimes : 'html5,flash,silverlight,html4',
+
+        browse_button : 'browse', // you can pass in id...
+        container: document.getElementById('UpdateStudentImageModal'), // ... or DOM Element itself
+
+        url : "/examples/upload",
+
+        filters : {
+            max_file_size : '10mb',
+            mime_types: [
+                {title : "Image files", extensions : "jpg,gif,png"}]
+        },
+
+        // Flash settings
+        flash_swf_url : '/plupload/js/Moxie.swf',
+
+        // Silverlight settings
+        silverlight_xap_url : '/plupload/js/Moxie.xap',
+
+
+        init: {
+            PostInit: function() {
+                document.getElementById('filelist').innerHTML = '';
+
+                document.getElementById('start-upload').onclick = function() {
+                    uploader.start();
+                    return false;
+                };
+            },
+
+            FilesAdded: function(up, files) {
+                plupload.each(files, function(file) {
+                    document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                });
+            },
+
+            UploadProgress: function(up, file) {
+                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+            },
+
+            Error: function(up, err) {
+                document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+            }
+        }
+    });
+
+    uploader.init();
+</script>
 
 <!--
     Update Class Title Modal
@@ -210,10 +258,10 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
                     <h2>Class Title</h2><br>
-                    <input type = "text" name = "ClassTitle"><br>
-                    <input type = "submit" value = "click" name = "submit2">
+                    <input type = "text" placeholder = "Class Title" name = "ClassTitle" data-validation = "length alphanumeric"><br>
+                    <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
             <div class="modal-footer">
@@ -236,10 +284,10 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
                     <h2>Book Title</h2><br>
-                    <input type = "text" name = "BookTitle"><br>
-                    <input type = "submit" value = "click" name = "submit2">
+                    <input type = "text" placeholder = "Book Title" name = "BookTitle" data-validation = "length alphanumeric"><br>
+                    <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
             <div class="modal-footer">
@@ -248,6 +296,62 @@ require_once('HeaderLayout.php');
         </div>
     </div>
 </div>
+
+<!--
+   Update Book Image Script
+-->
+
+<script type = "text/javascript">
+    // Custom example logic
+
+    var uploader = new plupload.Uploader({
+        runtimes : 'html5,flash,silverlight,html4',
+
+        browse_button : 'browse', // you can pass in id...
+        container: document.getElementById('UpdateBookImageModal'), // ... or DOM Element itself
+
+        url : "/examples/upload",
+
+        filters : {
+            max_file_size : '10mb',
+            mime_types: [
+                {title : "Image files", extensions : "jpg,gif,png"}]
+        },
+
+        // Flash settings
+        flash_swf_url : '/plupload/js/Moxie.swf',
+
+        // Silverlight settings
+        silverlight_xap_url : '/plupload/js/Moxie.xap',
+
+        init: {
+            PostInit: function() {
+                document.getElementById('filelist').innerHTML = '';
+
+                document.getElementById('start-upload').onclick = function() {
+                    uploader.start();
+                    return false;
+                };
+            },
+
+            FilesAdded: function(up, files) {
+                plupload.each(files, function(file) {
+                    document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                });
+            },
+
+            UploadProgress: function(up, file) {
+                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+            },
+
+            Error: function(up, err) {
+                document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+            }
+        }
+    });
+
+    uploader.init();
+</script>
 
 <!--
     Update Book Image Modal
@@ -262,10 +366,10 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
                     <h2>Book Image</h2><br>
 
-                    <ul id="filelist"></ul>
+                    <div id="filelist"></div>
                     <br />
 
                     <div id="container">
@@ -275,12 +379,7 @@ require_once('HeaderLayout.php');
 
                     <br />
                     <pre id="console"></pre>
-
-                    <div id="container">
-                        <a id="pickfiles" href="javascript:;">[Select file]</a>
-                    </div>
-                    <br>
-                    <input type = "submit" value = "click" name = "submit2">
+                    <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
             <div class="modal-footer">
@@ -301,16 +400,6 @@ require_once('HeaderLayout.php');
 
 -->
 
-<script>
-    function hint(element){
-        return element.clone().addClass("hint");
-    }
-
-    function placeholder(element){
-        return element.clone().addClass("placeholder").text("drop here");
-    }
-</script>
-
 
 <?php
 
@@ -318,7 +407,6 @@ $continue = include 'LoginCheck.php';
 
 if($continue == true) {
 
-    #echo "Current Student Data";
     $i = 0;
     $results = array();
     $reportData = array();
@@ -617,6 +705,7 @@ if($continue == true) {
      * Assignment 4
      *
      * https://www.w3schools.com/jquery/jquery_ajax_get_post.asp -- $.ajax and $.post methods
+     * https://jquery-form.github.io/form/
      *
      * Assignment 5
      *
@@ -640,6 +729,7 @@ if($continue == true) {
      * Assignment 9
      *
      * https://stackoverflow.com/questions/15699301/export-mysql-data-to-excel-in-php
+     * https://phpspreadsheet.readthedocs.io/en/develop/topics/accessing-cells/
      *
      * Assignment 10
      *
