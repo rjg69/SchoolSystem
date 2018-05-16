@@ -38,7 +38,7 @@ if (isset($_POST['submitt'])) {
     $filename = $_POST['filenameText'];
 
     //input data to csv file
-    $fp = fopen('Desktop/'.$filename.'.csv', 'w');
+    $fp = fopen($filename.'.csv', 'w');
 
     foreach ($returnData as $entry) {
         fputcsv($fp, $entry);
@@ -52,6 +52,14 @@ if (isset($_POST['submitt'])) {
     header("Pragma: no-cache");
     header("Expires: 0");
 
+    echo file_get_contents($filename . ".csv");
+    unlink($filename . ".csv");
+
 }
+
+if(isset($_POST['home'])){
+    header('Location: http://testproject.test/ManagementSystem.php');
+}
+
 
 ?>

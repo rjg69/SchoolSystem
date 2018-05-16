@@ -30,15 +30,6 @@
             });
         </script>
 
-        <script>
-            $('.button').click(function(){
-                $.ajax({
-                    type: "POST",
-                    url: "textExp.php",
-                    data: { next: true}
-                });
-            });
-        </script>
     </header>
 
     <style>
@@ -66,9 +57,9 @@
         <form method = "post" action = "textDownload.php">
             <h3><center>Please Enter the Filename:</center></h3>
             <input class = "center2" type = "text" name = "filenameText">
-            <input class = "center2" type = "submit" value = "Submit" data-toggle="modal" data-target=".bs-example-modal-lg" name = "submitt">
+            <input class = "center2" type = "submit" value = "Export CSV" data-toggle="modal" data-target=".bs-example-modal-lg" name = "submitt">
+            <input class = "center2" type = "submit" value = "Go Home" name = "home">
         </form>
-
 
         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
             <div class="modal-dialog modal-lg" role="document">
@@ -76,7 +67,7 @@
                     <h2>Congratulations!</h2><br/>
                     <p>Your data successfully exported to a CSV file!</p>
                     <div class="modal-footer">
-                        <button method = "post" type = "button" class="btn btn-secondary" data-dismiss="modal" name = "close" id = "close" onclick = "returnHome();">Close</button>
+                        <button method = "post" type = "button" class="btn btn-secondary" data-dismiss="modal" name = "close" id = "close">Close</button>
                     </div>
                 </div>
             </div>
@@ -84,12 +75,6 @@
 
         <br/>
         <img class = "center" src = "SchoolPhotos\SchoolLogo.png">
-
-        <?php
-        if(isset($_POST['close'])){
-                header('Location: http://testproject.test/ManagementSystem.php');
-            }
-        ?>
 
     </body>
 </html>

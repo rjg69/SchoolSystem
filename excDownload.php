@@ -81,5 +81,15 @@ if (isset($_POST['submite'])) {
     header('Content-Disposition: attachment; filename =' . $filename . '.xlsx');
     header('Cache-Control: max-age=0');
     $writer->save('php://output');
+
+    echo file_get_contents($filename . ".xlsx");
+    unlink($filename . ".xlsx");
+
+    header("Location: http://testproject.test/ManagementSystem.php");
+}
+
+
+if(isset($_POST['home'])){
+    header('Location: http://testproject.test/ManagementSystem.php');
 }
 ?>

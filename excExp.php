@@ -40,7 +40,7 @@
             width: 50%;
         }
 
-        .center2{
+        .center2 {
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -57,9 +57,9 @@
         <form method = "post" action = "excDownload.php">
             <h3><center>Please Enter the Filename:</center></h3>
             <input class = "center2" type = "text" name = "filenameText">
-            <input class = "center2" type = "submit" value = "Submit" data-toggle="modal" data-target=".bs-example-modal-lg" name = "submite">
+            <input class = "center2" type = "submit" value = "Export XLSX" data-toggle="modal" data-target=".bs-example-modal-lg" name = "submite">
+            <input class = "center2" type = "submit" value = "Go Home" name = "home">
         </form>
-
 
         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
             <div class="modal-dialog modal-lg" role="document">
