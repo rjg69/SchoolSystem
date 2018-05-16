@@ -58,7 +58,7 @@ require_once('HeaderLayout.php');
             }
         }
     }
-    
+
 </script>
 
 <br/>
@@ -81,13 +81,13 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>Name</h2><br>
-                    <input type = "text" placeholder = "Student Name" name = "StudentName" data-validation = "length alphanumeric" data-validation-length="min4"><br>
+                    <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
                     <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Class</h2><br>
-                    <input type = "text" placeholder = "Class Title" name = "ClassTitle" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "Class Title" name = "ClassTitle"><br>
                     <h2>Book</h2><br>
-                    <input type = "text" placeholder = "Book Title" name = "BookTitle" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "Book Title" name = "BookTitle"><br>
                     <input type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
@@ -112,9 +112,9 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>Name</h2><br>
-                    <input type = "text" placeholder = "Student Name" name = "StudentName" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
                     <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "ID" name = "id" required><br>
                     <input href = "DataStudent.php" type = "submit" value = "Submit" name = "submit1">
                 </form>
             </div>
@@ -138,9 +138,9 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Student Name</h2><br>
-                    <input type = "text" placeholder = "Student Name" name = "StudentName" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
                     <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
@@ -164,15 +164,14 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Student Image</h2><br>
-
-                    <ul id="filelist"></ul>
+                    <div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
                     <br />
 
                     <div id="container">
-                        <a id="browse" href="javascript:;">[Browse...]</a>
-                        <a id="start-upload" href="javascript:;">[Start Upload]</a>
+                        <a id="pickfiles" href="javascript:;">[Select files]</a>
+                        <a id="uploadfiles" href="javascript:;">[Upload files]</a>
                     </div>
 
                     <br />
@@ -192,21 +191,23 @@ require_once('HeaderLayout.php');
     Update Student Image Script
 -->
 
-<script type = "text/javascript">
+<script type="text/javascript">
     // Custom example logic
 
     var uploader = new plupload.Uploader({
         runtimes : 'html5,flash,silverlight,html4',
 
-        browse_button : 'browse', // you can pass in id...
-        container: document.getElementById('UpdateStudentImageModal'), // ... or DOM Element itself
+        browse_button : 'pickfiles', // you can pass in id...
+        container: document.getElementById('container'), // ... or DOM Element itself
 
         url : "/examples/upload",
 
         filters : {
             max_file_size : '10mb',
             mime_types: [
-                {title : "Image files", extensions : "jpg,gif,png"}]
+                {title : "Image files", extensions : "jpg,gif,png"},
+                {title : "Zip files", extensions : "zip"}
+            ]
         },
 
         // Flash settings
@@ -220,7 +221,7 @@ require_once('HeaderLayout.php');
             PostInit: function() {
                 document.getElementById('filelist').innerHTML = '';
 
-                document.getElementById('start-upload').onclick = function() {
+                document.getElementById('uploadfiles').onclick = function() {
                     uploader.start();
                     return false;
                 };
@@ -243,6 +244,7 @@ require_once('HeaderLayout.php');
     });
 
     uploader.init();
+
 </script>
 
 <!--
@@ -258,9 +260,9 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Class Title</h2><br>
-                    <input type = "text" placeholder = "Class Title" name = "ClassTitle" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "Class Title" name = "ClassTitle" required><br>
                     <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
@@ -284,9 +286,45 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Book Title</h2><br>
-                    <input type = "text" placeholder = "Book Title" name = "BookTitle" data-validation = "length alphanumeric"><br>
+                    <input type = "text" placeholder = "Book Title" name = "BookTitle" required><br>
+                    <input type = "submit" value = "Submit" name = "submit2">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+    Update Book Image Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookImageModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+            </div>
+            <div class="modal-body">
+                <form method = "get" action = "DataStudent.php">
+                    <h2>ID</h2><br>
+                    <input type = "text" placeholder = "ID" name = "id" required><br>
+                    <h2>Book Image</h2><br>
+
+                    <div id="filelist"></div>
+                    <br />
+
+                    <div id="container">
+                        <a id="browse" href="javascript:;">[Browse...]</a>
+                        <a id="start-upload" href="javascript:;">[Start Upload]</a>
+                    </div>
+
+                    <br />
+                    <pre id="console"></pre>
                     <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
@@ -353,57 +391,26 @@ require_once('HeaderLayout.php');
     uploader.init();
 </script>
 
-<!--
-    Update Book Image Modal
--->
-
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookImageModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
-            </div>
-            <div class="modal-body">
-                <form method = "get" action = "DataStudent.php">
-                    <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" data-validation = "length alphanumeric"><br>
-                    <h2>Book Image</h2><br>
-
-                    <div id="filelist"></div>
-                    <br />
-
-                    <div id="container">
-                        <a id="browse" href="javascript:;">[Browse...]</a>
-                        <a id="start-upload" href="javascript:;">[Start Upload]</a>
-                    </div>
-
-                    <br />
-                    <pre id="console"></pre>
-                    <input type = "submit" value = "Submit" name = "submit2">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--
-    Sortable KendoUI functions and list structure
-
-<ul id = "sortable-basic">
-    <li class = "sortable"></li>
-    <li class = "sortable"></li>
-    <li class = "sortable"></li>
-</ul>
-
--->
-
 
 <?php
 
 $continue = include 'LoginCheck.php';
+
+/*
+ * ATTEMPT TO HANDLE KENDO UI INJECTION, DATA SOURCE FAILURE
+echo "<br />";
+echo "<br />";
+echo "<br />";
+echo getcwd();
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+include 'C:\wamp64\www\SchoolSystem\kendoui\lib\Data\DataSource.php';
+
+$dataSource = new \kendoui\lib\Data\DataSource();
+*/
+
 
 if($continue == true) {
 

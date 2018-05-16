@@ -182,7 +182,6 @@ require_once('HeaderLayout.php');
 
 $continue = include 'LoginCheck.php';
 
-
 if($continue == true) {
     #echo "Current Book Data";
     $i = 0;
@@ -249,8 +248,6 @@ if($continue == true) {
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
-
-        #https://www.codeproject.com/Articles/8681/Uploading-Downloading-Pictures-to-from-a-SQL-Serve
     }
 
     if (isset($_GET['submit1'])) {

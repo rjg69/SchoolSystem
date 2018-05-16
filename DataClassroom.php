@@ -1,15 +1,11 @@
-/**
- * Created by PhpStorm.
- * User: savvior-intern2
- * Date: 5/7/2018
- * Time: 4:56 PM
- */
+<html>
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
 <body>
 <br />
+
 <!--
     Add button & delete button
 -->
@@ -47,9 +43,9 @@ require_once('HeaderLayout.php');
             <div class="modal-header">
                 <h5 class="modal-title" id = "modalLabel">Add Student</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id = "addForm" method = "post">
                 <form>
-                    <h2>Studen Name</h2><br>
+                    <h2>Student Name</h2><br>
                     <input type = "text" name = "StudentName"><br>
                     <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
@@ -67,6 +63,22 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
+<script type = "text/javascript">
+    $(function(){
+        $('form').on('submit', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: 'testproject.test/DataClassroom.php',
+                data: $('form').serialize(),
+                success: function(){
+                    alert('Form submitted successfully');
+                }
+            });
+        });
+    });
+</script>
 
 <!--
     Remove Modal
@@ -93,6 +105,21 @@ require_once('HeaderLayout.php');
         </div>
     </div>
 </div>
+
+<script type = "text/javascript">
+    $(document).ready(function(){
+        $("button").click(function(){
+            $.post(
+                {
+                    classTitle: Request.Form("ClassTitle"),
+                    roomNumber: Request.Form("RoomNumber")
+                },
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+        });
+    });
+</script>
 
 <!--
     Update Modal Student
@@ -125,6 +152,26 @@ require_once('HeaderLayout.php');
 </div>
 
 <!--
+    NEEDS UPDATED
+-->
+<script type = "text/javascript">
+    $(document).ready(function(){
+        $("button").click(function(){
+            $.post(
+                {
+                    name: Request.Form("StudentName"),
+                    classTitle: Request.Form("ClassTitle"),
+                    bookTitle: Request.Form("BookTitle"),
+                    roomNumber: Request.Form("RoomNumber")
+                },
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+        });
+    });
+</script>
+
+<!--
     Update Modal Class
 -->
 
@@ -136,8 +183,6 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form>
-                    <h2>Student Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Class Title</h2><br>
@@ -155,6 +200,26 @@ require_once('HeaderLayout.php');
 </div>
 
 <!--
+    NEEDS UPDATED
+-->
+<script type = "text/javascript">
+    $(document).ready(function(){
+        $("button").click(function(){
+            $.post(
+                {
+                    //How to properly pull post parameters
+                    classTitle: Request.Form("ClassTitle"),
+                    bookTitle: Request.Form("BookTitle"),
+                    roomNumber: Request.Form("RoomNumber")
+                },
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+        });
+    });
+</script>
+
+<!--
     Update Modal Room
 -->
 
@@ -166,8 +231,6 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form>
-                    <h2>Student Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
                     <h2>Class Title</h2><br>
@@ -184,13 +247,39 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
+<!--
+    NEEDS UPDATED
+-->
+<script type = "text/javascript">
+    $(document).ready(function(){
+        $("button").click(function(){
+            $.post(
+                {
+                    classTitle: Request.Form("ClassTitle"),
+                    bookTitle: Request.Form("BookTitle"),
+                    roomNumber: Request.Form("RoomNumber")
+                },
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+        });
+    });
+</script>
+
 <?php
 
     #echo "Current Class Data";
     $i = 0;
     $results = array();
+    $student = array();
+    $book = array();
+    $class = array();
     $reportData = array();
 
+
+    /****************************************************************
+     * GET TOTAL DATA
+     ****************************************************************/
     $servername = "10.99.100.54";
     $username = "sa";
     $password = "capcom5^";
@@ -213,10 +302,15 @@ require_once('HeaderLayout.php');
     if($conn->connect_error){
         die("Connection ailed: " . $conn->connect_error);
     }
-    #echo "Connected successfully";
 
     foreach($data as $entry){
         $results [] = $entry;
+    }
+
+    foreach($results as $result){
+        $student[] = $result['StudentName'];
+        $book[] = $result['BookTitle'];
+        $class[] = $result['ClassTitle'];
     }
 
     if(isset($_GET['submit'])){
@@ -224,7 +318,7 @@ require_once('HeaderLayout.php');
     }
 
     /****************************************************************
-     * ADD A NEW STUDENT WITH ALL AVAILABLE DATA PROVIDED
+     * ADD A NEW CLASSROOM WITH ALL AVAILABLE DATA PROVIDED
      ****************************************************************/
     function add()
     {
@@ -247,8 +341,6 @@ require_once('HeaderLayout.php');
         if(!isset($_GET['reload'])){
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
-
-        #https://www.codeproject.com/Articles/8681/Uploading-Downloading-Pictures-to-from-a-SQL-Serve
     }
 
     if(isset($_GET['submit1'])){
@@ -285,7 +377,7 @@ require_once('HeaderLayout.php');
     }
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT VALUES
+     * EDIT DESIGNATED CLASSROOM VALUES
      ****************************************************************/
     function edit()
     {
@@ -352,7 +444,6 @@ require_once('HeaderLayout.php');
     }
     echo "</tr></table>";
 
-    return  $returnData;
 ?>
 
 </body>
