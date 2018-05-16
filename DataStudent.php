@@ -153,6 +153,8 @@ require_once('HeaderLayout.php');
 
 <!--
     Update Student Image Modal
+
+    https://www.plupload.com/examples/core use the page source of this to create overlapped input with button to instigate upload
 -->
 
 <div class="modal" tabindex="-1" role="dialog" id = "UpdateStudentImageModal">
@@ -166,12 +168,13 @@ require_once('HeaderLayout.php');
                     <h2>ID</h2><br>
                     <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Student Image</h2><br>
-                    <div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
-                    <br />
 
                     <div id="container">
                         <a id="pickfiles" href="javascript:;">[Select files]</a>
                         <a id="uploadfiles" href="javascript:;">[Upload files]</a>
+                        <div style = "position: relative; top: 0; width: 75px; height: 16px; overflow: hidden; z-index: 0;" id = "html5_container">
+                            <input style = "opacity: 0; position: absolute; top: 0; width: 100%; height: 100%" id = "html5_in" type = "file" multiple accept = ".jpg, .gif, .png">
+                        </div>
                     </div>
 
                     <br />
@@ -390,6 +393,13 @@ require_once('HeaderLayout.php');
 
     uploader.init();
 </script>
+
+<div id = 'example'>
+    <div id = 'grid'></div>
+    <script>
+
+    </script>
+</div>
 
 
 <?php
@@ -747,6 +757,7 @@ if($continue == true) {
      * https://getbootstrap.com/docs/4.0/components/carousel/
      * https://codepen.io/grbav/pen/qNZjPy
      * https://owlcarousel2.github.io/OwlCarousel2/demos/responsive.html
+     * https://github.com/OwlCarousel2/OwlCarousel2/blob/develop/docs/demos/test.html
      *
      * Assignment 12
      *

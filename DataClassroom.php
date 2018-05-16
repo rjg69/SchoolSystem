@@ -33,6 +33,41 @@ require_once('HeaderLayout.php');
 
 <p>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
 
+
+<script type = "text/javascript">
+    //Submit forms using ajax/POST
+    $(function(){
+        $('form').on('submit', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: 'testproject.test/DataClassroom.php',
+                data: $('form').serialize(),
+                success: function(){
+                    alert('Form submitted successfully');
+                }
+            });
+        });
+    });
+
+    //Automatically add students to student table
+    $(function(){
+        $('AddModal').on('submit', function(e){
+            3.preventDefult();
+
+            $.ajax({
+                type: 'post',
+                url: 'testproject.test/DataStudent.php',
+                data: $('AddModal').serialize(),
+                success: function(){
+                    alert('Student Table Updated Successfully');
+                }
+            });
+        });
+    });
+</script>
+
 <!--
     Add Modal
 -->
@@ -63,22 +98,6 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
-<script type = "text/javascript">
-    $(function(){
-        $('form').on('submit', function(e){
-            e.preventDefault();
-
-            $.ajax({
-                type: 'post',
-                url: 'testproject.test/DataClassroom.php',
-                data: $('form').serialize(),
-                success: function(){
-                    alert('Form submitted successfully');
-                }
-            });
-        });
-    });
-</script>
 
 <!--
     Remove Modal
@@ -105,21 +124,6 @@ require_once('HeaderLayout.php');
         </div>
     </div>
 </div>
-
-<script type = "text/javascript">
-    $(document).ready(function(){
-        $("button").click(function(){
-            $.post(
-                {
-                    classTitle: Request.Form("ClassTitle"),
-                    roomNumber: Request.Form("RoomNumber")
-                },
-                function(data, status){
-                    alert("Data: " + data + "\nStatus: " + status);
-                });
-        });
-    });
-</script>
 
 <!--
     Update Modal Student
@@ -152,26 +156,6 @@ require_once('HeaderLayout.php');
 </div>
 
 <!--
-    NEEDS UPDATED
--->
-<script type = "text/javascript">
-    $(document).ready(function(){
-        $("button").click(function(){
-            $.post(
-                {
-                    name: Request.Form("StudentName"),
-                    classTitle: Request.Form("ClassTitle"),
-                    bookTitle: Request.Form("BookTitle"),
-                    roomNumber: Request.Form("RoomNumber")
-                },
-                function(data, status){
-                    alert("Data: " + data + "\nStatus: " + status);
-                });
-        });
-    });
-</script>
-
-<!--
     Update Modal Class
 -->
 
@@ -198,26 +182,6 @@ require_once('HeaderLayout.php');
         </div>
     </div>
 </div>
-
-<!--
-    NEEDS UPDATED
--->
-<script type = "text/javascript">
-    $(document).ready(function(){
-        $("button").click(function(){
-            $.post(
-                {
-                    //How to properly pull post parameters
-                    classTitle: Request.Form("ClassTitle"),
-                    bookTitle: Request.Form("BookTitle"),
-                    roomNumber: Request.Form("RoomNumber")
-                },
-                function(data, status){
-                    alert("Data: " + data + "\nStatus: " + status);
-                });
-        });
-    });
-</script>
 
 <!--
     Update Modal Room
@@ -247,24 +211,6 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
-<!--
-    NEEDS UPDATED
--->
-<script type = "text/javascript">
-    $(document).ready(function(){
-        $("button").click(function(){
-            $.post(
-                {
-                    classTitle: Request.Form("ClassTitle"),
-                    bookTitle: Request.Form("BookTitle"),
-                    roomNumber: Request.Form("RoomNumber")
-                },
-                function(data, status){
-                    alert("Data: " + data + "\nStatus: " + status);
-                });
-        });
-    });
-</script>
 
 <?php
 
