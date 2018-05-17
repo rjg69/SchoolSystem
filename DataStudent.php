@@ -163,17 +163,17 @@ require_once('HeaderLayout.php');
             <div class="modal-header">
                 <h5 class="modal-title">Update Student</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style = "position: relative;">
                 <form method = "get" action = "DataStudent.php">
                     <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" required><br>
+                    <input type = "text" placeholder = "ID" name = "id" style = "position: relative" required><br>
                     <h2>Student Image</h2><br>
 
-                    <div id="container">
+                    <div id="container" style = "position: absolute; top: 2px; left: 0px;">
                         <a id="pickfiles" href="javascript:;">[Select files]</a>
                         <a id="uploadfiles" href="javascript:;">[Upload files]</a>
                         <div style = "position: relative; top: 0; width: 75px; height: 16px; overflow: hidden; z-index: 0;" id = "html5_container">
-                            <input style = "opacity: 0; position: absolute; top: 0; width: 100%; height: 100%" id = "html5_in" type = "file" multiple accept = ".jpg, .gif, .png">
+                            <input style = "opacity: 0; position: absolute; top: 2px; left = 0px; width: 100%; height: 100%" id = "html5_in" type = "file" multiple accept = ".jpg, .gif, .png">
                         </div>
                     </div>
 
