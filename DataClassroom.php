@@ -9,7 +9,7 @@ require_once('HeaderLayout.php');
 <!--
     Add button & delete button
 -->
-<div class="btn-group">
+<div class="btn-group pull-right">
     <button type="button" class="btn btn-primary" width = "100%" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
         <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
     </button>
@@ -21,7 +21,7 @@ require_once('HeaderLayout.php');
 <!--
     Update button
 -->
-<div class="dropdown">
+<div class="dropdown pull-right">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" data-toggle = "tooltip" data-placement = "top" title = "Update Entry in Table">Update
         <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -54,7 +54,7 @@ require_once('HeaderLayout.php');
     //Automatically add students to student table
     $(function(){
         $('AddModal').on('submit', function(e){
-            3.preventDefult();
+            e.preventDefult();
 
             $.ajax({
                 type: 'post',
@@ -234,6 +234,7 @@ require_once('HeaderLayout.php');
     $q = "
         SELECT
             s.ID,
+            s.StudentName,
             s.ClassTitle,
             s.BookTitle,
             s.BookImage

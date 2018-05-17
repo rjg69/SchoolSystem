@@ -169,12 +169,20 @@ require_once('HeaderLayout.php');
                     <input type = "text" placeholder = "ID" name = "id" style = "position: relative" required><br>
                     <h2>Student Image</h2><br>
 
-                    <div id="container" style = "position: absolute; top: 2px; left: 0px;">
-                        <a id="pickfiles" href="javascript:;">[Select files]</a>
+                    <div id="container" style = "position: relative; top: 60%; left: 3%;">
+
+
+                        <a id="pickfiles" href="javascript:;" style = "position: relative; top: 2px; left: 0; z-index: 1; width: 5%;">[Select files]</a>
+
+
                         <a id="uploadfiles" href="javascript:;">[Upload files]</a>
-                        <div style = "position: relative; top: 0; width: 75px; height: 16px; overflow: hidden; z-index: 0;" id = "html5_container">
-                            <input style = "opacity: 0; position: absolute; top: 2px; left = 0px; width: 100%; height: 100%" id = "html5_in" type = "file" multiple accept = ".jpg, .gif, .png">
+
+
+                        <div id = "html5_container" style = "position: absolute; top: 2px; left: 0; width: 5%; height: 16px; overflow: hidden; z-index: 0;">
+                            <input style = "opacity: 0; font-size: 999px; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" id = "html5_in" type = "file" multiple accept = ".jpg, .gif, .png">
                         </div>
+
+
                     </div>
 
                     <br />
@@ -394,33 +402,20 @@ require_once('HeaderLayout.php');
     uploader.init();
 </script>
 
-<div id = 'example'>
-    <div id = 'grid'></div>
-    <script>
+<script>
+    function hint(element) {
+        return element.clone().addClass("hint");
+    }
 
-    </script>
-</div>
+    function placeholder(element) {
+        return element.clone().addClass("placeholder").text("drop here");
+    }
+</script>
 
 
 <?php
 
 $continue = include 'LoginCheck.php';
-
-/*
- * ATTEMPT TO HANDLE KENDO UI INJECTION, DATA SOURCE FAILURE
-echo "<br />";
-echo "<br />";
-echo "<br />";
-echo getcwd();
-echo "<br />";
-echo "<br />";
-echo "<br />";
-
-include 'C:\wamp64\www\SchoolSystem\kendoui\lib\Data\DataSource.php';
-
-$dataSource = new \kendoui\lib\Data\DataSource();
-*/
-
 
 if($continue == true) {
 
@@ -430,7 +425,7 @@ if($continue == true) {
 
 
     /****************************************************************
-     *  GET TOTAL DATA
+     *  GET TOTAL DATA - MySQL
      ****************************************************************/
 
     $servername = "10.99.100.54";
@@ -458,6 +453,26 @@ if($continue == true) {
 
     foreach ($data as $entry) {
         $results [] = $entry;
+    }
+
+
+    /****************************************************************
+     *  GET TOTAL DATA - MSSQL
+     ****************************************************************
+
+    $msservername = "10.99.100.38";
+    $msusername = "sa";
+    $mspassword = "capcom5^";
+    $msdbname = "ryan_intern";
+
+    $connectionInfo = array("Database" => $msdbname, "UID"=>$msusername, "PWD" => $mspassword);
+    $conn = sqlsrv_connect($msservername, $connectionInfo);
+
+    if($conn){
+        echo "connection established <br />";
+    }else{
+        echo "connection could not be established <br />";
+        die( print_r( sqlsrv_errors(), true));
     }
 
 
@@ -499,7 +514,7 @@ if($continue == true) {
 
 
     /****************************************************************
-     *  ADD NEW STUDENT TO THE DATABASE
+     *  ADD NEW STUDENT TO THE DATABASE -- MySQL
      ****************************************************************/
     if (isset($_GET['submit'])) {
 
@@ -524,9 +539,36 @@ if($continue == true) {
         }
     }
 
+    /****************************************************************
+     *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
+     ****************************************************************
+
+    if(isset($_GET['submit'])){
+
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
+        $msclass = $_GET['ClassTitle'];
+        $msbook = $_GET['BookTitle'];
+
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
+
+        $changeData[] = $id;
+
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+
+        $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
+        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+
+        mssql_close($dbc);
+
+    }
+
 
     /****************************************************************
-     * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID TO BE REMOVED
+     * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID --MySQL
      ****************************************************************/
 
     if (isset($_GET['submit1'])) {
@@ -549,6 +591,32 @@ if($continue == true) {
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
+    }
+
+
+    /****************************************************************
+     * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
+     ****************************************************************
+
+    if(isset($_GET['submit1'])){
+
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
+
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
+
+        $changeData[] = $id;
+
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+
+        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
+        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+
+        mssql_close($dbc);
+
     }
 
 
@@ -627,6 +695,71 @@ if($continue == true) {
         }    }
 
 
+
+    /****************************************************************
+     * EDIT DESIGNATED STUDENT VALUES
+     ****************************************************************
+
+    if(isset($_GET['submit2'])){
+
+    $msid = $_GET['id'];
+    $msstudName = $_GET['StudentName'];
+
+    $msservername = "10.99.100.38";
+    $msusername = "sa";
+    $mspassword = "capcom5^";
+    $msdbname = "ryan_intern";
+
+    $changeData[] = $id;
+
+
+    if ($_GET['StudentName']) {
+        $name = $_GET['StudentName'];
+    }else{
+        foreach($data as $user){
+            if($data['id'] == $_GET['ID']){
+                $name = $data['id']['StudentName'];
+            }
+        }
+    }
+
+    if ($_GET['id']) {
+        $id = $_GET['id'];
+    } else {
+        $id = null;
+    }
+
+    if ($_GET['ClassTitle']) {
+        $class = $_GET['ClassTitle'];
+    }else{
+        foreach($data as $user){
+        if($data['id'] == 'ID'){
+                $name = $data['id']['ClassTitle'];
+            }
+        }
+    }
+
+    if ($_GET['BookTitle']) {
+        $book = $_GET['BookTitle'];
+    }else {
+        foreach ($data as $user) {
+            if ($data['id'] == 'ID') {
+                $name = $data['id']['BookTitle'];
+            }
+        }
+    }
+
+    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+
+    $sql = ("UPDATE SavviorSchool
+    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
+    WHERE ID = '$id'");
+
+    mssql_close($dbc);
+
+    }
+
+
     /****************************************************************
      *  OUTPUT DYNAMIC TABLE DISPLAY
      ****************************************************************/
@@ -651,8 +784,10 @@ if($continue == true) {
         if (!array_key_exists($key, $reportData)) {
             $returnData[$key] = array(
                 'StudentName' => $val['StudentName'],
+                'StudentImage' => 'StudentPhotos\student' .$j. '.jpg',
                 'ClassTitle' => $val['ClassTitle'],
-                'BookTitle' => $val['BookTitle']
+                'BookTitle' => $val['BookTitle'],
+                'BookImage' => 'BookPhotos\book' .$j. ".jpg"
             );
         }
 
@@ -660,6 +795,7 @@ if($continue == true) {
         $bookName = $returnData[$key]['BookTitle'];
 
         echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
+        //        echo "<td><img src =" . $returnData[$key]['StudentImage'] . "/></td>";        Attempt to simplify/unify setup
         echo "<td>" . "<img src = 'StudentPhotos\student" . $j . ".jpg' />" . "</td>";
         echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
         echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";

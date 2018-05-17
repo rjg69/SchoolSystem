@@ -7,26 +7,6 @@ if(!array_key_exists('Username', $_SESSION)){
 }
 ?>
 <!--
-Assignment #1 - Design a management system for a school, where a school administrator can schedule students, classes, and books.
-        Ability to add, edit, and delete students, classes, and books.
-        Ability to add and remove students from their classes.
-        Ability to add and remove books from classes (one book per class)
-        Ability to upload student and book photos
-        Add/Edit/Delete functionality for a single table
-        Add/Edit/Delete functionality for 2 tables with foreign keys in second table
-        Add/Edit/Delete functionality for 3 tables, one of which will be a join table
-        This should use PDO and MySQL
-        Build your HTML interfaces using Bootstrap (http://getbootstrap.com)
-            Implement table, button, and panel classes
-            Implement Modal Windows
-            Implement Tooltips
-            Implement tabs
-
-            Input using Bootstrap:
-            https://www.w3schools.com/bootstrap/bootstrap_forms_inputs.asp
-
--->
-<!--
     Add style conventions using CSS
 -->
 <style>
@@ -49,9 +29,62 @@ Assignment #1 - Design a management system for a school, where a school administ
         background-color: #1775B3;
     }
 
+    .dropbtn {
+        background-color: #1775B3;
+        color: white;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        height: 34px;
+    }
+
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: #1775B8;
+    }
+
+    #myInput {
+        border-box: box-sizing;
+        background-image: url('searchicon.png');
+        background-position: 14px 12px;
+        background-repeat: no-repeat;
+        font-size: 10px;
+        padding: 14px 20px 12px 45px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #myInput:focus {outline: 3px solid #ddd;}
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f6f6f6;
+        min-width: 230px;
+        overflow: auto;
+        border: 1px solid #ddd;
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+
+    .dropdown a:hover {background-color: #ddd}
+
+    .show {display:block;}
+
     .btn-group{
         color: white;
-        background-color: #1775B3;
+        background-color: #1775C3;
     }
 
     h2{
@@ -128,6 +161,8 @@ Assignment #1 - Design a management system for a school, where a school administ
     <script type="text/javascript" src="js/plupload.full.min.js"></script>
     <script src = "http//cdn.kendostatic.com/2014.2.903/js/jquery.min.js"></script>
     <script src = "http://cdn.kendostatic.com/2014.2.903/js/kendo.all.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 
 
     <script type="text/javascript">
@@ -258,6 +293,30 @@ Assignment #1 - Design a management system for a school, where a school administ
             lang: 'es'
         });
     </script>
+    <script>
+        $(function(){
+            //bind 'addForm' and provide simple callback function
+            $('#addForm').ajaxForm(function(){
+                alert("Submission Successful!");
+            });
+        });
+    </script>
+    <script>
+        $(function(){
+            //bind 'removeForm' and provide simple callback function
+            $('#removeForm').ajaxForm(function(){
+                alert("Submission Successful!");
+            });
+        });
+    </script>
+    <script>
+        $(function(){
+            //bind 'updateForm' and provide simple callback function
+            $('#updateForm').ajaxForm(function(){
+                alert("Submission Successful!");
+            });
+        });
+    </script>
 </header>
 
 <body>
@@ -276,7 +335,10 @@ Assignment #1 - Design a management system for a school, where a school administ
         <a href="DataBook.php" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
     </li>
     <li>
-        <a href="DataClass.php" data-toggle = "tooltip" data-plaement = "top" title = "View Class Data">Class</a>
+        <a href="DataClass.php" data-toggle = "tooltip" data-placement = "top" title = "View Class Data">Class</a>
+    </li>
+    <li>
+        <a href = "DataClassroom.php" data-toggle = "tooltip" data-placement = "top" title = "View Classroom Data">Classroom</a>
     </li>
 </ul>
 
