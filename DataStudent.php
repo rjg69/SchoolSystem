@@ -20,7 +20,7 @@ require_once('HeaderLayout.php');
 </div>
 
 <!--
-    Update button -- JQuery search: https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
+    Update button
 -->
 
 <div class="dropdown pull-right">
@@ -31,8 +31,6 @@ require_once('HeaderLayout.php');
         <a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a>
         <a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a>
         <a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a>
-        <a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a>
-        <a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a>
     </div>
 </div>
 
@@ -80,14 +78,14 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
-                    <h2>Name</h2><br>
+                    <h2>Student Name</h2><br>
                     <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
-                    <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" required><br>
-                    <h2>Class</h2><br>
+                    <h2>Student ID</h2><br>
+                    <input type = "text" placeholder = "Student ID" name = "StudID" required><br>
+                    <h2>Class Name</h2><br>
                     <input type = "text" placeholder = "Class Title" name = "ClassTitle"><br>
-                    <h2>Book</h2><br>
-                    <input type = "text" placeholder = "Book Title" name = "BookTitle"><br>
+                    <h2>Class ID</h2><br>
+                    <input type = "text" placeholder = "Class ID" name = "ClassID"><br>
                     <input type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
@@ -111,9 +109,9 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
-                    <h2>Name</h2><br>
+                    <h2>Student Name</h2><br>
                     <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
-                    <h2>ID</h2><br>
+                    <h2>Student ID</h2><br>
                     <input type = "text" placeholder = "ID" name = "id" required><br>
                     <input href = "DataStudent.php" type = "submit" value = "Submit" name = "submit1">
                 </form>
@@ -137,7 +135,7 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
-                    <h2>ID</h2><br>
+                    <h2>Student ID</h2><br>
                     <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Student Name</h2><br>
                     <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
@@ -165,7 +163,7 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body" style = "position: relative;">
                 <form method = "get" action = "DataStudent.php">
-                    <h2>ID</h2><br>
+                    <h2>Student ID</h2><br>
                     <input type = "text" placeholder = "ID" name = "id" style = "position: relative" required><br>
                     <h2>Student Image</h2><br>
 
@@ -246,7 +244,7 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php">
-                    <h2>ID</h2><br>
+                    <h2>Student ID</h2><br>
                     <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Class Title</h2><br>
                     <input type = "text" placeholder = "Class Title" name = "ClassTitle" required><br>
@@ -259,124 +257,6 @@ require_once('HeaderLayout.php');
         </div>
     </div>
 </div>
-
-<!--
-    Update Book Title Modal
--->
-
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookTitleModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
-            </div>
-            <div class="modal-body">
-                <form method = "get" action = "DataStudent.php">
-                    <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" required><br>
-                    <h2>Book Title</h2><br>
-                    <input type = "text" placeholder = "Book Title" name = "BookTitle" required><br>
-                    <input type = "submit" value = "Submit" name = "submit2">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--
-    Update Book Image Modal
--->
-
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookImageModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
-            </div>
-            <div class="modal-body">
-                <form method = "get" action = "DataStudent.php">
-                    <h2>ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" required><br>
-                    <h2>Book Image</h2><br>
-
-                    <div id="filelist"></div>
-                    <br />
-
-                    <div id="container">
-                        <a id="browse" href="javascript:;">[Browse...]</a>
-                        <a id="start-upload" href="javascript:;">[Start Upload]</a>
-                    </div>
-
-                    <br />
-                    <pre id="console"></pre>
-                    <input type = "submit" value = "Submit" name = "submit2">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--
-   Update Book Image Script
--->
-
-<script type = "text/javascript">
-    // Custom example logic
-
-    var uploader = new plupload.Uploader({
-        runtimes : 'html5,flash,silverlight,html4',
-
-        browse_button : 'browse', // you can pass in id...
-        container: document.getElementById('UpdateBookImageModal'), // ... or DOM Element itself
-
-        url : "/examples/upload",
-
-        filters : {
-            max_file_size : '10mb',
-            mime_types: [
-                {title : "Image files", extensions : "jpg,gif,png"}]
-        },
-
-        // Flash settings
-        flash_swf_url : '/plupload/js/Moxie.swf',
-
-        // Silverlight settings
-        silverlight_xap_url : '/plupload/js/Moxie.xap',
-
-        init: {
-            PostInit: function() {
-                document.getElementById('filelist').innerHTML = '';
-
-                document.getElementById('start-upload').onclick = function() {
-                    uploader.start();
-                    return false;
-                };
-            },
-
-            FilesAdded: function(up, files) {
-                plupload.each(files, function(file) {
-                    document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
-                });
-            },
-
-            UploadProgress: function(up, file) {
-                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
-            },
-
-            Error: function(up, err) {
-                document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-            }
-        }
-    });
-
-    uploader.init();
-</script>
 
 <script>
     function hint(element) {
@@ -479,12 +359,32 @@ if($continue == true) {
 
     $q = "
         SELECT
-            s.ID,
-            s.StudentName,
-            s.ClassTitle,
-            s.BookTitle
+            StudentTable.StudentID,
+            StudentTable.StudentName,
+            StudentTable.StudentImage,
+            ClassesTable.ClassName,
+            BookTable.BookName,
+            BookTable.BookImage
         FROM
-            SavviorSchool s
+            StudentTable
+        LEFT JOIN
+            StudClass
+        ON
+            StudentTable.StudentID=StudClass.StudentID
+        LEFT JOIN
+            ClassesTable
+        ON 
+            ClassesTable.ClassID=StudClass.ClassID
+        LEFT JOIN
+            BookTable
+        ON  
+            ClassesTable.BookID=BookTable.BookID
+        LEFT JOIN
+            ClassroomTable
+        ON 
+            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        ORDER BY
+            ClassesTable.ClassID;
         ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -562,17 +462,19 @@ if($continue == true) {
      ****************************************************************/
     if (isset($_GET['submit'])) {
 
-        $id = $_GET['id'];
+        $StudID = $_GET['StudID'];
         $studName = $_GET['StudentName'];
+        $ClassID = $_GET['ClassID'];
         $class = $_GET['ClassTitle'];
-        $book = $_GET['BookTitle'];
 
         $username = "sa";
         $password = "capcom5^";
 
         $changeData[] = $id;
 
-        $sql = "INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$id', '$studName', '$class', '$book')";
+        $sql = "INSERT INTO StudentTable(StudentID, StudentName) VALUES ('$StudID', '$studName')
+                INSERT INTO ClassesTable(ClassID, ClassName) VALUES ('$ClassID', '$class');
+                ";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -811,7 +713,7 @@ if($continue == true) {
 
     echo "<table align = 'center' width = '70%'><tr>";
 
-    echo "<td width = '15%'><u>ID</u></td>";
+    echo "<td width = '15%'><u>StudentID</u></td>";
     echo "<td width = '15%'><u>Student Name</u></td>";
     echo "<td width = '20%'><u>Student Image</u></td>";
     echo "<td width = '15%'><u>Class Title</u></td>";
@@ -823,27 +725,25 @@ if($continue == true) {
 
     foreach ($results as $val) {
         $j = $j + 1;
-        $key = $val['ID'];
-        echo "<td>" . $val['ID'] . "</td>";
+        $key = $val['StudentID'];
         if (!array_key_exists($key, $reportData)) {
             $returnData[$key] = array(
                 'StudentName' => $val['StudentName'],
-                'StudentImage' => 'StudentPhotos\student' .$j. '.jpg',
-                'ClassTitle' => $val['ClassTitle'],
-                'BookTitle' => $val['BookTitle'],
-                'BookImage' => 'BookPhotos\book' .$j. ".jpg"
+                'StudentImage' => $val['StudentImage'],
+                'ClassTitle' => $val['ClassName'],
+                'BookTitle' => $val['BookName'],
+                'BookImage' => $val['BookImage']
             );
         }
 
-        $picName = $returnData[$key]['StudentName'];
-        $bookName = $returnData[$key]['BookTitle'];
+        //$picName = $returnData[$key]['StudentName'];
+        //$bookName = $returnData[$key]['BookTitle'];
 
         echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-        //        echo "<td><img src =" . $returnData[$key]['StudentImage'] . "/></td>";        Attempt to simplify/unify setup
-        echo "<td>" . "<img style = 'width: 100%; height: auto;' src = 'StudentPhotos\student" . $j . ".jpg' />" . "</td>";
+        echo "<td>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
         echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
         echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-        echo "<td>" . "<img style = 'width: 100%; height: auto;'  src = 'BookPhotos\book" . $j . ".jpg' />" . "</td>";
+        echo "<td>" . "</td>"; //"<img style = 'width: 100%; height: auto;'  src = $returnData[$key]['BookImage'] />" .
         echo "</tr><tr>";
 
         $j += 1;
@@ -851,49 +751,11 @@ if($continue == true) {
     echo "</tr></table>";
 
 
-    /*******************************************************
-     * Create Class Lists, Ensure 1 Book Per Class
-     *******************************************************/
-    $classes = array();
-    $books = array();
-
-    foreach ($returnData as $entry) {
-        $classes[] = $entry['ClassTitle'];
-        $books[] = $entry['BookTitle'];
-    }
-
-    ksort($classes);
-    ksort($books);
-
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-    echo "<br/>";
-
-    $classBookTie = array();
-    $i = 0;
-    foreach ($classes AS $class) {
-        $key = $class;
-        if (!array_key_exists($key, $classBookTie)) {
-            $classBookTie[$key] = array(
-                'BookTitle' => $books[$i],
-            );
-        }
-        $i = $i + 1;
-    }
-
-    foreach ($returnData as $result) {
-        $key = $result['ClassTitle'];
-        if (!array_key_exists($key, $classBookTie)) {
-            if ($classBookTie['BookTitle'] != $result['BookTitle']) {
-                $result['BookTitle'] = $classBookTie['BookTitle'];
-            }
-        }
-    }
-
     /**********************************************************************************************
+     * Assignment 1 & 2
+     * CREATE TABLES FOR CLASSES, STUDENTS, BOOKS, AND CLASSROOMS
+     * CONNECT CLASS AND STUDENT WITH JOIN TABLE, CONNECT 1 TO 1 CLASSES AND BOOKS, CLASSES AND CLASSROOMS
+     *
      * Assignment 3
      *
      * https://www.youtube.com/watch?v=tAcx8N0VcgY  -- MySQL to MSSQL tutorial
