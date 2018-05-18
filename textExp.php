@@ -56,7 +56,7 @@
         <br/>
         <form method = "post" action = "textDownload.php">
             <h3><center>Please Enter the Filename:</center></h3>
-            <input class = "center2" type = "text" name = "filenameText">
+            <input class = "center2" type = "text" name = "filenameText" placeholder = "Enter Filename Here">
             <input class = "center2" type = "submit" value = "Export CSV" data-toggle="modal" data-target=".bs-example-modal-lg" name = "submitt">
             <input class = "center2" type = "submit" value = "Go Home" name = "home">
         </form>
@@ -67,7 +67,7 @@
                     <h2>Congratulations!</h2><br/>
                     <p>Your data successfully exported to a CSV file!</p>
                     <div class="modal-footer">
-                        <button method = "post" type = "button" class="btn btn-secondary" data-dismiss="modal" name = "close" id = "close">Close</button>
+                        <button type="button" class="btn btn-secondary" width = "100%" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

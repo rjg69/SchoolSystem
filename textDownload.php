@@ -19,16 +19,38 @@ if (isset($_POST['submitt'])) {
     $password = "capcom5^";
 
     $q = "
-          SELECT
-               s.ID,
-               s.StudentName,
-               s.StudentImage,
-               s.ClassTitle,
-               s.BookTitle,
-               s.BookImage
-          FROM
-               SavviorSchool s
-         ";
+            SELECT
+                StudentTable.StudentID,
+                StudentTable.StudentName,
+                StudentTable.StudentImage,
+                ClassesTable.BookID,
+                ClassesTable.ClassID,
+                ClassesTable.ClassName,
+                ClassesTable.ClassroomID,
+                BookTable.BookName,
+                BookTable.BookImage,
+                ClassroomTable.ClassroomNumber
+            FROM
+                StudentTable
+            LEFT JOIN
+                StudClass
+            ON
+                StudentTable.StudentID=StudClass.StudentID
+            LEFT JOIN
+                ClassesTable
+            ON
+                StudClass.ClassID=ClassesTable.ClassID
+            LEFT JOIN
+                BookTable
+            ON
+                ClassesTable.BookID=BookTable.BookID
+            LEFT JOIN
+                ClassroomTable
+            ON
+                ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+            ORDER BY
+                ClassesTable.ClassID;
+            ";
 
     //pull all necessary data
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);

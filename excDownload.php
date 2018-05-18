@@ -25,16 +25,38 @@ if (isset($_POST['submite'])) {
     $dbname = "ryan_intern";
 
     $q = "
-          SELECT
-             s.ID,
-             s.StudentName,
-             s.StudentImage,
-             s.ClassTitle,
-             s.BookTitle,
-             s.BookImage
-          FROM
-             SavviorSchool s
-          ";
+            SELECT
+                StudentTable.StudentID,
+                StudentTable.StudentName,
+                StudentTable.StudentImage,
+                ClassesTable.BookID,
+                ClassesTable.ClassID,
+                ClassesTable.ClassName,
+                ClassesTable.ClassroomID,
+                BookTable.BookName,
+                BookTable.BookImage,
+                ClassroomTable.ClassroomNumber
+            FROM
+                StudentTable
+            LEFT JOIN
+                StudClass
+            ON
+                StudentTable.StudentID=StudClass.StudentID
+            LEFT JOIN
+                ClassesTable
+            ON
+                StudClass.ClassID=ClassesTable.ClassID
+            LEFT JOIN
+                BookTable
+            ON
+                ClassesTable.BookID=BookTable.BookID
+            LEFT JOIN
+                ClassroomTable
+            ON
+                ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+            ORDER BY
+                ClassesTable.ClassID;
+            ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
     $result = $dbh->query($q, PDO::FETCH_ASSOC);
@@ -43,7 +65,7 @@ if (isset($_POST['submite'])) {
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setTitle('Excel Export');
 
-    $headerArray = ['ID', 'Student Name', 'Student Image', 'Class Title', 'Book Title', 'Book Image'];
+    $headerArray = ['Student ID', 'Student Name', 'Student Image', 'Class ID', 'Class Title', 'Book ID', 'Book Title', 'Book Image', 'Classroom Number'];
     $spreadsheet->getActiveSheet()
         ->fromArray(
             $headerArray,   // The data to set
@@ -55,12 +77,15 @@ if (isset($_POST['submite'])) {
     foreach($result as $data){
         //generate individual array containing the data for each column in the order specified above
         $row = array(
-            $data['ID'],
+            $data['StudentID'],
             $data['StudentName'],
             $data['StudentImage'],
-            $data['ClassTitle'],
-            $data['BookTitle'],
-            $data['BookImage']
+            $data['ClassID'],
+            $data['ClassName'],
+            $data['BookID'],
+            $data['BookName'],
+            $data['BookImage'],
+            $data['ClassroomNumber']
         );
 
         //write the individual array to the spreadsheet, increment $i to adjust row always starting in A
