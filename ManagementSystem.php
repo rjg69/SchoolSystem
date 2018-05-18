@@ -139,12 +139,12 @@
 
         echo "<table align = 'center' width = '70%'><tr>";
 
-        echo "<td align = 'center' width = 16.67%><u>Student Name</u></td>";
-        echo "<td align = 'center' width = 16.67%><u>Student Image</u></td>";
-        echo "<td align = 'center' width = 16.67%><u>Class Title</u></td>";
-        echo "<td align = 'center' width = 16.67%><u>Book Title</u></td>";
-        echo "<td align = 'center' width = 16.67%><u>Book Image</u></td>";
-        echo "<td align = 'center' width = 16.67%><u>ClassroomNumber</u></td>";
+        echo "<td width = 16.67%><u>Student Name</u></td>";
+        echo "<td width = 16.67%><u>Student Image</u></td>";
+        echo "<td width = 16.67%><u>Class Title</u></td>";
+        echo "<td width = 16.67%><u>Book Title</u></td>";
+        echo "<td width = 16.67%><u>Book Image</u></td>";
+        echo "<td width = 16.67%><u>ClassroomNumber</u></td>";
         echo "</tr><tr>";
 
         foreach ($results as $val) {
@@ -160,48 +160,15 @@
                     'ClassroomNumber' => $val['ClassroomNumber']
                 );
             }
-            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
-            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['StudentImage'] . "</td>";
-            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['ClassTitle'] . "</td>";
-            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['BookImage'] . "</td>";
-            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['ClassroomNumber'] . "</td>";
+            echo "<td width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
+            echo "<td width = 16.67%>" . $returnData[$key]['StudentImage'] . "</td>";
+            echo "<td width = 16.67%>" . $returnData[$key]['ClassTitle'] . "</td>";
+            echo "<td width = 16.67%>" . $returnData[$key]['BookTitle'] . "</td>";
+            echo "<td width = 16.67%>" . $returnData[$key]['BookImage'] . "</td>";
+            echo "<td width = 16.67%>" . $returnData[$key]['ClassroomNumber'] . "</td>";
             echo "</tr><tr>";
         }
         echo "</tr></table>";
-
-
-        /*******************************************************
-         * Create Class Lists, Ensure 1 Book Per Class
-         *******************************************************/
-        $classes = array();
-        $books = array();
-
-        foreach ($returnData as $entry) {
-            $classes[] = $entry['ClassTitle'];
-            $books[] = $entry['BookTitle'];
-        }
-
-        $classBookTie = array();
-        $i = 0;
-        foreach ($classes AS $class) {
-            $key = $class;
-            if (!array_key_exists($key, $classBookTie)) {
-                $classBookTie[$key] = array(
-                    'BookTitle' => $books[$i],
-                );
-            }
-            $i = $i + 1;
-        }
-
-        foreach ($returnData as $result) {
-            $key = $result['ClassTitle'];
-            if (!array_key_exists($key, $classBookTie)) {
-                if ($classBookTie['BookTitle'] != $result['BookTitle']) {
-                    $result['BookTitle'] = $classBookTie['BookTitle'];
-                }
-            }
-        }
 
     ?>
 <br />

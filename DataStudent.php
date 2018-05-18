@@ -30,7 +30,6 @@ require_once('HeaderLayout.php');
         <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
         <a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a>
         <a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a>
-        <a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a>
     </div>
 </div>
 
@@ -171,13 +170,13 @@ require_once('HeaderLayout.php');
                         <a id="pickfiles" href="javascript:;" style="position: relative; z-index: 1;">[Select files]</a>
                         <a id="uploadfiles" href="javascript:;">[Upload files]</a>
                         <div id="html5_1cdnooc7soq715hq1eof7km4ii4_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: 2px; left: 0; width: 75px; height: 16px; overflow: hidden; z-index: 0;">
-                            <input id="html5_1cdnooc7soq715hq1eof7km4ii4" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" multiple="" accept=".jpg,.gif,.png,.zip">
+                            <input name = "StudentImage" id="html5_1cdnooc7soq715hq1eof7km4ii4" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" multiple="" accept=".jpg,.gif,.png,.zip">
                         </div>
                     </div>
                     <br />
                     <pre id="console"></pre>
                     <br>
-                    <input type = "submit" value = "Submit" name = "submit2">
+                    <input type = "submit" value = "Submit" name = "submit3">
                 </form>
             </div>
             <div class="modal-footer">
@@ -231,110 +230,6 @@ require_once('HeaderLayout.php');
         }
     });
 </script>
-
-<!--
-    Update Class Title Modal
--->
-
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassTitleModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
-            </div>
-            <div class="modal-body">
-                <form method = "get" action = "DataStudent.php">
-                    <h2>Student ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" required><br>
-                    <h2>Class Title</h2><br>
-                    <input type = "text" placeholder = "Class Title" name = "ClassTitle" required><br>
-                    <input type = "submit" value = "Submit" name = "submit2">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    function hint(element) {
-        return element.clone().addClass("hint");
-    }
-
-    function placeholder(element) {
-        return element.clone().addClass("placeholder").text("drop here");
-    }
-</script>
-
-
-
-<!-- EXAMPLE KENDO GRID CODE JAVASCRIPT
-<div id="example">
-    <div id="grid"></div>
-    <script>
-        $(document).ready(function () {
-            $("#grid").kendoGrid({
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Customers"
-                    },
-                    pageSize: 20
-                },
-                height: 550,
-                groupable: true,
-                sortable: true,
-                pageable: {
-                    refresh: true,
-                    pageSizes: true,
-                    buttonCount: 5
-                },
-                columns: [{
-                    template: "<div class='customer-photo'" +
-                    "style='background-image: url(../content/web/Customers/#:data.CustomerID#.jpg);'></div>" +
-                    "<div class='customer-name'>#: ContactName #</div>",
-                    field: "ContactName",
-                    title: "Contact Name",
-                    width: 240
-                }, {
-                    field: "ContactTitle",
-                    title: "Contact Title"
-                }, {
-                    field: "CompanyName",
-                    title: "Company Name"
-                }, {
-                    field: "Country",
-                    width: 150
-                }]
-            });
-        });
-    </script>
-</div>
-
-<style type="text/css">
-    .customer-photo {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-size: 32px 35px;
-        background-position: center center;
-        vertical-align: middle;
-        line-height: 32px;
-        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
-        margin-left: 5px;
-    }
-
-    .customer-name {
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 32px;
-        padding-left: 3px;
-    }
-</style>
--->
 
 
 <?php
@@ -470,15 +365,14 @@ if($continue == true) {
         $username = "sa";
         $password = "capcom5^";
 
-        $changeData[] = $id;
+        $sql = "INSERT INTO StudentTable(StudentID, StudentName) VALUES ('$StudID', '$studName');";
 
-        $sql = "INSERT INTO StudentTable(StudentID, StudentName) VALUES ('$StudID', '$studName')
-                INSERT INTO ClassesTable(ClassID, ClassName) VALUES ('$ClassID', '$class');
-                ";
+        $sqlb = "INSERT INTO ClassesTable(ClassID, ClassName) VALUES ('$ClassID', '$class');";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
+        $dbh->exec($sqlb);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
@@ -526,13 +420,15 @@ if($continue == true) {
         $password = "capcom5^";
 
         /*Delete all data in the table row if specified by the Bootstrap Modal input*/
-        $changeData[] = $id;
 
-        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
+        $sql = "DELETE FROM StudentTable WHERE StudentID = '$id' AND StudentName = '$name'";
+
+        $sqlc = "DELETE FROM StudClass WHERE StudentID = '$id'";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
+        $dbh->exec($sqlc);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
@@ -573,13 +469,34 @@ if($continue == true) {
 
     if (isset($_GET['submit2'])) {
 
-        $q = ("SELECT
-                   t.StudentName,
-                   t.ClassTitle,
-                   t.BookTitle,
-                   t.ID
-               FROM
-                   SavviorSchool as t
+        $q = ("
+        SELECT
+            StudentTable.StudentID,
+            StudentTable.StudentName,
+            StudentTable.StudentImage,
+            ClassesTable.ClassName,
+            BookTable.BookName,
+            BookTable.BookImage
+        FROM
+            StudentTable
+        LEFT JOIN
+            StudClass
+        ON
+            StudentTable.StudentID=StudClass.StudentID
+        LEFT JOIN
+            ClassesTable
+        ON 
+            ClassesTable.ClassID=StudClass.ClassID
+        LEFT JOIN
+            BookTable
+        ON  
+            ClassesTable.BookID=BookTable.BookID
+        LEFT JOIN
+            ClassroomTable
+        ON 
+            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        ORDER BY
+            ClassesTable.ClassID;
         ");
 
 
@@ -597,39 +514,13 @@ if($continue == true) {
             }
         }
 
-        if ($_GET['id']) {
-            $id = $_GET['id'];
-        } else {
-            $id = null;
-        }
-
-        if ($_GET['ClassTitle']) {
-            $class = $_GET['ClassTitle'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == 'ID'){
-                    $name = $data['id']['ClassTitle'];
-                }
-            }
-        }
-
-        if ($_GET['BookTitle']) {
-            $book = $_GET['BookTitle'];
-        }else {
-            foreach ($data as $user) {
-                if ($data['id'] == 'ID') {
-                    $name = $data['id']['BookTitle'];
-                }
-            }
-        }
-
         $username = "sa";
         $password = "capcom5^";
 
-        $changeData[] = $id;
-        $sql = ("UPDATE SavviorSchool 
-                    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book' 
-                    WHERE ID = '$id'");
+        //student query
+        $sql = ("UPDATE StudentTable 
+                    SET StudentName = '$name'
+                    WHERE ID = '$StudID'");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -638,9 +529,78 @@ if($continue == true) {
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-        }    }
+        }
+    }
 
 
+    /****************************************************************
+     * EDIT DESIGNATED STUDENT IMAGE
+     ****************************************************************/
+
+    if (isset($_GET['submit3'])) {
+
+        $q = ("
+        SELECT
+            StudentTable.StudentID,
+            StudentTable.StudentName,
+            StudentTable.StudentImage,
+            ClassesTable.ClassName,
+            BookTable.BookName,
+            BookTable.BookImage
+        FROM
+            StudentTable
+        LEFT JOIN
+            StudClass
+        ON
+            StudentTable.StudentID=StudClass.StudentID
+        LEFT JOIN
+            ClassesTable
+        ON 
+            ClassesTable.ClassID=StudClass.ClassID
+        LEFT JOIN
+            BookTable
+        ON  
+            ClassesTable.BookID=BookTable.BookID
+        LEFT JOIN
+            ClassroomTable
+        ON 
+            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        ORDER BY
+            ClassesTable.ClassID;
+        ");
+
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $data = $dbh->query($q, PDO::FETCH_ASSOC);
+
+
+        if ($_GET['StudentImage']) {
+            $image = $_GET['StudentImage'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == $_GET['ID']){
+                    $name = $data['id']['StudentImage'];
+                }
+            }
+        }
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        //student query
+        $sql = ("UPDATE StudentTable 
+                    SET StudentImage = '$image'
+                    WHERE ID = '$StudID'");
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        #Refresh page one time after executing
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
+    }
 
     /****************************************************************
      * EDIT DESIGNATED STUDENT VALUES
@@ -726,6 +686,7 @@ if($continue == true) {
     foreach ($results as $val) {
         $j = $j + 1;
         $key = $val['StudentID'];
+        echo "<td>" . $key . "</td>";
         if (!array_key_exists($key, $reportData)) {
             $returnData[$key] = array(
                 'StudentName' => $val['StudentName'],
@@ -810,6 +771,15 @@ if($continue == true) {
     header('Location: http://testproject.test/LoginPage.php');
 }
 ?>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 </body>
 </html>
