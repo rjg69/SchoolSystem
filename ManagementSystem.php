@@ -7,7 +7,7 @@
 
         <br/>
         <h2><center><u>Home Page</u></center></h2>
-        <br/>
+        <hr width = "75%">
         <!--
             Carousel Code
         -->
@@ -72,7 +72,9 @@
             </div>
         </div>
 
-
+<br />
+<br />
+<br />
 
     <?php
 
@@ -89,20 +91,42 @@
          * Dynamic Table Display
          **************************************************************/
 
-        $q = "
+    $sql = "
             SELECT
-                s.ID,
-                s.StudentName,
-                s.StudentImage,
-                s.ClassTitle,
-                s.BookTitle,
-                s.BookImage
+                StudentTable.StudentID,
+                StudentTable.StudentName,
+                StudentTable.StudentImage,
+                ClassesTable.BookID,
+                ClassesTable.ClassID,
+                ClassesTable.ClassName,
+                ClassesTable.ClassroomID,
+                BookTable.BookName,
+                BookTable.BookImage,
+                ClassroomTable.ClassroomNumber
             FROM
-                SavviorSchool s
+                StudentTable
+            LEFT JOIN
+                StudClass
+            ON
+                StudentTable.StudentID=StudClass.StudentID
+            LEFT JOIN
+                ClassesTable
+            ON
+                StudClass.ClassID=ClassesTable.ClassID
+            LEFT JOIN
+                BookTable
+            ON
+                ClassesTable.BookID=BookTable.BookID
+            LEFT JOIN
+                ClassroomTable
+            ON
+                ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+            ORDER BY
+                ClassesTable.ClassID;
             ";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $data = $dbh->query($q, PDO::FETCH_ASSOC);
+        $data = $dbh->query($sql, PDO::FETCH_ASSOC);
 
         $conn = new mysqli($servername, $username, $password);
         if ($conn->connect_error) {
@@ -115,25 +139,33 @@
 
         echo "<table align = 'center' width = '70%'><tr>";
 
-        echo "<td width = '25%'><u>ID</u></td>";
-        echo "<td width = '25%'><u>Student Name</u></td>";
-        echo "<td width = '25%'><u>Class Title</u></td>";
-        echo "<td width = '25%'><u>Book Title</u></td>";
+        echo "<td align = 'center' width = 16.67%><u>Student Name</u></td>";
+        echo "<td align = 'center' width = 16.67%><u>Student Image</u></td>";
+        echo "<td align = 'center' width = 16.67%><u>Class Title</u></td>";
+        echo "<td align = 'center' width = 16.67%><u>Book Title</u></td>";
+        echo "<td align = 'center' width = 16.67%><u>Book Image</u></td>";
+        echo "<td align = 'center' width = 16.67%><u>ClassroomNumber</u></td>";
         echo "</tr><tr>";
 
         foreach ($results as $val) {
-            $key = $val['ID'];
-            echo "<td>" . $val['ID'] . "</td>";
+            $key = $val['StudentID'];
+            //echo "<td width = 16.67%>" . $val['StudentID'] . "</td>";
             if (!array_key_exists($key, $returnData)) {
                 $returnData[$key] = array(
                     'StudentName' => $val['StudentName'],
-                    'ClassTitle' => $val['ClassTitle'],
-                    'BookTitle' => $val['BookTitle']
+                    'StudentImage' => $val['StudentImage'],
+                    'ClassTitle' => $val['ClassName'],
+                    'BookTitle' => $val['BookName'],
+                    'BookImage' => $val['BookImage'],
+                    'ClassroomNumber' => $val['ClassroomNumber']
                 );
             }
-            echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-            echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
-            echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
+            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
+            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['StudentImage'] . "</td>";
+            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['ClassTitle'] . "</td>";
+            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['BookTitle'] . "</td>";
+            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['BookImage'] . "</td>";
+            echo "<td align = 'center' width = 16.67%>" . $returnData[$key]['ClassroomNumber'] . "</td>";
             echo "</tr><tr>";
         }
         echo "</tr></table>";
@@ -172,7 +204,15 @@
         }
 
     ?>
-
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 </body>
 
 </html>

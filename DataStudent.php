@@ -62,7 +62,7 @@ require_once('HeaderLayout.php');
 </script>
 
 <br/>
-<h2><center><u>Student Data</u></center></h2>
+<h2 style = "font-size: 2vw;"><center><u>Student Data</u></center></h2>
 
 <hr width = 75%>
 
@@ -169,22 +169,13 @@ require_once('HeaderLayout.php');
                     <input type = "text" placeholder = "ID" name = "id" style = "position: relative" required><br>
                     <h2>Student Image</h2><br>
 
-                    <div id="container" style = "position: relative; top: 60%; left: 3%;">
-
-
-                        <a id="pickfiles" href="javascript:;" style = "position: relative; top: 2px; left: 0; z-index: 1; width: 5%;">[Select files]</a>
-
-
+                    <div id="container" style="position: relative;">
+                        <a id="pickfiles" href="javascript:;" style="position: relative; z-index: 1;">[Select files]</a>
                         <a id="uploadfiles" href="javascript:;">[Upload files]</a>
-
-
-                        <div id = "html5_container" style = "position: absolute; top: 2px; left: 0; width: 5%; height: 16px; overflow: hidden; z-index: 0;">
-                            <input style = "opacity: 0; font-size: 999px; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" id = "html5_in" type = "file" multiple accept = ".jpg, .gif, .png">
+                        <div id="html5_1cdnooc7soq715hq1eof7km4ii4_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: 2px; left: 0; width: 75px; height: 16px; overflow: hidden; z-index: 0;">
+                            <input id="html5_1cdnooc7soq715hq1eof7km4ii4" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" multiple="" accept=".jpg,.gif,.png,.zip">
                         </div>
-
-
                     </div>
-
                     <br />
                     <pre id="console"></pre>
                     <br>
@@ -204,15 +195,11 @@ require_once('HeaderLayout.php');
 
 <script type="text/javascript">
     // Custom example logic
-
     var uploader = new plupload.Uploader({
         runtimes : 'html5,flash,silverlight,html4',
-
         browse_button : 'pickfiles', // you can pass in id...
         container: document.getElementById('container'), // ... or DOM Element itself
-
-        url : "/examples/upload",
-
+        url : "DataStudent.php",
         filters : {
             max_file_size : '10mb',
             mime_types: [
@@ -220,42 +207,31 @@ require_once('HeaderLayout.php');
                 {title : "Zip files", extensions : "zip"}
             ]
         },
-
         // Flash settings
         flash_swf_url : '/plupload/js/Moxie.swf',
-
         // Silverlight settings
         silverlight_xap_url : '/plupload/js/Moxie.xap',
-
-
         init: {
             PostInit: function() {
                 document.getElementById('filelist').innerHTML = '';
-
                 document.getElementById('uploadfiles').onclick = function() {
                     uploader.start();
                     return false;
                 };
             },
-
             FilesAdded: function(up, files) {
                 plupload.each(files, function(file) {
                     document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
                 });
             },
-
             UploadProgress: function(up, file) {
                 document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
             },
-
             Error: function(up, err) {
                 document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
             }
         }
     });
-
-    uploader.init();
-
 </script>
 
 <!--
@@ -413,6 +389,74 @@ require_once('HeaderLayout.php');
 </script>
 
 
+
+<!-- EXAMPLE KENDO GRID CODE JAVASCRIPT
+<div id="example">
+    <div id="grid"></div>
+    <script>
+        $(document).ready(function () {
+            $("#grid").kendoGrid({
+                dataSource: {
+                    type: "odata",
+                    transport: {
+                        read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Customers"
+                    },
+                    pageSize: 20
+                },
+                height: 550,
+                groupable: true,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                columns: [{
+                    template: "<div class='customer-photo'" +
+                    "style='background-image: url(../content/web/Customers/#:data.CustomerID#.jpg);'></div>" +
+                    "<div class='customer-name'>#: ContactName #</div>",
+                    field: "ContactName",
+                    title: "Contact Name",
+                    width: 240
+                }, {
+                    field: "ContactTitle",
+                    title: "Contact Title"
+                }, {
+                    field: "CompanyName",
+                    title: "Company Name"
+                }, {
+                    field: "Country",
+                    width: 150
+                }]
+            });
+        });
+    </script>
+</div>
+
+<style type="text/css">
+    .customer-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+</style>
+-->
+
+
 <?php
 
 $continue = include 'LoginCheck.php';
@@ -483,19 +527,19 @@ if($continue == true) {
     $dataSource->data($data);
 
     $nameColumn = new \Kendo\UI\GridColumn();
-    $nameColumn->field('studentName');
+    $nameColumn->field('StudentName');
 
     $studImageColumn = new \Kendo\UI\GridColumn();
-    $studImageColumn->field('studentImage');
+    $studImageColumn->field('StudentImage');
 
     $classColumn = new \Kendo\UI\GridColumn();
-    $classColumn->field('classTitle');
+    $classColumn->field('ClassTitle');
 
     $bookColumn = new \Kendo\UI\GridColumn();
-    $bookColumn->field('bookTitle');
+    $bookColumn->field('BookTitle');
 
     $bookImageColumn = new \Kendo\UI\GridColumn();
-    $bookImageColumn->field('bookImage');
+    $bookImageColumn->field('BookImage');
 
     $grid = new \Kendo\UI\Grid('grid');
     $grid->addColumn($nameColumn, $studImageColumn, $classColumn, $bookColumn, $bookImageColumn)->dataSource($dataSource);
@@ -796,10 +840,10 @@ if($continue == true) {
 
         echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
         //        echo "<td><img src =" . $returnData[$key]['StudentImage'] . "/></td>";        Attempt to simplify/unify setup
-        echo "<td>" . "<img src = 'StudentPhotos\student" . $j . ".jpg' />" . "</td>";
+        echo "<td>" . "<img style = 'width: 100%; height: auto;' src = 'StudentPhotos\student" . $j . ".jpg' />" . "</td>";
         echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
         echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-        echo "<td>" . "<img src = 'BookPhotos\book" . $j . ".jpg' />" . "</td>";
+        echo "<td>" . "<img style = 'width: 100%; height: auto;'  src = 'BookPhotos\book" . $j . ".jpg' />" . "</td>";
         echo "</tr><tr>";
 
         $j += 1;
