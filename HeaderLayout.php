@@ -8,8 +8,15 @@ if(!array_key_exists('Username', $_SESSION)){
 ?>
 <!--
     Add style conventions using CSS
+
+    https://www.w3schools.com/html/tryit.asp?filename=tryhtml_responsive_media_query3 --Responsive Web Example
 -->
 <style>
+
+    * {
+        box-sizing:border-box;
+    }
+
     header{
         color: darkblue;
     }
@@ -44,7 +51,6 @@ if(!array_key_exists('Username', $_SESSION)){
 
     #myInput {
         border-box: box-sizing;
-        background-image: url('searchicon.png');
         background-position: 14px 12px;
         background-repeat: no-repeat;
         font-size: 10px;
@@ -89,6 +95,16 @@ if(!array_key_exists('Username', $_SESSION)){
 
     h2{
         color: navy;
+        font-size: 2vw;
+    }
+
+    td{
+        text-align: center;
+    }
+
+    p{
+        color: black;
+        font-size: 0.75vw;
     }
 
     table{
@@ -110,7 +126,7 @@ if(!array_key_exists('Username', $_SESSION)){
         text-align: center;
         top: 25px;
         color: navy;
-        left: 0%;
+        left: 0;
     }
 
     .carousel-inner>.item>img{
@@ -127,19 +143,72 @@ if(!array_key_exists('Username', $_SESSION)){
         width: 60%;
         position: relative;
         top: 25px;
-        align: center;
+        align-self: center;
     }
+
+
+    .left {
+        padding:20px;
+        float:left;
+    }
+
+    .main {
+        padding:20px;
+        float:left;
+    }
+
+    .right {
+        padding:20px;
+        float:left;
+    }
+
+    .first{
+        padding: 5px;
+        float: left;
+        width: 3%;
+    }
+
+    .second{
+        padding: 5px;
+        float: left;
+        width: 3%;
+    }
+
+    .third{
+        padding: 5px;
+        float: left;
+        width: 3%;
+    }
+
+    .fourth{
+        padding: 5px;
+        float: left;
+        width: 3%;
+    }
+
+    .fifth{
+        padding: 5px;
+        float: left;
+        width: 3%;
+    }
+
+    @media screen and (max-width: 800px){
+        .first, .second, .third, .fourth, .fifth, .btn-toolbar{
+            width: 100%;
+            text-align: center;
+        }
+    }
+
 
 </style>
 
 <header>
-    <h1 align = "center"><u><b>Savvior School District</b></u></h1>
+    <h1 align = "center" style = "font-size: 2.5vw;"><u><b>Savvior School District</b></u></h1>
 
     <title>Savvior School District</title>
     <meta charset="utf-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-
 
     <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -234,61 +303,6 @@ if(!array_key_exists('Username', $_SESSION)){
 
     </script>
     <script>
-        // jQuery not really required, it's here to overcome an inability to pass configuration options to the fiddle remotely
-        $(document).ready(function() {
-            // Custom example logic
-            function $(id) {
-                return document.getElementById(id);
-            }
-
-            var uploader = new plupload.Uploader({
-                runtimes : 'html5,flash,silverlight,html4',
-                browse_button : 'pickfiles', // you can pass in id...
-                container: $('container'), // ... or DOM Element itself
-                max_file_size : '10mb',
-
-                // Fake server response here
-                // url : '../upload.php',
-                url: "/echo/json",
-
-                flash_swf_url : 'http://rawgithub.com/moxiecode/moxie/master/bin/flash/Moxie.cdn.swf',
-                silverlight_xap_url : 'http://rawgithub.com/moxiecode/moxie/master/bin/silverlight/Moxie.cdn.xap',
-                filters : [
-                    {title : "Image files", extensions : "jpg,gif,png"},
-                    {title : "Zip files", extensions : "zip"}
-                ],
-
-                init: {
-                    PostInit: function() {
-                        $('filelist').innerHTML = '';
-
-                        $('uploadfiles').onclick = function() {
-                            uploader.start();
-                            return false;
-                        };
-                    },
-
-                    FilesAdded: function(up, files) {
-                        plupload.each(files, function(file) {
-                            $('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
-                        });
-                    },
-
-                    UploadProgress: function(up, file) {
-                        $(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
-                    },
-
-                    Error: function(up, err) {
-                        $('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-                    }
-                }
-            });
-
-            uploader.init();
-        });
-
-    </script>
-    <script>
         $.validate({
             lang: 'es'
         });
@@ -324,23 +338,23 @@ if(!array_key_exists('Username', $_SESSION)){
 <!--
     Tabs
 -->
-<ul class="nav nav-tabs">
-    <li>
-        <a href="ManagementSystem.php" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home Page</a>
-    </li>
-    <li>
-        <a href="DataStudent.php" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
-    </li>
-    <li>
-        <a href="DataBook.php" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
-    </li>
-    <li>
-        <a href="DataClass.php" data-toggle = "tooltip" data-placement = "top" title = "View Class Data">Class</a>
-    </li>
-    <li>
-        <a href = "DataClassroom.php" data-toggle = "tooltip" data-placement = "top" title = "View Classroom Data">Classroom</a>
-    </li>
-</ul>
+
+<div class = "first">
+    <a href="ManagementSystem.php" class = "first" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home</a>
+</div>
+<div class = "second">
+    <a href="DataStudent.php" class = "second" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
+</div>
+<div class = "third">
+    <a href="DataBook.php" class = "third" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
+</div>
+<div class = "fourth">
+    <a href="DataClass.php" class = "fourth" data-toggle = "tooltip" data-placement = "top" title = "View Class Data">Class</a>
+</div>
+<div class = "fifth">
+    <a href = "DataClassroom.php" class = "fifth" data-toggle = "tooltip" data-placement = "top" title = "View Classroom Data">Classroom</a>
+</div>
+<hr width = 100%>
 
 <div class='btn-toolbar pull-right'>
     <div class='btn-group'>

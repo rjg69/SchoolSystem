@@ -98,7 +98,6 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
-
 <!--
     Remove Modal
 -->
@@ -176,8 +175,6 @@ require_once('HeaderLayout.php');
         </div>
     </div>
 </div>
-
-
 
 <!--
     Update Class Title
@@ -607,6 +604,8 @@ if($continue == true) {
     echo "</tr><tr>";
 
     $j = 0;
+    $classList = array();
+    $bookList = array();
 
     foreach ($results as $val) {
         $j = $j + 1;
@@ -622,13 +621,28 @@ if($continue == true) {
             );
         }
 
+        if(!in_array($val['ClassID'], $classList)){
+            echo "<td width = '16.67%'>" . $returnData[$key]['ClassID'] . "</td>";
+            echo "<td width = '16.67%'>" . $returnData[$key]['ClassTitle'] . "</td>";
+            $classList[] = $val['ClassID'];
+        }else{
+            echo "<td width = '16.67%'></td>";
+            echo "<td width = '16.67%'></td>";
+        }
 
-        echo "<td width = '16.67%'>" . $returnData[$key]['ClassID'] . "</td>";
-        echo "<td width = '16.67%'>" . $returnData[$key]['ClassTitle'] . "</td>";
         echo "<td width = '16.67%'>" . $returnData[$key]['StudentName'] . "</td>";
-        echo "<td width = '16.67%'>" . $returnData[$key]['BookID'] . "</td>";
-        echo "<td width = '16.67%'>" . $returnData[$key]['BookTitle'] . "</td>";
-        echo "<td width = '16.67%'>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+
+        if(!in_array($val['BookID'], $bookList)){
+            echo "<td width = '16.67%'>" . $returnData[$key]['BookID'] . "</td>";
+            echo "<td width = '16.67%'>" . $returnData[$key]['BookTitle'] . "</td>";
+            echo "<td width = '16.67%'>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+            $bookList[] = $val['BookID'];
+        }else{
+            echo "<td width = '16.67%'></td>";
+            echo "<td width = '16.67%'></td>";
+            echo "<td width = '16.67%'></td>";
+        }
+
         echo "</tr><tr>";
 
         $j += 1;

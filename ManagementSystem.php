@@ -122,7 +122,7 @@
             ON
                 ClassesTable.ClassroomID=ClassroomTable.ClassroomID
             ORDER BY
-                ClassesTable.ClassID;
+                StudentTable.StudentName;
             ";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -136,6 +136,9 @@
         foreach ($data as $entry) {
             $results [] = $entry;
         }
+
+        $studentList = array();
+        $bookList = array();
 
         echo "<table align = 'center' width = '70%'><tr>";
 
@@ -160,11 +163,23 @@
                     'ClassroomNumber' => $val['ClassroomNumber']
                 );
             }
-            echo "<td width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
-            echo "<td width = 16.67%>" . $returnData[$key]['StudentImage'] . "</td>";
+            if(!in_array($key, $studentList)){
+                echo "<td width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
+                echo "<td width = 16.67%>" . $returnData[$key]['StudentImage'] . "</td>";
+                $studentList[] = $key;
+            }else{
+                echo "<td width = '16.67%'></td>";
+                echo "<td width = '16.67%'></td>";
+            }
             echo "<td width = 16.67%>" . $returnData[$key]['ClassTitle'] . "</td>";
-            echo "<td width = 16.67%>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td width = 16.67%>" . $returnData[$key]['BookImage'] . "</td>";
+            if(!in_array($key, $bookList)){
+                echo "<td width = 16.67%>" . $returnData[$key]['BookTitle'] . "</td>";
+                echo "<td width = 16.67%>" . $returnData[$key]['BookImage'] . "</td>";
+                $bookList[] = $key;
+            }else{
+                echo "<td width = '16.67%'></td>";
+                echo "<td width = '16.67%'></td>";
+            }
             echo "<td width = 16.67%>" . $returnData[$key]['ClassroomNumber'] . "</td>";
             echo "</tr><tr>";
         }

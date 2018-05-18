@@ -601,26 +601,30 @@ if($continue == true) {
     echo "</tr><tr>";
 
     $j = 0;
+    $usedBooks = array();
 
     foreach ($results as $val) {
         $j = $j + 1;
         $key = $val['BookID'];
-        if (!array_key_exists($key, $reportData)) {
-            $returnData[$key] = array(
-                'BookID' => $val['BookID'],
-                'BookTitle' => $val['BookName'],
-                'BookImage' => $val['BookImage'],
-                'ClassID' => $val['ClassID'],
-                'ClassTitle' => $val['ClassName']
-            );
-        }
+            if (!array_key_exists($key, $reportData)){
+                $returnData[$key] = array(
+                    'BookID' => $val['BookID'],
+                    'BookTitle' => $val['BookName'],
+                    'BookImage' => $val['BookImage'],
+                    'ClassID' => $val['ClassID'],
+                    'ClassTitle' => $val['ClassName']
+                );
+            }
 
-        echo "<td width = '20%'>" . $returnData[$key]['BookID'] . "</td>";
-        echo "<td width = '20%'>" . $returnData[$key]['BookTitle'] . "</td>";
-        echo "<td width = '20%'>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
-        echo "<td width = '20%'>" . $returnData[$key]['ClassID'] . "</td>";
-        echo "<td width = '20%'>" . $returnData[$key]['ClassTitle'] . "</td>";
-        echo "</tr><tr>";
+        if(!in_array($key, $usedBooks)){
+            echo "<td width = '20%'>" . $returnData[$key]['BookID'] . "</td>";
+            echo "<td width = '20%'>" . $returnData[$key]['BookTitle'] . "</td>";
+            echo "<td width = '20%'>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+            echo "<td width = '20%'>" . $returnData[$key]['ClassID'] . "</td>";
+            echo "<td width = '20%'>" . $returnData[$key]['ClassTitle'] . "</td>";
+            echo "</tr><tr>";
+            $usedBooks[] = $key;
+        }
 
         $j += 1;
     }

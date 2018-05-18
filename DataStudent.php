@@ -279,7 +279,7 @@ if($continue == true) {
         ON 
             ClassesTable.ClassroomID=ClassroomTable.ClassroomID
         ORDER BY
-            ClassesTable.ClassID;
+            StudentTable.StudentID;
         ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -678,15 +678,14 @@ if($continue == true) {
     echo "<td width = '20%'><u>Student Image</u></td>";
     echo "<td width = '15%'><u>Class Title</u></td>";
     echo "<td width = '15%'><u>Book Title</u></td>";
-    echo "<td width = '20%'><u>Book Image</u></td>";
     echo "</tr><tr>";
 
     $j = 0;
+    $studentNameList = array();
 
     foreach ($results as $val) {
         $j = $j + 1;
         $key = $val['StudentID'];
-        echo "<td>" . $key . "</td>";
         if (!array_key_exists($key, $reportData)) {
             $returnData[$key] = array(
                 'StudentName' => $val['StudentName'],
@@ -697,14 +696,18 @@ if($continue == true) {
             );
         }
 
-        //$picName = $returnData[$key]['StudentName'];
-        //$bookName = $returnData[$key]['BookTitle'];
-
-        echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-        echo "<td>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+        if(!in_array($val['StudentName'], $studentNameList)){
+            echo "<td>" . $key . "</td>";
+            echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
+            echo "<td>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+            $studentNameList[] = $val['StudentName'];
+        }else{
+            echo "<td></td>";
+            echo "<td></td>";
+            echo "<td></td>";
+        }
         echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
         echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-        echo "<td>" . "</td>"; //"<img style = 'width: 100%; height: auto;'  src = $returnData[$key]['BookImage'] />" .
         echo "</tr><tr>";
 
         $j += 1;

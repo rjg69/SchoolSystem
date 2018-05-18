@@ -503,6 +503,7 @@ if($continue == true) {
     echo "</tr><tr>";
 
     $j = 0;
+    $classNumList = array();
 
     foreach ($results as $val) {
         $j = $j + 1;
@@ -515,10 +516,13 @@ if($continue == true) {
             );
         }
 
-        echo "<td width = '33%'>" . $returnData[$key]['ClassroomNumber'] . "</td>";
-        echo "<td width = '34%'>" . $returnData[$key]['ClassID'] . "</td>";
-        echo "<td width = '33%'>" . $returnData[$key]['ClassTitle'] . "</td>";
-        echo "</tr><tr>";
+        if(!in_array($val['ClassroomNumber'], $classNumList)){
+            echo "<td width = '33%'>" . $returnData[$key]['ClassroomNumber'] . "</td>";
+            echo "<td width = '34%'>" . $returnData[$key]['ClassID'] . "</td>";
+            echo "<td width = '33%'>" . $returnData[$key]['ClassTitle'] . "</td>";
+            echo "</tr><tr>";
+            $classNumList[] = $val['ClassroomNumber'];
+        }
 
         $j += 1;
     }
