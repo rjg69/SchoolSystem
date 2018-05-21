@@ -150,8 +150,6 @@ require_once('HeaderLayout.php');
 
 <!--
     Update Student Image Modal
-
-    https://www.plupload.com/examples/core use the page source of this to create overlapped input with button to instigate upload
 -->
 
 <div class="modal" tabindex="-1" role="dialog" id = "UpdateStudentImageModal">
@@ -164,8 +162,8 @@ require_once('HeaderLayout.php');
                 <form method = "get" action = "DataStudent.php">
                     <h2>Student ID</h2><br>
                     <input type = "text" placeholder = "ID" name = "id" style = "position: relative" required><br>
-                    <h2>Student Image</h2><br>
 
+                    <h2>Student Image</h2><br>
                     <div id="container" style="position: relative;">
                         <a id="pickfiles" href="javascript:;" style="position: relative; z-index: 1;">[Select files]</a>
                         <a id="uploadfiles" href="javascript:;">[Upload files]</a>
@@ -173,6 +171,7 @@ require_once('HeaderLayout.php');
                             <input name = "StudentImage" id="html5_1cdnooc7soq715hq1eof7km4ii4" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" multiple="" accept=".jpg,.gif,.png,.zip">
                         </div>
                     </div>
+
                     <br />
                     <pre id="console"></pre>
                     <br>
@@ -231,6 +230,34 @@ require_once('HeaderLayout.php');
     });
 </script>
 
+<!--
+<div id = "example">
+    <div id = "grid"></div>
+    <script>
+        $(document).ready(function(){
+            $("#grid").kendoGrid((
+                dataSource: {
+                    type: "odata",
+                        transport: {
+                        read ("Https://demos.telerik.com/kendo-ui/service/Northwind.svc/Customers")
+                },
+                height: 550,
+                    groupable: true,
+                    sortable: true,
+                    pageable:{
+                        refresh: true,
+                            pageSizes: true,
+                        buttonCount: 5
+                },
+                columns: [{
+                        template:
+                }]
+            }
+            ))
+        })
+    </script>
+</div>
+-->
 
 <?php
 

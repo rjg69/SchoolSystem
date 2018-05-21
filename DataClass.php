@@ -408,6 +408,7 @@ if($continue == true) {
         }
     }
 
+
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
      ****************************************************************
@@ -434,7 +435,6 @@ if($continue == true) {
         mssql_close($dbc);
 
     }
-
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID --MySQL
@@ -674,6 +674,7 @@ if($continue == true) {
     }
 
 
+
     /****************************************************************
      * EDIT DESIGNATED STUDENT VALUES
      ****************************************************************
@@ -730,8 +731,8 @@ if($continue == true) {
         $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
         $sql = ("UPDATE SavviorSchool
-                    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
-                    WHERE ID = '$id'");
+    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
+    WHERE ID = '$id'");
 
         mssql_close($dbc);
 

@@ -171,7 +171,7 @@ if(!array_key_exists('Username', $_SESSION)){
     .second{
         padding: 5px;
         float: left;
-        width: 3%;
+        width: 4%;
     }
 
     .third{
@@ -197,7 +197,32 @@ if(!array_key_exists('Username', $_SESSION)){
             width: 100%;
             text-align: center;
         }
+
+        .btn-primary{
+            width: 100%;
+            text-align: center;
+        }
     }
+
+    #container{
+        width: 100px;
+        height: 100px;
+        position: relative;
+    }
+
+    #pickfiles, #uploadfiles{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top:0;
+        left: =;
+    }
+
+    #uploadfiles{
+        z-index: 10;
+    }
+
+
 
 
 </style>
@@ -215,6 +240,9 @@ if(!array_key_exists('Username', $_SESSION)){
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
     <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
 
 
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>

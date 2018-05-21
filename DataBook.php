@@ -178,6 +178,7 @@ require_once('HeaderLayout.php');
     </div>
 </div>
 
+
 <?php
 
 $continue = include 'LoginCheck.php';
@@ -325,29 +326,29 @@ if($continue == true) {
     }
 
     /****************************************************************
-     *  ADD NEW BOOK TO THE DATABASE -- MSSQL
+     *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
      ****************************************************************
 
     if(isset($_GET['submit'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
-    $msclass = $_GET['ClassTitle'];
-    $msbook = $_GET['BookTitle'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
+        $msclass = $_GET['ClassTitle'];
+        $msbook = $_GET['BookTitle'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
-    $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
+        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
 
@@ -368,7 +369,7 @@ if($continue == true) {
 
         $sql = "DELETE FROM BookTable WHERE BookID = '$BookID' AND BookName = '$BookName'";
 
-        $sqlClass = "DELETE FROM ClassesTable WHERE BookID = '$BookID'";
+        $sqlClass = "DELETE BookID FROM ClassesTable WHERE BookID = '$BookID'";
 
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -388,25 +389,24 @@ if($continue == true) {
 
     if(isset($_GET['submit1'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-    $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
+        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
-
 
 
     /****************************************************************
@@ -543,77 +543,78 @@ if($continue == true) {
 
     if(isset($_GET['submit2'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
 
-    if ($_GET['StudentName']) {
-    $name = $_GET['StudentName'];
-    }else{
-    foreach($data as $user){
-    if($data['id'] == $_GET['ID']){
-    $name = $data['id']['StudentName'];
-    }
-    }
-    }
+        if ($_GET['StudentName']) {
+            $name = $_GET['StudentName'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == $_GET['ID']){
+                    $name = $data['id']['StudentName'];
+                }
+            }
+        }
 
-    if ($_GET['id']) {
-    $id = $_GET['id'];
-    } else {
-    $id = null;
-    }
+        if ($_GET['id']) {
+            $id = $_GET['id'];
+        } else {
+            $id = null;
+        }
 
-    if ($_GET['ClassTitle']) {
-    $class = $_GET['ClassTitle'];
-    }else{
-    foreach($data as $user){
-    if($data['id'] == 'ID'){
-    $name = $data['id']['ClassTitle'];
-    }
-    }
-    }
+        if ($_GET['ClassTitle']) {
+            $class = $_GET['ClassTitle'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == 'ID'){
+                    $name = $data['id']['ClassTitle'];
+                }
+            }
+        }
 
-    if ($_GET['BookTitle']) {
-    $book = $_GET['BookTitle'];
-    }else {
-    foreach ($data as $user) {
-    if ($data['id'] == 'ID') {
-    $name = $data['id']['BookTitle'];
-    }
-    }
-    }
+        if ($_GET['BookTitle']) {
+            $book = $_GET['BookTitle'];
+        }else {
+            foreach ($data as $user) {
+                if ($data['id'] == 'ID') {
+                    $name = $data['id']['BookTitle'];
+                }
+            }
+        }
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = ("UPDATE SavviorSchool
+        $sql = ("UPDATE SavviorSchool
     SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
     WHERE ID = '$id'");
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
-
 
     /****************************************************************
      *  OUTPUT DYNAMIC TABLE DISPLAY
      ****************************************************************/
 
 
-    echo "<table align = 'center' width = '70%'><tr>";
+    echo "<div id = 'example'>";
+    echo "<table align = 'center' width = '70%' id = 'grid'><tr>";
 
-    echo "<td width = '20%'><u>Book ID</u></td>";
-    echo "<td width = '20%'><u>Book Name</u></td>";
-    echo "<td width = '20%'><u>Book Image</u></td>";
-    echo "<td width = '20%'><u>Class ID</u></td>";
-    echo "<td width = '20%'><u>Class Title</u></td>";
-    echo "</tr><tr>";
+    //KendoGrid Adjustments to Table Design
+
+    echo "<colgroup><col style = 'width: 20%' /><col style = 'width: 20%' /><col style = 'width: 20%' /><col style = 'width: 20%' /><col style = 'width: 20%' /></colgroup>";
+
+    echo "<thead><tr><th data-field = 'bookID'>Book ID</th><th data-field = 'bookName'>Book Name</th><th data-field = 'bookImage'>Book Image</th><th data-field = 'classID'>Class ID</th>
+                     <th data-field = 'classTitle'>Class Title</th></tr>";
+    echo "</thead><tbody><tr>";
 
     $j = 0;
     $usedBooks = array();
@@ -632,19 +633,27 @@ if($continue == true) {
             }
 
         if(!in_array($key, $usedBooks) && $key != null){
-            echo "<td width = '20%'>" . $returnData[$key]['BookID'] . "</td>";
-            echo "<td width = '20%'>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td width = '20%'>" . $returnData[$key]['BookImage'] ."</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
-            echo "<td width = '20%'>" . $returnData[$key]['ClassID'] . "</td>";
-            echo "<td width = '20%'>" . $returnData[$key]['ClassTitle'] . "</td>";
+            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['BookID'] . "</td>";
+            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['BookTitle'] . "</td>";
+            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['BookImage'] ."</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['ClassID'] . "</td>";
+            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['ClassTitle'] . "</td>";
             echo "</tr><tr>";
             $usedBooks[] = $key;
         }
 
         $j += 1;
     }
-    echo "</tr></table>";
-
+    echo "</tr></tbody></table>      
+                <script>
+                   $(document).ready(function(){
+                        $(\"#grid\").kendoGrid({
+                            height: 550,
+                            sortable: true
+                        });
+                    });
+                </script>";
+    echo "</div>";
 
     /**********************************************************************************************
      * Assignment 1 & 2

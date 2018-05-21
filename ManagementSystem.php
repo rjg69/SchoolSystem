@@ -15,7 +15,7 @@
             <h2 align = "center">Student Highlights</h2>
             <div id="myCarousel" class="carousel slide" data-ride="carousel" align = "center">
                 <!-- Indicators -->
-                <ol class="carousel-indicators" align = "center">
+                <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                     <li data-target="#myCarousel" data-slide-to="1"></li>
                     <li data-target="#myCarousel" data-slide-to="2"></li>
@@ -155,7 +155,7 @@
             if (!array_key_exists($key, $returnData) && $key != null) {
                 $returnData[$key] = array(
                     'StudentName' => $val['StudentName'],
-                    'StudentImage' => $val['StudentImage'],
+                    'StudentImage' => 'StudentPhotos\\' . $val['StudentName'] . '.jpg',
                     'ClassTitle' => $val['ClassName'],
                     'BookTitle' => $val['BookName'],
                     'BookImage' => $val['BookImage'],
@@ -164,7 +164,7 @@
             }
             if(!in_array($key, $studentList) && $key != null){
                 echo "<td width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
-                echo "<td width = 16.67%>" . $returnData[$key]['StudentImage'] . "</td>";
+                echo "<td width = 16.67%><img style = 'width: 100%; height: auto;' src = '$returnData[$key][\'StudentImage\']' /></td>";
                 $studentList[] = $key;
             }else{
                 echo "<td width = '16.67%'></td>";
