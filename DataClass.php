@@ -28,11 +28,11 @@ require_once('HeaderLayout.php');
         <span class="caret"></span></button>
     <div id = "myDropdown" class = "dropdown-content">
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Add Student to Class</a>
-        <a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Remove Student from Class</a>
+        <a href="#" data-toggle = "modal" data-target = "#AddStudentToRoster">Add Student to Class</a>
+        <a href="#" data-toggle = "modal" data-target = "#RemoveStudentFromRoster">Remove Student from Class</a>
         <a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a>
         <a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a>
-        <a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Classroom Number</a>
+        <a href="#" data-toggle = "modal" data-target = "#UpdateClassroomNumberModal">Classroom Number</a>
     </div>
 </div>
 
@@ -128,7 +128,7 @@ require_once('HeaderLayout.php');
     Add Student to Roster
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassTitleModal">
+<div class="modal" tabindex="-1" role="dialog" id = "AddStudentToRoster">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -137,9 +137,9 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form>
                     <h2>Class ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" name = "ClassID"><br>
                     <h2>Student ID</h2><br>
-                    <input type = "text" name = "ClassTitle"><br>
+                    <input type = "text" name = "StudentID"><br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>
@@ -154,7 +154,7 @@ require_once('HeaderLayout.php');
     Remove Student from Roster
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookTitleModal">
+<div class="modal" tabindex="-1" role="dialog" id = "RemoveStudentFromRoster">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -163,9 +163,9 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form>
                     <h2>Class ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" name = "ClassID"><br>
                     <h2>Student ID</h2><br>
-                    <input type = "text" name = "BookTitle"><br>
+                    <input type = "text" name = "StudentID"><br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>
@@ -180,7 +180,7 @@ require_once('HeaderLayout.php');
     Update Class Title
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateBookTitleModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassTitleModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -189,9 +189,9 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form>
                     <h2>Class ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" name = "ClassID"><br>
                     <h2>Class Title</h2><br>
-                    <input type = "text" name = "BookTitle"><br>
+                    <input type = "text" name = "ClassTitle"><br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>
@@ -216,11 +216,38 @@ require_once('HeaderLayout.php');
             <div class="modal-body">
                 <form>
                     <h2>Class ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" name = "ClassID"><br>
                     <h2>Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
                     <h2>Book ID</h2><br>
                     <input type = "text" name = "BookID"><br>
+                    <input type = "submit" value = "Submit">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--
+    Update Classroom Number Modal
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassroomNumberModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Student</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h2>Old Classroom Number</h2><br>
+                    <input type = "text" name = "OldClassroomNumber"><br>
+                    <h2>New Classroom Number</h2><br>
+                    <input type = "text" name = "ClassroomNumber"><br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>
@@ -310,10 +337,10 @@ if($continue == true) {
     $conn = sqlsrv_connect($msservername, $connectionInfo);
 
     if($conn){
-    echo "connection established <br />";
+        echo "connection established <br />";
     }else{
-    echo "connection could not be established <br />";
-    die( print_r( sqlsrv_errors(), true));
+        echo "connection could not be established <br />";
+        die( print_r( sqlsrv_errors(), true));
     }
 
 
@@ -355,7 +382,7 @@ if($continue == true) {
 
 
     /****************************************************************
-     *  ADD NEW STUDENT TO THE DATABASE -- MySQL
+     *  ADD NEW CLASS TO THE DATABASE -- MySQL
      ****************************************************************/
     if (isset($_GET['submit'])) {
 
@@ -387,24 +414,24 @@ if($continue == true) {
 
     if(isset($_GET['submit'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
-    $msclass = $_GET['ClassTitle'];
-    $msbook = $_GET['BookTitle'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
+        $msclass = $_GET['ClassTitle'];
+        $msbook = $_GET['BookTitle'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
-    $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
+        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
 
@@ -442,22 +469,22 @@ if($continue == true) {
 
     if(isset($_GET['submit1'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-    $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
+        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
 
@@ -468,34 +495,13 @@ if($continue == true) {
      ****************************************************************/
 
     if (isset($_GET['submit2'])) {
-        $q = ("
-        SELECT
-            ClassesTable.ClassName,
-            ClassesTable.ClassID,
-            BookTable.BookName,
-            BookTable.BookImage,
-            BookTable.BookID
-        FROM
-            ClassesTable
-        LEFT JOIN
-            BookTable
-        ON
-            ClassesTable.BookID=BookTable.BookID
-        ORDER BY
-            ClassesTable.ClassID;
-        ");
 
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $data = $dbh->query($q, PDO::FETCH_ASSOC);
-
-
-        if ($_GET['BookName']) {
+        if ($_GET['BookTitle']) {
             $name = $_GET['BookName'];
         }else{
             foreach($data as $user){
                 if($data['id'] == $_GET['BookID']){
-                    $name = $data['id']['BookName'];
+                    $name = $data['id']['BookTitle'];
                 }
             }
         }
@@ -525,65 +531,209 @@ if($continue == true) {
     }
 
     /****************************************************************
+     * EDIT CLASSROOM NUMBER
+     ****************************************************************/
+
+    if (isset($_GET['submit3'])) {
+
+        if ($_GET['ClassroomNumber']) {
+            $room = $_GET['ClassroomNumber'];
+        }else{
+            $room = null;
+        }
+
+        if ($_GET['OldClassroomNumber']) {
+            $oldRoom = $_GET['OldClassroomNumber'];
+        }else{
+            $oldRoom = null;
+        }
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        //student query
+        $sql = ("UPDATE ClassesTable 
+                    SET ClassroomID = '$room'
+                    WHERE ClassroomID = '$oldRoom'");
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        #Refresh page one time after executing
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        }
+    }
+
+    /****************************************************************
+     * EDIT CLASS TITLE
+     ****************************************************************/
+
+    if(isset($_GET['submit4'])){
+
+        if ($_GET['ClassTitle']) {
+            $title = $_GET['ClassTitle'];
+        }else{
+            $title = null;
+        }
+
+        if ($_GET['ClassID']) {
+            $id = $_GET['ClassID'];
+        } else {
+            $id = null;
+        }
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        //student query
+        $sql = ("UPDATE ClassTable 
+                    SET ClassName = '$title'
+                    WHERE ClassID = '$ClassID'");
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        #Refresh page one time after executing
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        }
+    }
+
+    /****************************************************************
+     * EDIT ADD TO ROSTER
+     ****************************************************************/
+
+    if (isset($_GET['submit5'])) {
+
+        if ($_GET['StudentID']) {
+            $studID = $_GET['StudentID'];
+        }else{
+            $studID = null;
+        }
+
+        if ($_GET['ClassID']) {
+            $classID = $_GET['ClassID'];
+        } else {
+            $classID = null;
+        }
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        //student query
+        $sql = ("INSERT INTO StudClass 
+                    VALUES StudentID = '$studID', ClassID = '$classID'
+                ");
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        #Refresh page one time after executing
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        }
+    }
+
+    /****************************************************************
+     * EDIT REMOVE FROM ROSTER
+     ****************************************************************/
+
+    if (isset($_GET['submit6'])) {
+
+        if ($_GET['ClassID']) {
+            $classID = $_GET['ClassID'];
+        }else{
+            $classID = null;
+        }
+
+        if ($_GET['StudentID']) {
+            $studID = $_GET['StudentID'];
+        } else {
+            $studID = null;
+        }
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        //student query
+        $sql = ("DELETE FROM StudClass
+                    WHERE StudentID = '$studID', ClassID = '$classID'");
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        #Refresh page one time after executing
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        }
+    }
+
+
+    /****************************************************************
      * EDIT DESIGNATED STUDENT VALUES
      ****************************************************************
 
     if(isset($_GET['submit2'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
 
-    if ($_GET['StudentName']) {
-    $name = $_GET['StudentName'];
-    }else{
-    foreach($data as $user){
-    if($data['id'] == $_GET['ID']){
-    $name = $data['id']['StudentName'];
-    }
-    }
-    }
+        if ($_GET['StudentName']) {
+            $name = $_GET['StudentName'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == $_GET['ID']){
+                    $name = $data['id']['StudentName'];
+                }
+            }
+        }
 
-    if ($_GET['id']) {
-    $id = $_GET['id'];
-    } else {
-    $id = null;
-    }
+        if ($_GET['id']) {
+            $id = $_GET['id'];
+        } else {
+            $id = null;
+        }
 
-    if ($_GET['ClassTitle']) {
-    $class = $_GET['ClassTitle'];
-    }else{
-    foreach($data as $user){
-    if($data['id'] == 'ID'){
-    $name = $data['id']['ClassTitle'];
-    }
-    }
-    }
+        if ($_GET['ClassTitle']) {
+            $class = $_GET['ClassTitle'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == 'ID'){
+                    $name = $data['id']['ClassTitle'];
+                }
+            }
+        }
 
-    if ($_GET['BookTitle']) {
-    $book = $_GET['BookTitle'];
-    }else {
-    foreach ($data as $user) {
-    if ($data['id'] == 'ID') {
-    $name = $data['id']['BookTitle'];
-    }
-    }
-    }
+        if ($_GET['BookTitle']) {
+            $book = $_GET['BookTitle'];
+        }else {
+            foreach ($data as $user) {
+                if ($data['id'] == 'ID') {
+                    $name = $data['id']['BookTitle'];
+                }
+            }
+        }
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = ("UPDATE SavviorSchool
-    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
-    WHERE ID = '$id'");
+        $sql = ("UPDATE SavviorSchool
+                    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
+                    WHERE ID = '$id'");
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
 
@@ -614,14 +764,14 @@ if($continue == true) {
             $returnData[$key] = array(
                 'BookID' => $val['BookID'],
                 'BookTitle' => $val['BookName'],
-                'BookImage' => $val['BookImage'],
+                'BookImage' =>  '\BookPhotos\\' . $val['BookName'] . '.jpg',
                 'ClassID' => $val['ClassID'],
                 'ClassTitle' => $val['ClassName'],
                 'StudentName' => $val['StudentName']
             );
         }
 
-        if(!in_array($val['ClassID'], $classList)){
+        if(!in_array($val['ClassID'], $classList) && $val['ClassID'] != null){
             echo "<td width = '16.67%'>" . $returnData[$key]['ClassID'] . "</td>";
             echo "<td width = '16.67%'>" . $returnData[$key]['ClassTitle'] . "</td>";
             $classList[] = $val['ClassID'];
@@ -632,10 +782,10 @@ if($continue == true) {
 
         echo "<td width = '16.67%'>" . $returnData[$key]['StudentName'] . "</td>";
 
-        if(!in_array($val['BookID'], $bookList)){
+        if(!in_array($val['BookID'], $bookList) && $val['BookID'] != null){
             echo "<td width = '16.67%'>" . $returnData[$key]['BookID'] . "</td>";
             echo "<td width = '16.67%'>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td width = '16.67%'>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+            echo "<td width = '16.67%'>" . $returnData[$key]['BookImage'] . "</td>";
             $bookList[] = $val['BookID'];
         }else{
             echo "<td width = '16.67%'></td>";

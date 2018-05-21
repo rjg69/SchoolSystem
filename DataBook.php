@@ -133,10 +133,12 @@ require_once('HeaderLayout.php');
             </div>
             <div class="modal-body">
                 <form>
-                    <h2>ID</h2><br>
+                    <h2>New Book ID</h2><br>
                     <input type = "text" name = "id"><br>
-                    <h2>Book Title</h2><br>
+                    <h2>New Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
+                    <h2>Old Book ID</h2><br>
+                    <input type = "text" name = "OldBookID"><br>
                     <input type = "submit" value = "Submit">
                 </form>
             </div>
@@ -296,7 +298,7 @@ if($continue == true) {
 
 
     /****************************************************************
-     *  ADD NEW STUDENT TO THE DATABASE -- MySQL
+     *  ADD NEW BOOK TO THE DATABASE -- MySQL
      ****************************************************************/
     if (isset($_GET['submit'])) {
 
@@ -310,7 +312,7 @@ if($continue == true) {
 
         $sqlb = "INSERT INTO BookTable(BookID, BookName) VALUES ('$BookID', '$bookName');";
 
-        $sqlc = "INSERT INTO ClassesTable(ClassID, ClassName) VALUES ('$ClassID', '$class');";
+        $sqlc = "INSERT INTO ClassesTable(ClassID, ClassName, BookID) VALUES ('$ClassID', '$class', '$BookID');";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -323,7 +325,7 @@ if($continue == true) {
     }
 
     /****************************************************************
-     *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
+     *  ADD NEW BOOK TO THE DATABASE -- MSSQL
      ****************************************************************
 
     if(isset($_GET['submit'])){
@@ -366,10 +368,13 @@ if($continue == true) {
 
         $sql = "DELETE FROM BookTable WHERE BookID = '$BookID' AND BookName = '$BookName'";
 
+        $sqlClass = "DELETE FROM ClassesTable WHERE BookID = '$BookID'";
+
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
+        $dbh->exec($sqlClass);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
@@ -447,13 +452,23 @@ if($continue == true) {
             $id = null;
         }
 
+        if($_GET['OldBookID']){
+            $OldBookID = $_GET['OldBookID'];
+        } else {
+            $OldBookID = null;
+        }
+
+
         $username = "sa";
         $password = "capcom5^";
 
-        //student query
         $sql = ("UPDATE BookTable 
                     SET BookName = '$name'
                     WHERE BookID = '$BookID'");
+
+        $sqlc = ("UPDATE ClassesTable
+                    SET BookID = '$BookID'
+                    WHERE BookID = '$OldBookID'");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -610,16 +625,16 @@ if($continue == true) {
                 $returnData[$key] = array(
                     'BookID' => $val['BookID'],
                     'BookTitle' => $val['BookName'],
-                    'BookImage' => $val['BookImage'],
+                    'BookImage' =>  '\BookPhotos\\' . $val['BookName'] . '.jpg',
                     'ClassID' => $val['ClassID'],
                     'ClassTitle' => $val['ClassName']
                 );
             }
 
-        if(!in_array($key, $usedBooks)){
+        if(!in_array($key, $usedBooks) && $key != null){
             echo "<td width = '20%'>" . $returnData[$key]['BookID'] . "</td>";
             echo "<td width = '20%'>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td width = '20%'>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+            echo "<td width = '20%'>" . $returnData[$key]['BookImage'] ."</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
             echo "<td width = '20%'>" . $returnData[$key]['ClassID'] . "</td>";
             echo "<td width = '20%'>" . $returnData[$key]['ClassTitle'] . "</td>";
             echo "</tr><tr>";

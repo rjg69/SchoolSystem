@@ -318,8 +318,12 @@ if($continue == true) {
     /****************************************************************
      *  ASSIGNMENT 6 - KENDOUI GRID COMPATIBILITY
      ****************************************************************/
+
     $dataSource = new \Kendo\Data\DataSource();
-    $dataSource->data($data);
+    $dataSource->data($results);
+
+    $idColumn = new \Kendo\UI\GridColumn();
+    $idColumn->field('StudentID');
 
     $nameColumn = new \Kendo\UI\GridColumn();
     $nameColumn->field('StudentName');
@@ -333,11 +337,8 @@ if($continue == true) {
     $bookColumn = new \Kendo\UI\GridColumn();
     $bookColumn->field('BookTitle');
 
-    $bookImageColumn = new \Kendo\UI\GridColumn();
-    $bookImageColumn->field('BookImage');
-
     $grid = new \Kendo\UI\Grid('grid');
-    $grid->addColumn($nameColumn, $studImageColumn, $classColumn, $bookColumn, $bookImageColumn)->dataSource($dataSource);
+    $grid->addColumn($idColumn, $nameColumn, $studImageColumn, $classColumn, $bookColumn)->dataSource($dataSource);
 
     echo $grid->render();
 
@@ -367,7 +368,7 @@ if($continue == true) {
 
         $sql = "INSERT INTO StudentTable(StudentID, StudentName) VALUES ('$StudID', '$studName');";
 
-        $sqlb = "INSERT INTO ClassesTable(ClassID, ClassName) VALUES ('$ClassID', '$class');";
+        $sqlb = "INSERT INTO StudClass(StudentID, ClassID) VALUES ('$StudID', '$ClassID');";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -689,17 +690,17 @@ if($continue == true) {
         if (!array_key_exists($key, $reportData)) {
             $returnData[$key] = array(
                 'StudentName' => $val['StudentName'],
-                'StudentImage' => $val['StudentImage'],
+                'StudentImage' => '\StudentPhotos\\' . $val['StudentName'] . '.jpg',
                 'ClassTitle' => $val['ClassName'],
                 'BookTitle' => $val['BookName'],
-                'BookImage' => $val['BookImage']
+                'BookImage' =>  '\BookPhotos\\' . $val['BookName'] . '.jpg'
             );
         }
 
-        if(!in_array($val['StudentName'], $studentNameList)){
+        if(!in_array($val['StudentName'], $studentNameList) && $val['StudentName'] != null){
             echo "<td>" . $key . "</td>";
             echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-            echo "<td>" . "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
+            echo "<td>" . $returnData[$key]['StudentImage'] .  "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
             $studentNameList[] = $val['StudentName'];
         }else{
             echo "<td></td>";

@@ -152,8 +152,7 @@
 
         foreach ($results as $val) {
             $key = $val['StudentID'];
-            //echo "<td width = 16.67%>" . $val['StudentID'] . "</td>";
-            if (!array_key_exists($key, $returnData)) {
+            if (!array_key_exists($key, $returnData) && $key != null) {
                 $returnData[$key] = array(
                     'StudentName' => $val['StudentName'],
                     'StudentImage' => $val['StudentImage'],
@@ -163,7 +162,7 @@
                     'ClassroomNumber' => $val['ClassroomNumber']
                 );
             }
-            if(!in_array($key, $studentList)){
+            if(!in_array($key, $studentList) && $key != null){
                 echo "<td width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
                 echo "<td width = 16.67%>" . $returnData[$key]['StudentImage'] . "</td>";
                 $studentList[] = $key;
@@ -171,8 +170,10 @@
                 echo "<td width = '16.67%'></td>";
                 echo "<td width = '16.67%'></td>";
             }
+
             echo "<td width = 16.67%>" . $returnData[$key]['ClassTitle'] . "</td>";
-            if(!in_array($key, $bookList)){
+
+            if(!in_array($key, $bookList) && $key != null){
                 echo "<td width = 16.67%>" . $returnData[$key]['BookTitle'] . "</td>";
                 echo "<td width = 16.67%>" . $returnData[$key]['BookImage'] . "</td>";
                 $bookList[] = $key;
@@ -180,6 +181,7 @@
                 echo "<td width = '16.67%'></td>";
                 echo "<td width = '16.67%'></td>";
             }
+
             echo "<td width = 16.67%>" . $returnData[$key]['ClassroomNumber'] . "</td>";
             echo "</tr><tr>";
         }

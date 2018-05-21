@@ -80,22 +80,6 @@ require_once('HeaderLayout.php');
             });
         });
     });
-
-    //Automatically add students to student table
-    $(function(){
-        $('AddModal').on('submit', function(e){
-            e.preventDefult();
-
-            $.ajax({
-                type: 'post',
-                url: 'testproject.test/DataStudent.php',
-                data: $('AddModal').serialize(),
-                success: function(){
-                    alert('Student Table Updated Successfully');
-                }
-            });
-        });
-    });
 </script>
 
 <!--
@@ -309,7 +293,7 @@ if($continue == true) {
     }
 
     /****************************************************************
-     *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
+     *  ADD NEW CLASSROOM TO THE DATABASE -- MSSQL
      ****************************************************************
 
     if(isset($_GET['submit'])){
@@ -427,7 +411,7 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT VALUES
+     * EDIT DESIGNATED CLASSROOM VALUES
      ****************************************************************
 
     if(isset($_GET['submit2'])){
@@ -516,7 +500,7 @@ if($continue == true) {
             );
         }
 
-        if(!in_array($val['ClassroomNumber'], $classNumList)){
+        if(!in_array($val['ClassroomNumber'], $classNumList) && $val['ClassroomNumber'] != null){
             echo "<td width = '33%'>" . $returnData[$key]['ClassroomNumber'] . "</td>";
             echo "<td width = '34%'>" . $returnData[$key]['ClassID'] . "</td>";
             echo "<td width = '33%'>" . $returnData[$key]['ClassTitle'] . "</td>";
