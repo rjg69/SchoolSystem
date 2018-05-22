@@ -645,14 +645,14 @@ if($continue == true) {
         $j += 1;
     }
     echo "</tr></tbody></table>      
-                <script>
-                   $(document).ready(function(){
-                        $(\"#grid\").kendoGrid({
-                            height: 550,
-                            sortable: true
-                        });
+            <script>
+                $(document).ready(function() {
+                    $(\"#grid\").kendoGrid({
+                        height: 550,
+                        sortable: true
                     });
-                </script>";
+                });
+            </script>";
     echo "</div>";
 
     /**********************************************************************************************

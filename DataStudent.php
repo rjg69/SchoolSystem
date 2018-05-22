@@ -7,38 +7,33 @@ require_once('HeaderLayout.php');
 <body>
 <br />
 
-<!--
-    Add button & delete button, to be put in top right since only one item will be affected at a time
--->
-
+<!--Data Manipulation Button Group-->
 <div class="btn-toolbar">
-    <div class = 'btn-group'>
+    <div class = 'btn-group-justified'>
+
+
+
+        <!--Add button-->
         <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
             <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
         </button>
-    </div>
-    <div class = 'btn-group'>
+
+        <!--Remove button-->
         <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
             <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white>Remove</a>
         </button>
-    </div>
 
-<!--
-    Update button
--->
-
-    <div class = 'btn-group'>
-        <div class="dropbtn">
-            <div class = "dropdown">
-                <button class="btn btn-primary" onclick="myFunction()" type="button" data-placement = "top" title = "Update Entry in Table">Update
-                    <span class="caret"></span></button>
-                <div id = "myDropdown" class = "dropdown-content">
-                    <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
-                    <a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a>
-                    <a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a>
-                </div>
-            </div>
+        <!--Update button-->
+        <button class="btn btn-primary dropdown-toggle" onclick="myFunction()" type="button" data-placement = "top" title = "Update Entry in Table">Update
+            <span class="caret"></span></button>
+        <div id = "myDropdown" class = "dropdown-content">
+            <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
+            <a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a>
+            <a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a>
         </div>
+
+
+
     </div>
 </div>
 
@@ -208,7 +203,7 @@ require_once('HeaderLayout.php');
         container: document.getElementById('container'), // ... or DOM Element itself
         url : "DataStudent.php",
         filters : {
-            max_file_size : '10mb',
+            max_file_size : '10kb',
             mime_types: [
                 {title : "Image files", extensions : "jpg,gif,png"},
                 {title : "Zip files", extensions : "zip"}

@@ -65,11 +65,11 @@
 
 
         <div class="owl-carousel owl-theme">
-            <div class="item"><img height = '100%' src="StudentPhotos\Darth Maul.jpg"></div>
-            <div class="item"><img height = '100%' src="StudentPhotos\Chewbacca.jpg"></div>
-            <div class="item"><img height = '100%' src="StudentPhotos\Admiral Akbar.jpg"></div>
-            <div class="item"><img height = '100%' src="StudentPhotos\Yoda.jpg"></div>
-            <div class="item"><img height = '100%' src="StudentPhotos\Luke Skywalker.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos/Darth Maul.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos/Chewbacca.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos/Admiral Akbar.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos/Yoda.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos/Luke Skywalker.jpg"></div>
         </div>
 
         <script>

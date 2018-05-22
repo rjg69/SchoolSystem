@@ -136,7 +136,7 @@ require_once('HeaderLayout.php');
 </div>
 
 <!--
-    Update Modal Room
+    Update Modal Classroom Number
 -->
 
 <div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
@@ -293,29 +293,29 @@ if($continue == true) {
     }
 
     /****************************************************************
-     *  ADD NEW CLASSROOM TO THE DATABASE -- MSSQL
+     *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
      ****************************************************************
 
     if(isset($_GET['submit'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
-    $msclass = $_GET['ClassTitle'];
-    $msbook = $_GET['BookTitle'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
+        $msclass = $_GET['ClassTitle'];
+        $msbook = $_GET['BookTitle'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
-    $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
+        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
 
@@ -352,22 +352,22 @@ if($continue == true) {
 
     if(isset($_GET['submit1'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-    $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
+        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
 
@@ -411,65 +411,65 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED CLASSROOM VALUES
+     * EDIT DESIGNATED STUDENT VALUES
      ****************************************************************
 
     if(isset($_GET['submit2'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msservername = "10.99.100.38";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+        $msdbname = "ryan_intern";
 
-    $changeData[] = $id;
+        $changeData[] = $id;
 
 
-    if ($_GET['StudentName']) {
-    $name = $_GET['StudentName'];
-    }else{
-    foreach($data as $user){
-    if($data['id'] == $_GET['ID']){
-    $name = $data['id']['StudentName'];
-    }
-    }
-    }
+        if ($_GET['StudentName']) {
+            $name = $_GET['StudentName'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == $_GET['ID']){
+                    $name = $data['id']['StudentName'];
+                }
+            }
+        }
 
-    if ($_GET['id']) {
-    $id = $_GET['id'];
-    } else {
-    $id = null;
-    }
+        if ($_GET['id']) {
+            $id = $_GET['id'];
+        } else {
+            $id = null;
+        }
 
-    if ($_GET['ClassTitle']) {
-    $class = $_GET['ClassTitle'];
-    }else{
-    foreach($data as $user){
-    if($data['id'] == 'ID'){
-    $name = $data['id']['ClassTitle'];
-    }
-    }
-    }
+        if ($_GET['ClassTitle']) {
+            $class = $_GET['ClassTitle'];
+        }else{
+            foreach($data as $user){
+                if($data['id'] == 'ID'){
+                    $name = $data['id']['ClassTitle'];
+                }
+            }
+        }
 
-    if ($_GET['BookTitle']) {
-    $book = $_GET['BookTitle'];
-    }else {
-    foreach ($data as $user) {
-    if ($data['id'] == 'ID') {
-    $name = $data['id']['BookTitle'];
-    }
-    }
-    }
+        if ($_GET['BookTitle']) {
+            $book = $_GET['BookTitle'];
+        }else {
+            foreach ($data as $user) {
+                if ($data['id'] == 'ID') {
+                    $name = $data['id']['BookTitle'];
+                }
+            }
+        }
 
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-    $sql = ("UPDATE SavviorSchool
+        $sql = ("UPDATE SavviorSchool
     SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
     WHERE ID = '$id'");
 
-    mssql_close($dbc);
+        mssql_close($dbc);
 
     }
 
