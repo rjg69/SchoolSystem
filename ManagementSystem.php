@@ -24,15 +24,15 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" align = "center">
                     <div class="item active">
-                        <img height = '100%' src="StudentPhotos\student3.jpg">
+                        <img height = '100%' src="StudentPhotos\Admiral Akbar.jpg">
                     </div>
 
                     <div class="item">
-                        <img height = '100%' src="StudentPhotos\student4.jpg">
+                        <img height = '100%' src="StudentPhotos\Chewbacca.jpg">
                     </div>
 
                     <div class="item">
-                        <img height = '100%' src="StudentPhotos\student9.jpg">
+                        <img height = '100%' src="StudentPhotos\Darth Maul.jpg">
                     </div>
                 </div>
 
@@ -47,6 +47,57 @@
                 </a>
             </div>
         </div>
+
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+
+
+        <div class="owl-carousel owl-theme">
+            <div class="item"><img height = '100%' src="StudentPhotos\Darth Maul.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos\Chewbacca.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos\Admiral Akbar.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos\Yoda.jpg"></div>
+            <div class="item"><img height = '100%' src="StudentPhotos\Luke Skywalker.jpg"></div>
+        </div>
+
+        <script>
+            $('.owl-carousel').owlCarousel({
+                loop:true,
+                margin:10,
+                nav:true,
+                responsive : {
+                    // breakpoint from 0 up
+                    0 : {
+                        items: 1,
+                        nav: true
+                    },
+                    // breakpoint from 480 up
+                    480 : {
+                        items: 2,
+                        nav: false
+                    },
+                    // breakpoint from 768 up
+                    768 : {
+                        option1 : value,
+                        items: 3,
+                        nav: true,
+                        loop: false
+                    }
+                }
+            })
+        </script>
 
 
         <!--

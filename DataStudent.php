@@ -6,32 +6,42 @@ require_once('HeaderLayout.php');
 
 <body>
 <br />
+
 <!--
     Add button & delete button, to be put in top right since only one item will be affected at a time
 -->
 
-<div class="btn-group pull-right">
-    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
-        <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
-    </button>
-    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
-        <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white onclick = "delete();">Remove</a>
-    </button>
-</div>
+<div class="btn-toolbar">
+    <div class = 'btn-group'>
+        <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
+            <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
+        </button>
+    </div>
+    <div class = 'btn-group'>
+        <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
+            <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white>Remove</a>
+        </button>
+    </div>
 
 <!--
     Update button
 -->
 
-<div class="dropdown pull-right">
-    <button class="dropbtn" onclick="myFunction()" type="button" data-placement = "top" title = "Update Entry in Table">Update
-        <span class="caret"></span></button>
-    <div id = "myDropdown" class = "dropdown-content">
-        <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
-        <a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a>
-        <a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a>
+    <div class = 'btn-group'>
+        <div class="dropbtn">
+            <div class = "dropdown">
+                <button class="btn btn-primary" onclick="myFunction()" type="button" data-placement = "top" title = "Update Entry in Table">Update
+                    <span class="caret"></span></button>
+                <div id = "myDropdown" class = "dropdown-content">
+                    <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
+                    <a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a>
+                    <a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 
 
 <script>
@@ -76,7 +86,7 @@ require_once('HeaderLayout.php');
                 <h5 class="modal-title" id = "modalLabel">Add Student</h5>
             </div>
             <div class="modal-body">
-                <form method = "get" action = "DataStudent.php">
+                <form id = "AddModal" method = "get" action = "DataStudent.php">
                     <h2>Student Name</h2><br>
                     <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
                     <h2>Student ID</h2><br>
@@ -107,7 +117,7 @@ require_once('HeaderLayout.php');
                 <h5 class="modal-title">Remove Student</h5>
             </div>
             <div class="modal-body">
-                <form method = "get" action = "DataStudent.php">
+                <form method = "get" action = "DataStudent.php" id = "RemoveModal">
                     <h2>Student Name</h2><br>
                     <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
                     <h2>Student ID</h2><br>
@@ -133,7 +143,7 @@ require_once('HeaderLayout.php');
                 <h5 class="modal-title">Update Student</h5>
             </div>
             <div class="modal-body">
-                <form method = "get" action = "DataStudent.php">
+                <form method = "get" action = "DataStudent.php" id = "UpdateStudentNameModal">
                     <h2>Student ID</h2><br>
                     <input type = "text" placeholder = "ID" name = "id" required><br>
                     <h2>Student Name</h2><br>
@@ -159,11 +169,12 @@ require_once('HeaderLayout.php');
                 <h5 class="modal-title">Update Student</h5>
             </div>
             <div class="modal-body" style = "position: relative;">
-                <form method = "get" action = "DataStudent.php">
+                <form method = "get" action = "DataStudent.php" id = "UpdateStudentImageModal">
                     <h2>Student ID</h2><br>
                     <input type = "text" placeholder = "ID" name = "id" style = "position: relative" required><br>
 
                     <h2>Student Image</h2><br>
+                    <div id="filelist">Please Select Images to Uplaod and Send.</div>
                     <div id="container" style="position: relative;">
                         <a id="pickfiles" href="javascript:;" style="position: relative; z-index: 1;">[Select files]</a>
                         <a id="uploadfiles" href="javascript:;">[Upload files]</a>
@@ -230,34 +241,16 @@ require_once('HeaderLayout.php');
     });
 </script>
 
-<!--
-<div id = "example">
-    <div id = "grid"></div>
-    <script>
-        $(document).ready(function(){
-            $("#grid").kendoGrid((
-                dataSource: {
-                    type: "odata",
-                        transport: {
-                        read ("Https://demos.telerik.com/kendo-ui/service/Northwind.svc/Customers")
-                },
-                height: 550,
-                    groupable: true,
-                    sortable: true,
-                    pageable:{
-                        refresh: true,
-                            pageSizes: true,
-                        buttonCount: 5
-                },
-                columns: [{
-                        template:
-                }]
-            }
-            ))
-        })
-    </script>
-</div>
--->
+<!--Kendo hint and placeholder functions-->
+<script>
+    function hint(element) {
+        return element.clone().addClass("hint");
+    }
+
+    function placeholder(element) {
+        return element.clone().addClass("placeholder").text("drop here");
+    }
+</script>
 
 <?php
 
@@ -359,10 +352,10 @@ if($continue == true) {
     $studImageColumn->field('StudentImage');
 
     $classColumn = new \Kendo\UI\GridColumn();
-    $classColumn->field('ClassTitle');
+    $classColumn->field('ClassName');
 
     $bookColumn = new \Kendo\UI\GridColumn();
-    $bookColumn->field('BookTitle');
+    $bookColumn->field('BookName');
 
     $grid = new \Kendo\UI\Grid('grid');
     $grid->addColumn($idColumn, $nameColumn, $studImageColumn, $classColumn, $bookColumn)->dataSource($dataSource);
@@ -492,7 +485,7 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT VALUES
+     * EDIT STUDENT NAME
      ****************************************************************/
 
     if (isset($_GET['submit2'])) {
