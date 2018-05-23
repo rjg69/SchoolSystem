@@ -347,7 +347,7 @@ if($continue == true) {
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     $msservername = "10.99.100.38";
     $msusername = "sa";
@@ -369,25 +369,19 @@ if($continue == true) {
      *  ASSIGNMENT 6 - KENDOUI GRID COMPATIBILITY
      ****************************************************************/
     $dataSource = new \Kendo\Data\DataSource();
-    $dataSource->data($data);
+    $dataSource->data($results);
 
-    $nameColumn = new \Kendo\UI\GridColumn();
-    $nameColumn->field('StudentName');
+    $classNumber = new \Kendo\UI\GridColumn();
+    $classNumber->field('ClassroomNumber');
 
-    $studImageColumn = new \Kendo\UI\GridColumn();
-    $studImageColumn->field('StudentImage');
+    $classID = new \Kendo\UI\GridColumn();
+    $classID->field('ClassID');
 
-    $classColumn = new \Kendo\UI\GridColumn();
-    $classColumn->field('ClassTitle');
-
-    $bookColumn = new \Kendo\UI\GridColumn();
-    $bookColumn->field('BookTitle');
-
-    $bookImageColumn = new \Kendo\UI\GridColumn();
-    $bookImageColumn->field('BookImage');
+    $className = new \Kendo\UI\GridColumn();
+    $className->field('ClassName');
 
     $grid = new \Kendo\UI\Grid('grid');
-    $grid->addColumn($nameColumn, $studImageColumn, $classColumn, $bookColumn, $bookImageColumn)->dataSource($dataSource);
+    $grid->addColumn($classNumber, $classID, $className)->dataSource($dataSource);
 
     echo $grid->render();
 
@@ -430,7 +424,7 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit'])){
 
@@ -484,7 +478,7 @@ if($continue == true) {
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit1'])){
 
@@ -514,18 +508,9 @@ if($continue == true) {
      ****************************************************************/
 
     if (isset($_GET['submit2'])) {
-        $q = ("
-        SELECT
-            ClassroomID, ClassroomNumber
-        FROM
-            ClassroomTable
-        ");
 
         $ClassNum = $_GET['NewClass'];
         $ClassID = $_GET['OldClass'];
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $data = $dbh->query($q, PDO::FETCH_ASSOC);
 
         $username = "sa";
         $password = "capcom5^";
@@ -547,8 +532,8 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT VALUES
-     ****************************************************************/
+     * EDIT DESIGNATED STUDENT VALUES -- MSSQL
+     ****************************************************************
 
     if(isset($_GET['submit2'])){
 

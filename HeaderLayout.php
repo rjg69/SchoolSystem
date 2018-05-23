@@ -8,8 +8,6 @@ if(!array_key_exists('Username', $_SESSION)){
 ?>
 <!--
     Add style conventions using CSS
-
-    https://www.w3schools.com/html/tryit.asp?filename=tryhtml_responsive_media_query3 --Responsive Web Example
 -->
 <style>
 
@@ -83,7 +81,6 @@ if(!array_key_exists('Username', $_SESSION)){
         display: block;
     }
 
-
     .dropdown a:hover {background-color: #ddd}
 
     .show {display:block;}
@@ -93,9 +90,16 @@ if(!array_key_exists('Username', $_SESSION)){
         background-color: #1775C3;
     }
 
+    h1{
+        color: navy;
+        font-size: 2vw;
+        min-font-size: 12px;
+    }
+
     h2{
         color: navy;
         font-size: 2vw;
+        min-font-size: 10px;
     }
 
     td{
@@ -145,7 +149,6 @@ if(!array_key_exists('Username', $_SESSION)){
         top: 25px;
         align-self: center;
     }
-
 
     .left {
         padding:20px;
@@ -239,11 +242,10 @@ if(!array_key_exists('Username', $_SESSION)){
         height: 300px;
         width: 300px;
 
-    img {
-        visibility: hidden;
+        img {
+            visibility: hidden;
+        }
     }
-    }
-
 
     .owl-prev {
         background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938188/left-arrow_rlxamy.png') left center no-repeat;
@@ -294,19 +296,23 @@ if(!array_key_exists('Username', $_SESSION)){
     .popuptext {
         display: table;
     }
+
     .popuptext p {
         margin-bottom: 10px;
     }
+
     .popuptext span {
         font-weight: bold;
         float: right;
     }
+
     /* Popup Text */
 
     /* Icon CSS */
     .item {
         position: relative;
     }
+
     .item i {
         display: none;
         font-size: 4rem;
@@ -318,10 +324,12 @@ if(!array_key_exists('Username', $_SESSION)){
         transform: translate(-50%, -50%);
         -webkit-transform: translate(-50%, -50%);
     }
+
     .item a {
         display: block;
         width: 100%;
     }
+
     .item a:hover:before {
         content: "";
         background: rgba(0, 0, 0, 0.5);
@@ -330,6 +338,7 @@ if(!array_key_exists('Username', $_SESSION)){
         width: 100%;
         z-index: 1;
     }
+
     .item a:hover i {
         display: block;
         z-index: 2;
@@ -338,7 +347,7 @@ if(!array_key_exists('Username', $_SESSION)){
 </style>
 
 <header>
-    <h1 align = "center" style = "font-size: 2.5vw; min-font-size: 24px;"><u><b>Savvior School District</b></u></h1>
+    <h1 align = "center"><u><b>Savvior School District</b></u></h1>
 
     <title>Savvior School District</title>
     <meta charset="utf-8">
@@ -349,6 +358,7 @@ if(!array_key_exists('Username', $_SESSION)){
     <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
     <!--Carousel CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css">
@@ -377,10 +387,12 @@ if(!array_key_exists('Username', $_SESSION)){
 
     <!--Plupload-->
     <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/plupload.full.min.js"></script>
+    <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/plupload.dev.js"></script>
+    <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/plupload.min.js"></script>
+    <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/moxie.js"></script>
 
     <!--Kendo-->
     <script src = "/vendor/savvior/kendoui/public/js/kendo.all.min.js"></script>
-
 
     <!--OWL-->
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
@@ -397,7 +409,7 @@ if(!array_key_exists('Username', $_SESSION)){
                         email: true
                     },
                     field2: {
-                        required: true,
+                        required: true
                     }
                 }
             });
@@ -410,7 +422,7 @@ if(!array_key_exists('Username', $_SESSION)){
                         email: true
                     },
                     field2: {
-                        required: true,
+                        required: true
                     }
                 }
             });
@@ -423,7 +435,7 @@ if(!array_key_exists('Username', $_SESSION)){
                         email: true
                     },
                     field2: {
-                        required: true,
+                        required: true
                     }
                 }
             });
@@ -436,7 +448,7 @@ if(!array_key_exists('Username', $_SESSION)){
                         email: true
                     },
                     field2: {
-                        required: true,
+                        required: true
                     }
                 }
             });
@@ -488,7 +500,7 @@ if(!array_key_exists('Username', $_SESSION)){
                  runtimes : 'html5,flash,silverlight,html4',
                  browse_button : 'pickfiles', // you can pass in id...
                  container: $('container'), // ... or DOM Element itself
-                 max_file_size : '10mb',
+                 max_file_size : '20kb',
 
                  // Fake server response here
                  // url : '../upload.php',

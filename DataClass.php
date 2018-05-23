@@ -462,7 +462,7 @@ if($continue == true) {
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     $msservername = "10.99.100.38";
     $msusername = "sa";
@@ -484,25 +484,28 @@ if($continue == true) {
      *  ASSIGNMENT 6 - KENDOUI GRID COMPATIBILITY
      ****************************************************************/
     $dataSource = new \Kendo\Data\DataSource();
-    $dataSource->data($data);
+    $dataSource->data($results);
 
-    $nameColumn = new \Kendo\UI\GridColumn();
-    $nameColumn->field('StudentName');
+    $classID = new \Kendo\UI\GridColumn();
+    $classID->field('ClassID');
 
-    $studImageColumn = new \Kendo\UI\GridColumn();
-    $studImageColumn->field('StudentImage');
+    $className= new \Kendo\UI\GridColumn();
+    $className->field('ClassName');
 
-    $classColumn = new \Kendo\UI\GridColumn();
-    $classColumn->field('ClassTitle');
+    $studentName = new \Kendo\UI\GridColumn();
+    $studentName->field('StudentName');
 
-    $bookColumn = new \Kendo\UI\GridColumn();
-    $bookColumn->field('BookTitle');
+    $bookID = new \Kendo\UI\GridColumn();
+    $bookID->field('BookID');
+
+    $bookName = new \Kendo\UI\GridColumn();
+    $bookName->field('BookName');
 
     $bookImageColumn = new \Kendo\UI\GridColumn();
     $bookImageColumn->field('BookImage');
 
     $grid = new \Kendo\UI\Grid('grid');
-    $grid->addColumn($nameColumn, $studImageColumn, $classColumn, $bookColumn, $bookImageColumn)->dataSource($dataSource);
+    $grid->addColumn($classID, $className, $studentName, $bookID, $bookName, $bookImageColumn)->dataSource($dataSource);
 
     echo $grid->render();
 
@@ -547,7 +550,7 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit'])){
 
@@ -601,7 +604,7 @@ if($continue == true) {
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit1'])){
 
@@ -632,21 +635,8 @@ if($continue == true) {
 
     if (isset($_GET['submit2'])) {
 
-        if ($_GET['BookTitle']) {
-            $name = $_GET['BookName'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == $_GET['BookID']){
-                    $name = $data['id']['BookTitle'];
-                }
-            }
-        }
-
-        if ($_GET['BookID']) {
-            $id = $_GET['BookID'];
-        } else {
-            $id = null;
-        }
+        $name = $_GET['BookName'];
+        $BookID = $_GET['BookID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -672,17 +662,8 @@ if($continue == true) {
 
     if (isset($_GET['submit3'])) {
 
-        if ($_GET['ClassroomNumber']) {
-            $room = $_GET['ClassroomNumber'];
-        }else{
-            $room = null;
-        }
-
-        if ($_GET['OldClassroomNumber']) {
-            $oldRoom = $_GET['OldClassroomNumber'];
-        }else{
-            $oldRoom = null;
-        }
+        $room = $_GET['ClassroomNumber'];
+        $oldRoom = $_GET['OldClassroomNumber'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -708,17 +689,8 @@ if($continue == true) {
 
     if(isset($_GET['submit4'])){
 
-        if ($_GET['ClassTitle']) {
-            $title = $_GET['ClassTitle'];
-        }else{
-            $title = null;
-        }
-
-        if ($_GET['ClassID']) {
-            $id = $_GET['ClassID'];
-        } else {
-            $id = null;
-        }
+        $title = $_GET['ClassTitle'];
+        $ClassID = $_GET['ClassID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -744,17 +716,8 @@ if($continue == true) {
 
     if (isset($_GET['submit5'])) {
 
-        if ($_GET['StudentID']) {
-            $studID = $_GET['StudentID'];
-        }else{
-            $studID = null;
-        }
-
-        if ($_GET['ClassID']) {
-            $classID = $_GET['ClassID'];
-        } else {
-            $classID = null;
-        }
+        $studID = $_GET['StudentID'];
+        $classID = $_GET['ClassID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -780,24 +743,15 @@ if($continue == true) {
 
     if (isset($_GET['submit6'])) {
 
-        if ($_GET['ClassID']) {
-            $classID = $_GET['ClassID'];
-        }else{
-            $classID = null;
-        }
-
-        if ($_GET['StudentID']) {
-            $studID = $_GET['StudentID'];
-        } else {
-            $studID = null;
-        }
+        $classID = $_GET['ClassID'];
+        $studID = $_GET['StudentID'];
 
         $username = "sa";
         $password = "capcom5^";
 
         //student query
         $sql = ("DELETE FROM StudClass
-                    WHERE StudentID = '$studID', ClassID = '$classID'");
+                    WHERE StudentID = '$studID' AND ClassID = '$classID'");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -812,8 +766,8 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT VALUES
-     ****************************************************************/
+     * EDIT DESIGNATED STUDENT VALUES -- MSSQL
+     ****************************************************************
 
     if(isset($_GET['submit2'])){
 

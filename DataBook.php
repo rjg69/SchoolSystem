@@ -400,7 +400,7 @@ if($continue == true) {
      *  ASSIGNMENT 6 - KENDOUI GRID COMPATIBILITY
      ****************************************************************/
     $dataSource = new \Kendo\Data\DataSource();
-    $dataSource->data($data);
+    $dataSource->data($results);
 
     $bookID = new \Kendo\UI\GridColumn();
     $bookID->field('BookID');
@@ -462,7 +462,7 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit'])){
 
@@ -520,7 +520,7 @@ if($continue == true) {
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit1'])){
 
@@ -548,50 +548,10 @@ if($continue == true) {
      * EDIT DESIGNATED BOOK VALUES
      ****************************************************************/
 
-    if (isset($_GET['submit2'])) {
-        $q = ("
-        SELECT
-            ClassesTable.ClassName,
-            ClassesTable.ClassID,
-            BookTable.BookName,
-            BookTable.BookImage,
-            BookTable.BookID
-        FROM
-            ClassesTable
-        LEFT JOIN
-            BookTable
-        ON
-            ClassesTable.BookID=BookTable.BookID
-        ORDER BY
-            ClassesTable.ClassID;
-        ");
-
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $data = $dbh->query($q, PDO::FETCH_ASSOC);
-
-
-        if ($_GET['BookName']) {
-            $name = $_GET['BookName'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == $_GET['BookID']){
-                    $name = $data['id']['BookName'];
-                }
-            }
-        }
-
-        if ($_GET['BookID']) {
-            $id = $_GET['BookID'];
-        } else {
-            $id = null;
-        }
-
-        if($_GET['OldBookID']){
-            $OldBookID = $_GET['OldBookID'];
-        } else {
-            $OldBookID = null;
-        }
+    if(isset($_GET['submit2'])){
+        $name = $_GET['BookName'];
+        $id = $_GET['BookID'];
+        $OldBookID = $_GET['OldBookID'];
 
 
         $username = "sa";
@@ -620,37 +580,9 @@ if($continue == true) {
      ****************************************************************/
 
     if (isset($_GET['submit3'])) {
-        $q = ("
-        SELECT
-            ClassesTable.ClassName,
-            ClassesTable.ClassID,
-            BookTable.BookName,
-            BookTable.BookImage,
-            BookTable.BookID
-        FROM
-            ClassesTable
-        LEFT JOIN
-            BookTable
-        ON
-            ClassesTable.BookID=BookTable.BookID
-        ORDER BY
-            ClassesTable.ClassID;
-        ");
 
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $data = $dbh->query($q, PDO::FETCH_ASSOC);
-
-
-        if ($_GET['BookImage']) {
-            $image = $_GET['BookImage'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == $_GET['BookID']){
-                    $image = $data['id']['BookImage'];
-                }
-            }
-        }
+        $image = $_GET['BookImage'];
+        $BookID = $_GET['id'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -674,7 +606,7 @@ if($continue == true) {
 
     /****************************************************************
      * EDIT DESIGNATED STUDENT VALUES
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit2'])){
 

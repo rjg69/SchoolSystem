@@ -7,6 +7,7 @@ require_once('HeaderLayout.php');
 <body>
 <br />
 
+
 <!--Data Manipulation Button Group-->
 <div class="btn-toolbar">
     <div class = 'btn-group-justified'>
@@ -65,6 +66,24 @@ require_once('HeaderLayout.php');
 <hr width = 75%>
 
 <p position = relative top = "200px" align = 'center'>Using the buttons provided, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
+<br />
+<br />
+
+<!--Kendo Headers-->
+<div id="grid"></div>
+<script>
+    $("#grid").kendoGrid({
+        columns: [{
+            template: ""
+        }, "Student ID", "Student Name", "Student Image", "Class Title", "Book Title"],
+        dataBound: function() {
+            var grid = this;
+            grid.tbody.find("tr td:first-child").each(function(index, elem){
+                $(elem).text("Row header " + (index + 1));
+        });
+        }
+    });
+</script>
 
 <!--
     Add Modal
@@ -165,7 +184,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" placeholder = "ID" name = "id" style = "position: relative" required><br>
 
                     <h2>Student Image</h2><br>
-                    <div id="filelist">Please Select Images to Uplaod and Send.</div>
+                    <div id="filelist">Please Select Images to Upload and Send.</div>
                     <div id="container" style="position: relative;">
                         <a id="pickfiles" href="javascript:;" style="position: relative; z-index: 1;">[Select files]</a>
                         <a id="uploadfiles" href="javascript:;">[Upload files]</a>
@@ -199,7 +218,7 @@ require_once('HeaderLayout.php');
         container: document.getElementById('container'), // ... or DOM Element itself
         url : "DataStudent.php",
         filters : {
-            max_file_size : '10kb',
+            max_file_size : '20kb',
             mime_types: [
                 {title : "Image files", extensions : "jpg,gif,png"},
                 {title : "Zip files", extensions : "zip"}
@@ -399,7 +418,7 @@ if($continue == true) {
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     $msservername = "10.99.100.38\\Databases";
     $msusername = "sa";
@@ -484,7 +503,7 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit'])){
 
@@ -541,7 +560,7 @@ if($continue == true) {
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit1'])){
 
@@ -572,50 +591,8 @@ if($continue == true) {
 
     if (isset($_GET['submit2'])) {
 
-        $q = ("
-        SELECT
-            StudentTable.StudentID,
-            StudentTable.StudentName,
-            StudentTable.StudentImage,
-            ClassesTable.ClassName,
-            BookTable.BookName,
-            BookTable.BookImage
-        FROM
-            StudentTable
-        LEFT JOIN
-            StudClass
-        ON
-            StudentTable.StudentID=StudClass.StudentID
-        LEFT JOIN
-            ClassesTable
-        ON 
-            ClassesTable.ClassID=StudClass.ClassID
-        LEFT JOIN
-            BookTable
-        ON  
-            ClassesTable.BookID=BookTable.BookID
-        LEFT JOIN
-            ClassroomTable
-        ON 
-            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
-        ORDER BY
-            ClassesTable.ClassID;
-        ");
-
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $data = $dbh->query($q, PDO::FETCH_ASSOC);
-
-
-        if ($_GET['StudentName']) {
-            $name = $_GET['StudentName'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == $_GET['ID']){
-                    $name = $data['id']['StudentName'];
-                }
-            }
-        }
+        $name = $_GET['StudentName'];
+        $StudID = $_GET['id'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -642,50 +619,8 @@ if($continue == true) {
 
     if (isset($_GET['submit3'])) {
 
-        $q = ("
-        SELECT
-            StudentTable.StudentID,
-            StudentTable.StudentName,
-            StudentTable.StudentImage,
-            ClassesTable.ClassName,
-            BookTable.BookName,
-            BookTable.BookImage
-        FROM
-            StudentTable
-        LEFT JOIN
-            StudClass
-        ON
-            StudentTable.StudentID=StudClass.StudentID
-        LEFT JOIN
-            ClassesTable
-        ON 
-            ClassesTable.ClassID=StudClass.ClassID
-        LEFT JOIN
-            BookTable
-        ON  
-            ClassesTable.BookID=BookTable.BookID
-        LEFT JOIN
-            ClassroomTable
-        ON 
-            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
-        ORDER BY
-            ClassesTable.ClassID;
-        ");
-
-
-        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
-        $data = $dbh->query($q, PDO::FETCH_ASSOC);
-
-
-        if ($_GET['StudentImage']) {
-            $image = $_GET['StudentImage'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == $_GET['ID']){
-                    $name = $data['id']['StudentImage'];
-                }
-            }
-        }
+        $image = $_GET['StudentImage'];
+        $StudID = $_GET['id'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -693,7 +628,7 @@ if($continue == true) {
         //student query
         $sql = ("UPDATE StudentTable 
                     SET StudentImage = '$image'
-                    WHERE ID = '$StudID'");
+                    WHERE StudentID = '$StudID'");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -761,8 +696,8 @@ if($continue == true) {
     $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
     $sql = ("UPDATE SavviorSchool
-    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
-    WHERE ID = '$id'");
+              SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
+              WHERE ID = '$id'");
 
     mssql_close($dbc);
 
