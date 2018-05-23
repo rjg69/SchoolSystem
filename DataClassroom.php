@@ -164,6 +164,62 @@ require_once('HeaderLayout.php');
 </div>
 
 
+<!--
+    Update Modal Classroom ID
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Room Number</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h2>Classroom Number</h2><br>
+                    <input type = "text" name = "ClassNum"><br>
+                    <h2>New Classroom ID</h2><br>
+                    <input type = "text" name = "ClassID"><br>
+                    <input type = "submit" value = "Submit">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--
+    Update Modal Classroom Class Title
+-->
+
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Room Number</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h2>Classroom Number</h2><br>
+                    <input type = "text" name = "ClassNum"><br>
+                    <h2>Class Title</h2><br>
+                    <input type = "text" name = "ClassTitle"><br>
+                    <input type = "submit" value = "Submit">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script type="text/javascript">
     // Custom example logic
     var uploader = new plupload.Uploader({
@@ -504,7 +560,7 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED CLASSROOM VALUES
+     * EDIT DESIGNATED CLASSROOM NUMBER
      ****************************************************************/
 
     if (isset($_GET['submit2'])) {
@@ -519,6 +575,62 @@ if($continue == true) {
         $sql = ("UPDATE ClassroomTable 
                     SET ClassroomNumber = '$ClassNum'
                     WHERE ClassroomID = '$ClassID'");
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        #Refresh page one time after executing
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        }
+    }
+
+
+    /****************************************************************
+     * EDIT DESIGNATED CLASSROOM ID
+     ****************************************************************/
+
+    if (isset($_GET['submit3'])) {
+
+        $ClassNum = $_GET['ClassNum'];
+        $ClassID = $_GET['ClassID'];
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        //student query
+        $sql = ("UPDATE ClassroomTable 
+                    SET ClassroomID = '$ClassID'
+                    WHERE ClassroomNumber = '$ClassNum'");
+
+        $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sql);
+
+        #Refresh page one time after executing
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+        }
+    }
+
+
+    /****************************************************************
+     * EDIT DESIGNATED CLASSROOM CLASS TITLE
+     ****************************************************************/
+
+    if (isset($_GET['submit4'])) {
+
+        $ClassNum = $_GET['ClassNum'];
+        $ClassTitle = $_GET['ClassTitle'];
+
+        $username = "sa";
+        $password = "capcom5^";
+
+        //student query
+        $sql = ("UPDATE ClassroomTable 
+                    SET ClassTitle = '$ClassTitle'
+                    WHERE ClassroomNumber = '$ClassNum'");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
