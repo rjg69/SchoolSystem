@@ -55,48 +55,101 @@
         <br />
         <br />
         <br />
+        <h2><center><u>Alternative Carousel</u></center></h2>
         <br />
         <br />
         <br />
         <br />
         <br />
         <br />
-
-
-
+<!--
         <div class="owl-carousel owl-theme">
-            <div class="item"><img height = '100%' src="StudentPhotos/Darth Maul.jpg"></div>
-            <div class="item"><img height = '100%' src="StudentPhotos/Chewbacca.jpg"></div>
-            <div class="item"><img height = '100%' src="StudentPhotos/Admiral Akbar.jpg"></div>
-            <div class="item"><img height = '100%' src="StudentPhotos/Yoda.jpg"></div>
-            <div class="item"><img height = '100%' src="StudentPhotos/Luke Skywalker.jpg"></div>
+            <div class="img-wrap">
+            </div>
+            <!-- /.img-wrap -->
+<!--
+            <div class="img-wrap">
+                <img alt = "" src = "StudentPhotos\Yoda.jpg">
+            </div>
+            <div class="img-wrap">
+                <img alt = "" src = "StudentPhotos\Admiral Akbar.jpg">
+            </div>
+            <!-- /.img-wrap -->
+<!--
+            <div class="img-wrap">
+                <img alt = "" src = "StudentPhotos\Chewbacca.jpg">
+            </div>
+            <div class="img-wrap">
+                <img alt = "" src = "StudentPhotos\Darth Maul.jpg">
+            </div>
+        </div>
+-->
+
+        <div class="owl-carousel">
+            <div class="item">
+                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Luke Skywalker.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+            </div>
+            <div class="item">
+                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Yoda.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+            </div>
+            <div class="item">
+                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Admiral Akbar.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
+            </div>
+            <div class="item">
+                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Chewbacca.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+            </div>
+            <div class="item">
+                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Darth Maul.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
+            </div>
         </div>
 
-        <script>
+        <script type = "text/javascript">
             $('.owl-carousel').owlCarousel({
-                loop:true,
-                margin:10,
-                nav:true,
-                responsive : {
-                    // breakpoint from 0 up
-                    0 : {
-                        items: 1,
-                        nav: true
+                autoplay: true,
+                autoplayHoverPause: true,
+                loop: true,
+                margin: 20,
+                responsiveClass: true,
+                nav: true,
+                loop: true,
+                responsive: {
+                    0: {
+                        items: 1
                     },
-                    // breakpoint from 480 up
-                    480 : {
-                        items: 2,
-                        nav: false
+                    500: {
+                        items: 2
                     },
-                    // breakpoint from 768 up
-                    768 : {
-                        option1 : value,
-                        items: 3,
-                        nav: true,
-                        loop: false
+                    800: {
+                        items: 3
                     }
                 }
             })
+            $(document).ready(function() {
+                $('.popup-youtube, .popup-text').magnificPopup({
+                    disableOn: 320,
+                    type: 'iframe',
+                    mainClass: 'mfp-fade',
+                    removalDelay: 160,
+                    preloader: false,
+                    fixedContentPos: true
+                });
+            });
+            $(document).ready(function() {
+                $('.popup-text').magnificPopup({
+                    type: 'inline',
+                    preloader: false,
+                    focus: '#name',
+                    callbacks: {
+                        beforeOpen: function() {
+                            if ($(window).width() < 700) {
+                                this.st.focus = false;
+                            } else {
+                                this.st.focus = '#name';
+                            }
+                        }
+                    }
+                });
+            });
         </script>
 
 
@@ -188,9 +241,7 @@
             $results [] = $entry;
         }
 
-        $studentList = array();
-        $bookList = array();
-
+        /*
         echo "<table align = 'center' width = '70%'><tr>";
 
         echo "<td width = 16.67%><u>Student Name</u></td>";
@@ -215,7 +266,7 @@
             }
             if(!in_array($key, $studentList) && $key != null){
                 echo "<td width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
-                echo "<td width = 16.67%><img style = 'width: 100%; height: auto;' src = '$returnData[$key][\'StudentImage\']' /></td>";
+                echo "<td width = 16.67%><img style = 'width: 100%; height: auto;' src = ($returnData[$key]['StudentImage']) /></td>";
                 $studentList[] = $key;
             }else{
                 echo "<td width = '16.67%'></td>";
@@ -237,6 +288,7 @@
             echo "</tr><tr>";
         }
         echo "</tr></table>";
+        */
 
     ?>
 <br />
