@@ -11,28 +11,24 @@ require_once('HeaderLayout.php');
 <div class="btn-toolbar">
     <div class = 'btn-group-justified'>
 
-
-
         <!--Add button-->
-        <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
+        <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" style = "width: 100px;" title = "Add Entry to Table">
             <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
         </button>
 
         <!--Remove button-->
-        <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
+        <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" style = "width: 100px;" title = "Remove Entry from Table">
             <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white>Remove</a>
         </button>
 
         <!--Update button-->
-        <button class="btn btn-primary dropdown-toggle" onclick="myFunction()" type="button" data-placement = "top" title = "Update Entry in Table">Update
+        <button class="btn btn-primary dropdown-toggle" onclick="myFunction()" type="button" data-placement = "top" style = "width: 100px;" title = "Update Entry in Table">Update
             <span class="caret"></span></button>
-        <div id = "myDropdown" class = "dropdown-content">
+        <div id = "myDropdown" class = "dropdown-content" style = "left: 55%;">
             <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
             <a href="#" data-toggle = "modal" data-target = "#UpdateStudentNameModal">Student Name</a>
             <a href="#" data-toggle = "modal" data-target = "#UpdateStudentImageModal">Student Image</a>
         </div>
-
-
 
     </div>
 </div>
@@ -247,6 +243,97 @@ require_once('HeaderLayout.php');
     }
 </script>
 
+<!--Kendo sortable script-->
+<div id="example">
+    <div class="demo-section k-content wide">
+        <div id="singleSort"></div>
+    </div>
+
+    <div class="demo-section k-content wide">
+        <div id="multipleSort"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#singleSort").kendoGrid({
+                dataSource: {
+                    data: orders,
+                    pageSize: 6
+                },
+                sortable: {
+                    mode: "single",
+                    allowUnsort: false
+                },
+                pageable: {
+                    buttonCount: 5
+                },
+                scrollable: false,
+                columns: [
+                    {
+                        field: "ShipCountry",
+                        title: "Ship Country",
+                        sortable: {
+                            initialDirection: "desc"
+                        },
+                        width: 300
+                    },
+                    {
+                        field: "Freight",
+                        width: 300
+                    },
+                    {
+                        field: "OrderDate",
+                        title: "Order Date",
+                        format: "{0:dd/MM/yyyy}"
+                    }
+                ]
+            });
+
+            $("#multipleSort").kendoGrid({
+                dataSource: {
+                    data: orders,
+                    pageSize: 6
+                },
+                sortable: {
+                    mode: "multiple",
+                    allowUnsort: true,
+                    showIndexes: true
+                },
+                pageable: {
+                    buttonCount: 5
+                },
+                scrollable: false,
+                columns: [
+                    {
+                        field: "ShipCountry",
+                        title: "Ship Country",
+                        width: 300
+                    },
+                    {
+                        field: "Freight",
+                        width: 300
+                    },
+                    {
+                        field: "OrderDate",
+                        title: "Order Date",
+                        format: "{0:d}"
+                    }
+                ]
+            });
+        });
+    </script>
+</div>
+
+<script>
+    $("#grid").kendoGrid({
+        columns: [ {
+            field: "name",
+            headerTemplate: kendo.template('# if (true) { # <input type="checkbox" id="check-all" /><label for="check-all">Check All</label> # } else { # this will never be displayed # } #')
+        }],
+    });
+</script>
+
+
 <?php
 
 $continue = include 'LoginCheck.php';
@@ -312,9 +399,9 @@ if($continue == true) {
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
-     ****************************************************************
+     ****************************************************************/
 
-    $msservername = "10.99.100.38";
+    $msservername = "10.99.100.38\\Databases";
     $msusername = "sa";
     $mspassword = "capcom5^";
     $msdbname = "ryan_intern";
@@ -397,7 +484,7 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit'])){
 
@@ -413,10 +500,10 @@ if($continue == true) {
 
         $changeData[] = $id;
 
-        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
-        $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
-        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $sql = "INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')";
 
         mssql_close($dbc);
 
@@ -454,7 +541,7 @@ if($continue == true) {
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit1'])){
 
@@ -536,7 +623,7 @@ if($continue == true) {
         //student query
         $sql = ("UPDATE StudentTable 
                     SET StudentName = '$name'
-                    WHERE ID = '$StudID'");
+                    WHERE StudentID = '$StudID'");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -620,7 +707,7 @@ if($continue == true) {
 
     /****************************************************************
      * EDIT DESIGNATED STUDENT VALUES
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit2'])){
 

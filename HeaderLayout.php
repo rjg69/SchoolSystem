@@ -226,12 +226,119 @@ if(!array_key_exists('Username', $_SESSION)){
         text-align: center;
     }
 
+    .demo-section h3 {
+        margin: 5px 0 15px 0;
+    }
 
+    .owl-carousel.owl-loaded {
+        display: inline-block;
+    }
+    .img-wrap {
+        background-size: cover;
+        background-position: bottom;
+        height: 300px;
+        width: 300px;
+
+    img {
+        visibility: hidden;
+    }
+    }
+
+
+    .owl-prev {
+        background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938188/left-arrow_rlxamy.png') left center no-repeat;
+        height: 54px;
+        position: absolute;
+        top: 50%;
+        width: 27px;
+        z-index: 1000;
+        left: 2%;
+        cursor: pointer;
+        color: transparent;
+        margin-top: -27px;
+    }
+
+    .owl-next {
+        background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938220/right-arrow_zwe9sf.png') right center no-repeat;
+        height: 54px;
+        position: absolute;
+        top: 50%;
+        width: 27px;
+        z-index: 1000;
+        right: 2%;
+        cursor: pointer;
+        color: transparent;
+        margin-top: -27px;
+    }
+
+    .owl-prev:hover,
+    .owl-next:hover {
+        opacity: 0.5;
+    }
+
+
+    /* Owl Carousel */
+
+
+    /* Popup Text */
+
+    .white-popup-block {
+        background: #FFF;
+        padding: 20px 30px;
+        text-align: left;
+        max-width: 650px;
+        margin: 40px auto;
+        position: relative;
+    }
+
+    .popuptext {
+        display: table;
+    }
+    .popuptext p {
+        margin-bottom: 10px;
+    }
+    .popuptext span {
+        font-weight: bold;
+        float: right;
+    }
+    /* Popup Text */
+
+    /* Icon CSS */
+    .item {
+        position: relative;
+    }
+    .item i {
+        display: none;
+        font-size: 4rem;
+        color: #FFF;
+        opacity: 1;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+    }
+    .item a {
+        display: block;
+        width: 100%;
+    }
+    .item a:hover:before {
+        content: "";
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+    }
+    .item a:hover i {
+        display: block;
+        z-index: 2;
+    }
 
 </style>
 
 <header>
-    <h1 align = "center" style = "font-size: 2.5vw;"><u><b>Savvior School District</b></u></h1>
+    <h1 align = "center" style = "font-size: 2.5vw; min-font-size: 24px;"><u><b>Savvior School District</b></u></h1>
 
     <title>Savvior School District</title>
     <meta charset="utf-8">
@@ -245,6 +352,8 @@ if(!array_key_exists('Username', $_SESSION)){
     <!--Carousel CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
     <!--Kendo CSS-->
     <link rel="stylesheet" href="vendor/savvior/kendoui/public/styles/kendo.common.min.css" />
     <link rel="stylesheet" href="vendor/savvior/kendoui/public/styles/kendo.default.min.css" />
@@ -272,9 +381,10 @@ if(!array_key_exists('Username', $_SESSION)){
     <!--Kendo-->
     <script src = "/vendor/savvior/kendoui/public/js/kendo.all.min.js"></script>
 
+
     <!--OWL-->
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.js"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
     <!--jQuery Form Validation-->
     <script>

@@ -6,33 +6,35 @@ require_once('HeaderLayout.php');
 <body>
 <br />
 
-<!--
-    Add button & delete button
--->
+<!--Data Manipulation Button Group-->
+<div class="btn-toolbar">
+    <div class = 'btn-group-justified'>
 
-<div class="btn-group pull-right">
-    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Add Entry to Table">
-        <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
-    </button>
-    <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" title = "Remove Entry from Table">
-        <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white onclick = "delete();">Remove</a>
-    </button>
-</div>
 
-<!--
-    Update button
--->
 
-<div class="dropdown pull-right">
-    <button class="dropbtn" onclick="myFunction()" type="button" data-placement = "top" title = "Update Entry in Table">Update
-        <span class="caret"></span></button>
-    <div id = "myDropdown" class = "dropdown-content">
-        <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a>
-        <a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a>
+        <!--Add button-->
+        <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" style = "width: 100px;" title = "Add Entry to Table">
+            <a data-toggle = "modal" data-target = "#AddModal" style = color:white>Add</a>
+        </button>
+
+        <!--Remove button-->
+        <button type="button" class="btn btn-primary" data-toggle = "tooltip" data-placement = "top" style = "width: 100px;" title = "Remove Entry from Table">
+            <a data-toggle = "modal" data-target = "#RemoveModal" style = color:white>Remove</a>
+        </button>
+
+        <!--Update button-->
+        <button class="btn btn-primary dropdown-toggle" onclick="myFunction()" type="button" data-placement = "top" style = "width: 100px;" title = "Update Entry in Table">Update
+            <span class="caret"></span></button>
+        <div id = "myDropdown" class = "dropdown-content">
+            <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
+            <a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a>
+            <a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a>
+        </div>
+
+
+
     </div>
 </div>
-
 
 <script>
     /* When the user clicks on the button,
@@ -179,6 +181,139 @@ require_once('HeaderLayout.php');
 </div>
 
 
+<script type="text/javascript">
+    // Custom example logic
+    var uploader = new plupload.Uploader({
+        runtimes : 'html5,flash,silverlight,html4',
+        browse_button : 'pickfiles', // you can pass in id...
+        container: document.getElementById('container'), // ... or DOM Element itself
+        url : "DataStudent.php",
+        filters : {
+            max_file_size : '10kb',
+            mime_types: [
+                {title : "Image files", extensions : "jpg,gif,png"},
+                {title : "Zip files", extensions : "zip"}
+            ]
+        },
+        // Flash settings
+        flash_swf_url : '/plupload/js/Moxie.swf',
+        // Silverlight settings
+        silverlight_xap_url : '/plupload/js/Moxie.xap',
+        init: {
+            PostInit: function() {
+                document.getElementById('filelist').innerHTML = '';
+                document.getElementById('uploadfiles').onclick = function() {
+                    uploader.start();
+                    return false;
+                };
+            },
+            FilesAdded: function(up, files) {
+                plupload.each(files, function(file) {
+                    document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                });
+            },
+            UploadProgress: function(up, file) {
+                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+            },
+            Error: function(up, err) {
+                document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+            }
+        }
+    });
+</script>
+
+<!--Kendo hint and placeholder functions-->
+<script>
+    function hint(element) {
+        return element.clone().addClass("hint");
+    }
+
+    function placeholder(element) {
+        return element.clone().addClass("placeholder").text("drop here");
+    }
+</script>
+
+<!--Kendo sortable script-->
+<div id="example">
+    <div class="demo-section k-content wide">
+        <div id="singleSort"></div>
+    </div>
+
+    <div class="demo-section k-content wide">
+        <div id="multipleSort"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#singleSort").kendoGrid({
+                dataSource: {
+                    data: orders,
+                    pageSize: 6
+                },
+                sortable: {
+                    mode: "single",
+                    allowUnsort: false
+                },
+                pageable: {
+                    buttonCount: 5
+                },
+                scrollable: false,
+                columns: [
+                    {
+                        field: "ShipCountry",
+                        title: "Ship Country",
+                        sortable: {
+                            initialDirection: "desc"
+                        },
+                        width: 300
+                    },
+                    {
+                        field: "Freight",
+                        width: 300
+                    },
+                    {
+                        field: "OrderDate",
+                        title: "Order Date",
+                        format: "{0:dd/MM/yyyy}"
+                    }
+                ]
+            });
+
+            $("#multipleSort").kendoGrid({
+                dataSource: {
+                    data: orders,
+                    pageSize: 6
+                },
+                sortable: {
+                    mode: "multiple",
+                    allowUnsort: true,
+                    showIndexes: true
+                },
+                pageable: {
+                    buttonCount: 5
+                },
+                scrollable: false,
+                columns: [
+                    {
+                        field: "ShipCountry",
+                        title: "Ship Country",
+                        width: 300
+                    },
+                    {
+                        field: "Freight",
+                        width: 300
+                    },
+                    {
+                        field: "OrderDate",
+                        title: "Order Date",
+                        format: "{0:d}"
+                    }
+                ]
+            });
+        });
+    </script>
+</div>
+
 <?php
 
 $continue = include 'LoginCheck.php';
@@ -267,23 +402,23 @@ if($continue == true) {
     $dataSource = new \Kendo\Data\DataSource();
     $dataSource->data($data);
 
-    $nameColumn = new \Kendo\UI\GridColumn();
-    $nameColumn->field('StudentName');
-
-    $studImageColumn = new \Kendo\UI\GridColumn();
-    $studImageColumn->field('StudentImage');
-
-    $classColumn = new \Kendo\UI\GridColumn();
-    $classColumn->field('ClassTitle');
+    $bookID = new \Kendo\UI\GridColumn();
+    $bookID->field('BookID');
 
     $bookColumn = new \Kendo\UI\GridColumn();
-    $bookColumn->field('BookTitle');
+    $bookColumn->field('BookName');
 
-    $bookImageColumn = new \Kendo\UI\GridColumn();
-    $bookImageColumn->field('BookImage');
+    $bookImage = new \Kendo\UI\GridColumn();
+    $bookImage->field('BookImage');
+
+    $classID = new \Kendo\UI\GridColumn();
+    $classID->field('ClassID');
+
+    $className = new \Kendo\UI\GridColumn();
+    $className->field('ClassName');
 
     $grid = new \Kendo\UI\Grid('grid');
-    $grid->addColumn($nameColumn, $studImageColumn, $classColumn, $bookColumn, $bookImageColumn)->dataSource($dataSource);
+    $grid->addColumn($bookID, $bookColumn, $bookImage, $classID, $className)->dataSource($dataSource);
 
     echo $grid->render();
 
@@ -327,7 +462,7 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit'])){
 
@@ -345,7 +480,7 @@ if($continue == true) {
 
         $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
-        $sql = 'INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')';
+        $sql = "INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')";
         $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
 
         mssql_close($dbc);
@@ -385,7 +520,7 @@ if($continue == true) {
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit1'])){
 
@@ -539,7 +674,7 @@ if($continue == true) {
 
     /****************************************************************
      * EDIT DESIGNATED STUDENT VALUES
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit2'])){
 
@@ -605,16 +740,14 @@ if($continue == true) {
      ****************************************************************/
 
 
-    echo "<div id = 'example'>";
-    echo "<table align = 'center' width = '70%' id = 'grid'><tr>";
+    echo "<table align = 'center' width = '70%'><tr>";
 
-    //KendoGrid Adjustments to Table Design
-
-    echo "<colgroup><col style = 'width: 20%' /><col style = 'width: 20%' /><col style = 'width: 20%' /><col style = 'width: 20%' /><col style = 'width: 20%' /></colgroup>";
-
-    echo "<thead><tr><th data-field = 'bookID'>Book ID</th><th data-field = 'bookName'>Book Name</th><th data-field = 'bookImage'>Book Image</th><th data-field = 'classID'>Class ID</th>
-                     <th data-field = 'classTitle'>Class Title</th></tr>";
-    echo "</thead><tbody><tr>";
+    echo "<td width = '16.67%'><u>Book ID</u></td>";
+    echo "<td width = '16.67%'><u>Book Title</u></td>";
+    echo "<td width = '16.67%'><u>Book Image</u></td>";
+    echo "<td width = '16.67%'><u>Class ID</u></td>";
+    echo "<td width = '16.67%'><u>Class Name</u></td>";
+    echo "</tr><tr>";
 
     $j = 0;
     $usedBooks = array();
@@ -641,19 +774,11 @@ if($continue == true) {
             echo "</tr><tr>";
             $usedBooks[] = $key;
         }
+        echo "</tr><tr>";
 
         $j += 1;
     }
-    echo "</tr></tbody></table>      
-            <script>
-                $(document).ready(function() {
-                    $(\"#grid\").kendoGrid({
-                        height: 550,
-                        sortable: true
-                    });
-                });
-            </script>";
-    echo "</div>";
+    echo "</tr></table>";
 
     /**********************************************************************************************
      * Assignment 1 & 2

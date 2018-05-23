@@ -59,47 +59,22 @@
         <br />
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-<!--
-        <div class="owl-carousel owl-theme">
-            <div class="img-wrap">
-            </div>
-            <!-- /.img-wrap -->
-<!--
-            <div class="img-wrap">
-                <img alt = "" src = "StudentPhotos\Yoda.jpg">
-            </div>
-            <div class="img-wrap">
-                <img alt = "" src = "StudentPhotos\Admiral Akbar.jpg">
-            </div>
-            <!-- /.img-wrap -->
-<!--
-            <div class="img-wrap">
-                <img alt = "" src = "StudentPhotos\Chewbacca.jpg">
-            </div>
-            <div class="img-wrap">
-                <img alt = "" src = "StudentPhotos\Darth Maul.jpg">
-            </div>
-        </div>
--->
 
         <div class="owl-carousel">
             <div class="item">
-                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Luke Skywalker.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Luke Skywalker.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Yoda.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Yoda.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Admiral Akbar.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Admiral Akbar.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Chewbacca.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Chewbacca.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 50%;" src = "StudentPhotos\Darth Maul.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Darth Maul.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
             </div>
         </div>
 
