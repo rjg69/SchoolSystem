@@ -485,6 +485,7 @@ if($continue == true) {
             $output['StudentImage'] = $val['StudentImage'];
             $usedImage[] = $output['StudentImage'];
         }
+
         $output['ClassName'] = $val['ClassName'];
         $output['BookName'] = $val['BookName'];
 
@@ -498,19 +499,17 @@ if($continue == true) {
      *  GET TOTAL DATA - MSSQL
      ****************************************************************
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
     $mspassword = "capcom5^";
     $msdbname = "ryan_intern";
 
-    $connectionInfo = array("Database" => $msdbname, "UID"=>$msusername, "PWD" => $mspassword);
-    $conn = sqlsrv_connect($msservername, $connectionInfo);
+    $dsn = 'mysql:dbname=ryan_intern;host=10.99.100.38';
+    $user='ryan_intern';
+    $password='password';
 
-    if($conn){
-        echo "connection established <br />";
-    }else{
-        echo "connection could not be established <br />";
-        die( print_r( sqlsrv_errors(), true));
+    try{
+        $dbh = new PDO($dsn, $user, $password);
+    }catch(PDOException $e){
+        echo 'Connection failed: ' . $e->getMessage();
     }
 
 
@@ -604,6 +603,11 @@ if($continue == true) {
 
         mssql_close($dbc);
 
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
+
     }
 
 
@@ -659,6 +663,10 @@ if($continue == true) {
 
         mssql_close($dbc);
 
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
     }
 
 
@@ -735,41 +743,10 @@ if($continue == true) {
     $changeData[] = $id;
 
 
-    if ($_GET['StudentName']) {
-        $name = $_GET['StudentName'];
-    }else{
-        foreach($data as $user){
-            if($data['id'] == $_GET['ID']){
-                $name = $data['id']['StudentName'];
-            }
-        }
-    }
-
-    if ($_GET['id']) {
-        $id = $_GET['id'];
-    } else {
-        $id = null;
-    }
-
-    if ($_GET['ClassTitle']) {
-        $class = $_GET['ClassTitle'];
-    }else{
-        foreach($data as $user){
-        if($data['id'] == 'ID'){
-                $name = $data['id']['ClassTitle'];
-            }
-        }
-    }
-
-    if ($_GET['BookTitle']) {
-        $book = $_GET['BookTitle'];
-    }else {
-        foreach ($data as $user) {
-            if ($data['id'] == 'ID') {
-                $name = $data['id']['BookTitle'];
-            }
-        }
-    }
+    $name = $_GET['StudentName'];
+    $id = $_GET['id'];
+    $class = $_GET['ClassTitle'];
+    $book = $_GET['BookTitle'];
 
     $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
 
@@ -777,8 +754,15 @@ if($continue == true) {
               SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
               WHERE ID = '$id'");
 
-    mssql_close($dbc);
+    $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
 
+     mssql_close($dbc);
+
+
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
     }
 
 
@@ -840,6 +824,7 @@ if($continue == true) {
      *
      * https://www.youtube.com/watch?v=tAcx8N0VcgY  -- MySQL to MSSQL tutorial
      * https://docs.microsoft.com/en-us/sql/ssma/mysql/converting-mysql-databases-mysqltosql?view=sql-server-2017
+     * http://php.net/manual/en/function.sqlsrv-execute.php
      *
      * Assignment 4
      *
