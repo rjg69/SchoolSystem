@@ -591,16 +591,11 @@ if($continue == true) {
         $sql = "DELETE FROM ClassesTable WHERE ClassName = '$ClassName'";
 
         $sqls = "DELETE FROM StudClass WHERE ClassID = '$ClassID'";
-
-        $sqlb = "DELETE FROM BookTable WHERE ClassID = '$ClassID'";
-
-        $sqlcr = "DELETE FROM ClassroomTable WHERE ClassID = '$ClassID'";
-
+        
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
         $dbh->exec($sqls);
-        $dbh->exec($sqlb);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
