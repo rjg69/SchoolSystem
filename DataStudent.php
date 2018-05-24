@@ -416,6 +416,83 @@ if($continue == true) {
         $results [] = $entry;
     }
 
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    var_dump($results);
+
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+    echo "<br />";
+
+    //Filter data to avoid repeat student data
+    $studentIDList = array();
+    $outputData = array();
+
+    foreach($results as $val) {
+        $key = $val['StudentID'];
+        if (!array_key_exists($key, $studentIDList)) {
+            $returnData[$key] = array(
+                'StudentID' => $key,
+                'StudentName' => $val['StudentName'],
+                'StudentImage' => '\StudentPhotos\\' . $val['StudentName'] . '.jpg',
+                'ClassTitle' => $val['ClassName'],
+                'BookTitle' => $val['BookName'],
+                'BookImage' => '\BookPhotos\\' . $val['BookName'] . '.jpg'
+            );
+        }
+    }
+
+    //Generate Output Data for Kendo Grid Display
+    $usedNames = array();
+    $usedID = array();
+    $usedImage = array();
+
+    foreach($results as $val){
+
+        $skipName = $val['StudentName'];
+        $skipID = $val['StudentID'];
+        $skipImage = $val['StudentImage'];
+
+        if(in_array($skipName, $usedNames)){
+            $output['StudentName'] = null;
+        }else{
+            $output['StudentName'] = $val['StudentName'];
+            $usedNames[] = $output['StudentName'];
+        }
+
+        if(in_array($skipID, $usedID)){
+            $output['StudentID'] = null;
+        }else{
+            $output['StudentID'] = $val['StudentID'];
+            $usedID[] = $output['StudentID'];
+        }
+
+        if(in_array($skipImage, $usedImage)){
+            $output['StudentImage'] = null;
+        }else{
+            $output['StudentImage'] = $val['StudentImage'];
+            $usedImage[] = $output['StudentImage'];
+        }
+        $output['ClassName'] = $val['ClassName'];
+        $output['BookName'] = $val['BookName'];
+
+        $outputData[] = $output;
+    }
+
+    var_dump($outputData);
+
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
@@ -442,7 +519,7 @@ if($continue == true) {
      ****************************************************************/
 
     $dataSource = new \Kendo\Data\DataSource();
-    $dataSource->data($results);
+    $dataSource->data($outputData);
 
     $idColumn = new \Kendo\UI\GridColumn();
     $idColumn->field('StudentID');
@@ -643,7 +720,7 @@ if($continue == true) {
 
     /****************************************************************
      * EDIT DESIGNATED STUDENT VALUES
-     ****************************************************************/
+     ****************************************************************
 
     if(isset($_GET['submit2'])){
 
@@ -707,7 +784,7 @@ if($continue == true) {
 
     /****************************************************************
      *  OUTPUT DYNAMIC TABLE DISPLAY
-     ****************************************************************/
+     ****************************************************************
 
 
     echo "<table align = 'center' width = '70%'><tr>";
