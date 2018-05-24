@@ -25,7 +25,7 @@ require_once('HeaderLayout.php');
         <!--Update button-->
         <button class="btn btn-primary dropdown-toggle" onclick="myFunction()" type="button" data-placement = "top" style = "width: 100px;" title = "Update Entry in Table">Update
             <span class="caret"></span></button>
-        <div id = "myDropdown" class = "dropdown-content">
+        <div id = "myDropdown" class = "dropdown-content" style = "left: 55%;">
             <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
             <a href="#" data-toggle = "modal" data-target = "#UpdateBookTitleModal">Book Title</a>
             <a href="#" data-toggle = "modal" data-target = "#UpdateBookImageModal">Book Image</a>
@@ -86,7 +86,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassTitle"><br>
                     <h2>Book</h2><br>
                     <input type = "text" name = "BookTitle"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
             <div class="modal-footer">
@@ -113,7 +113,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "StudentName"><br>
                     <h2>ID</h2><br>
                     <input type = "text" name = "id"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit1">
                 </form>
             </div>
             <div class="modal-footer">
@@ -131,17 +131,15 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
+                <h5 class="modal-title">Update Book</h5>
             </div>
             <div class="modal-body">
                 <form>
-                    <h2>New Book ID</h2><br>
-                    <input type = "text" name = "id"><br>
-                    <h2>New Book Title</h2><br>
+                    <h2>Book Title</h2><br>
                     <input type = "text" name = "BookTitle"><br>
-                    <h2>Old Book ID</h2><br>
-                    <input type = "text" name = "OldBookID"><br>
-                    <input type = "submit" value = "Submit">
+                    <h2>Book ID</h2><br>
+                    <input type = "text" name = "BookID"><br>
+                    <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
             <div class="modal-footer">
@@ -159,18 +157,25 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
+                <h5 class="modal-title">Update Book</h5>
             </div>
             <div class="modal-body">
                 <form>
-                    <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <h2>Book Title</h2><br>
+                    <input type = "text" name = "BookTitle"><br>
                     <h2>Book Image</h2><br>
-                    <div id="container">
-                        <a id="pickfiles" href="javascript:;">[Select file]</a>
+                    <div id="filelist">Please Select Images to Upload and Send.</div>
+                    <div id="container" style="position: relative;">
+                        <a id="pickfiles" href="javascript:;" style="position: relative; z-index: 1;">[Select files]</a>
+                        <a id="uploadfiles" href="javascript:;">[Upload files]</a>
+                        <div id="html5_1cdnooc7soq715hq1eof7km4ii4_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: 2px; left: 0; width: 75px; height: 16px; overflow: hidden; z-index: 0;">
+                            <input name = "StudentImage" id="html5_1cdnooc7soq715hq1eof7km4ii4" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" multiple="" accept=".jpg,.gif,.png,.zip">
+                        </div>
                     </div>
+                    <br />
+                    <pre id="console"></pre>
                     <br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit3">
                 </form>
             </div>
             <div class="modal-footer">
@@ -544,26 +549,23 @@ if($continue == true) {
     }
 
 
+     *
     /****************************************************************
-     * EDIT DESIGNATED BOOK VALUES
+     * EDIT DESIGNATED BOOK TITLE
      ****************************************************************/
 
     if(isset($_GET['submit2'])){
-        $name = $_GET['BookName'];
-        $id = $_GET['BookID'];
-        $OldBookID = $_GET['OldBookID'];
 
+        $BookName = $_GET['BookTitle'];
+        $BookID = $_GET['BookID'];
 
         $username = "sa";
         $password = "capcom5^";
 
+        //book query
         $sql = ("UPDATE BookTable 
-                    SET BookName = '$name'
+                    SET BookName = '$BookName'
                     WHERE BookID = '$BookID'");
-
-        $sqlc = ("UPDATE ClassesTable
-                    SET BookID = '$BookID'
-                    WHERE BookID = '$OldBookID'");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -574,6 +576,7 @@ if($continue == true) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
+
 
     /****************************************************************
      * EDIT DESIGNATED BOOK IMAGE

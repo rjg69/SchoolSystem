@@ -211,6 +211,7 @@ require_once('HeaderLayout.php');
 -->
 
 <script type="text/javascript">
+
     // Custom example logic
     var uploader = new plupload.Uploader({
         runtimes : 'html5,flash,silverlight,html4',
@@ -420,7 +421,7 @@ if($continue == true) {
      *  GET TOTAL DATA - MSSQL
      ****************************************************************
 
-    $msservername = "10.99.100.38\\Databases";
+    $msservername = "10.99.100.38";
     $msusername = "sa";
     $mspassword = "capcom5^";
     $msdbname = "ryan_intern";
@@ -468,7 +469,7 @@ if($continue == true) {
      *  ASSIGNMENT 6 - SORTABLE BOOK & CLASS LISTS
      ****************************************************************/
 
-    $sortable = new \Kendo\UI\Sortable('#sortable-basic');
+    $sortable = new \Kendo\UI\Sortable('grid');
     $sortable->hint(new \Kendo\JavaScriptFunction('hint'))->placeholder(new \Kendo\JavaScriptFunction('placeholder'));
 
     echo $sortable->render();

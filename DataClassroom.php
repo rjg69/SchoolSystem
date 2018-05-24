@@ -24,7 +24,7 @@ require_once('HeaderLayout.php');
         <!--Update button-->
         <button class="btn btn-primary dropdown-toggle" onclick="myFunction()" type="button" data-placement = "top" style = "width: 100px;" title = "Update Entry in Table">Update
             <span class="caret"></span></button>
-        <div id = "myDropdown" class = "dropdown-content">
+        <div id = "myDropdown" class = "dropdown-content" style = "left: 55%;">
             <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
             <a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class Title</a>
             <a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class ID</a>
@@ -102,7 +102,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassID"><br>
                     <h2>Room Number</h2><br>
                     <input type = "text" name = "RoomNumber"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
             <div class="modal-footer">
@@ -127,7 +127,7 @@ require_once('HeaderLayout.php');
                 <form>
                     <h2>Room Number</h2><br>
                     <input type = "text" name = "RoomNumber"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit1">
                 </form>
             </div>
             <div class="modal-footer">
@@ -153,7 +153,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "OldClass"><br>
                     <h2>New Classroom Number</h2><br>
                     <input type = "text" name = "NewClass"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
             <div class="modal-footer">
@@ -180,7 +180,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassNum"><br>
                     <h2>New Classroom ID</h2><br>
                     <input type = "text" name = "ClassID"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit3">
                 </form>
             </div>
             <div class="modal-footer">
@@ -208,7 +208,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassNum"><br>
                     <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit4">
                 </form>
             </div>
             <div class="modal-footer">
@@ -571,7 +571,7 @@ if($continue == true) {
         $username = "sa";
         $password = "capcom5^";
 
-        //student query
+        //classroom query
         $sql = ("UPDATE ClassroomTable 
                     SET ClassroomNumber = '$ClassNum'
                     WHERE ClassroomID = '$ClassID'");
@@ -582,7 +582,7 @@ if($continue == true) {
 
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
         }
     }
 
@@ -599,7 +599,7 @@ if($continue == true) {
         $username = "sa";
         $password = "capcom5^";
 
-        //student query
+        //classroom query
         $sql = ("UPDATE ClassroomTable 
                     SET ClassroomID = '$ClassID'
                     WHERE ClassroomNumber = '$ClassNum'");
@@ -610,7 +610,7 @@ if($continue == true) {
 
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
         }
     }
 
@@ -627,7 +627,7 @@ if($continue == true) {
         $username = "sa";
         $password = "capcom5^";
 
-        //student query
+        //classroom query
         $sql = ("UPDATE ClassroomTable 
                     SET ClassTitle = '$ClassTitle'
                     WHERE ClassroomNumber = '$ClassNum'");
@@ -638,7 +638,7 @@ if($continue == true) {
 
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
         }
     }
 
