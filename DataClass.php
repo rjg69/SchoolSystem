@@ -25,7 +25,7 @@ require_once('HeaderLayout.php');
         <!--Update button-->
         <button class="btn btn-primary dropdown-toggle" onclick="myFunction()" type="button" data-placement = "top" style = "width: 100px;" title = "Update Entry in Table">Update
             <span class="caret"></span></button>
-        <div id = "myDropdown" class = "dropdown-content">
+        <div id = "myDropdown" class = "dropdown-content" style = "left: 55%;">
             <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
             <a href="#" data-toggle = "modal" data-target = "#AddStudentToRoster">Add Student to Class</a>
             <a href="#" data-toggle = "modal" data-target = "#RemoveStudentFromRoster">Remove Student from Class</a>
@@ -79,7 +79,7 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id = "modalLabel">Add Student</h5>
+                <h5 class="modal-title" id = "modalLabel">Add Class</h5>
             </div>
             <div class="modal-body">
                 <form>
@@ -91,7 +91,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "BookTitle"><br>
                     <h2>Book ID</h2><br>
                     <input type = "text" name = "BookID"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
             <div class="modal-footer">
@@ -109,7 +109,7 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Remove Student</h5>
+                <h5 class="modal-title">Remove Class</h5>
             </div>
             <div class="modal-body">
                 <form>
@@ -117,7 +117,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassTitle"><br>
                     <h2>Class ID</h2><br>
                     <input type = "text" name = "ClassID"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit1">
                 </form>
             </div>
             <div class="modal-footer">
@@ -135,7 +135,7 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
+                <h5 class="modal-title">Update Class</h5>
             </div>
             <div class="modal-body">
                 <form>
@@ -143,7 +143,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassID"><br>
                     <h2>Student ID</h2><br>
                     <input type = "text" name = "StudentID"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit2">
                 </form>
             </div>
             <div class="modal-footer">
@@ -161,7 +161,7 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
+                <h5 class="modal-title">Update Class</h5>
             </div>
             <div class="modal-body">
                 <form>
@@ -169,7 +169,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassID"><br>
                     <h2>Student ID</h2><br>
                     <input type = "text" name = "StudentID"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit3">
                 </form>
             </div>
             <div class="modal-footer">
@@ -187,7 +187,7 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
+                <h5 class="modal-title">Update Class</h5>
             </div>
             <div class="modal-body">
                 <form>
@@ -195,7 +195,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "ClassID"><br>
                     <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit4">
                 </form>
             </div>
             <div class="modal-footer">
@@ -214,17 +214,15 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
+                <h5 class="modal-title">Update Class</h5>
             </div>
             <div class="modal-body">
                 <form>
                     <h2>Class ID</h2><br>
                     <input type = "text" name = "ClassID"><br>
-                    <h2>Book Title</h2><br>
-                    <input type = "text" name = "BookTitle"><br>
                     <h2>Book ID</h2><br>
                     <input type = "text" name = "BookID"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit5">
                 </form>
             </div>
             <div class="modal-footer">
@@ -243,7 +241,7 @@ require_once('HeaderLayout.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Student</h5>
+                <h5 class="modal-title">Update Class</h5>
             </div>
             <div class="modal-body">
                 <form>
@@ -251,7 +249,7 @@ require_once('HeaderLayout.php');
                     <input type = "text" name = "OldClassroomNumber"><br>
                     <h2>New Classroom Number</h2><br>
                     <input type = "text" name = "ClassroomNumber"><br>
-                    <input type = "submit" value = "Submit">
+                    <input type = "submit" value = "Submit" name = "submit6">
                 </form>
             </div>
             <div class="modal-footer">
@@ -302,6 +300,7 @@ require_once('HeaderLayout.php');
         }
     });
 </script>
+
 
 <!--Kendo hint and placeholder functions-->
 <script>
@@ -535,7 +534,7 @@ if($continue == true) {
 
         $sqlb = "INSERT INTO BookTable(BookID, BookName) VALUES ('$BookID', '$bookName');";
 
-        $sqlc = "INSERT INTO ClassesTable(ClassID, ClassName) VALUES ('$ClassID', '$class');";
+        $sqlc = "INSERT INTO ClassesTable(ClassID, ClassName, BookID) VALUES ('$ClassID', '$class', '$BookID');";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -543,7 +542,7 @@ if($continue == true) {
         $dbh->exec($sqlc);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
@@ -581,23 +580,30 @@ if($continue == true) {
 
     if (isset($_GET['submit1'])) {
 
-        $BookName = $_GET['BookName'];
-        $BookID = $_GET['id'];
+        $ClassName = $_GET['ClassTitle'];
+        $ClassID = $_GET['id'];
 
         $username = "sa";
         $password = "capcom5^";
 
         /*Delete all data in the table row if specified by the Bootstrap Modal input*/
 
-        $sql = "DELETE FROM BookTable WHERE BookID = '$BookID' AND BookName = '$BookName'";
+        $sql = "DELETE FROM ClassesTable WHERE ClassName = '$ClassName'";
 
+        $sqls = "DELETE FROM StudClass WHERE ClassID = '$ClassID'";
+
+        $sqlb = "DELETE FROM BookTable WHERE ClassID = '$ClassID'";
+
+        $sqlcr = "DELETE FROM ClassroomTable WHERE ClassID = '$ClassID'";
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->exec($sql);
+        $dbh->exec($sqls);
+        $dbh->exec($sqlb);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
@@ -635,16 +641,16 @@ if($continue == true) {
 
     if (isset($_GET['submit2'])) {
 
-        $name = $_GET['BookName'];
+        $ClassID = $_GET['ClassID'];
         $BookID = $_GET['BookID'];
 
         $username = "sa";
         $password = "capcom5^";
 
         //student query
-        $sql = ("UPDATE BookTable 
-                    SET BookName = '$name'
-                    WHERE BookID = '$BookID'");
+        $sql = ("UPDATE ClassesTable
+                    SET BookID = '$BookID'
+                    WHERE ClassID = '$ClassID'");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -652,7 +658,7 @@ if($continue == true) {
 
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
@@ -679,7 +685,7 @@ if($continue == true) {
 
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
@@ -696,7 +702,7 @@ if($continue == true) {
         $password = "capcom5^";
 
         //student query
-        $sql = ("UPDATE ClassTable 
+        $sql = ("UPDATE ClassesTable 
                     SET ClassName = '$title'
                     WHERE ClassID = '$ClassID'");
 
@@ -706,7 +712,7 @@ if($continue == true) {
 
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
@@ -723,8 +729,8 @@ if($continue == true) {
         $password = "capcom5^";
 
         //student query
-        $sql = ("INSERT INTO StudClass 
-                    VALUES StudentID = '$studID', ClassID = '$classID'
+        $sql = ("INSERT INTO StudClass(StudentID, ClassID)
+                    VALUES ('$studID', '$classID')
                 ");
 
         $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -733,7 +739,7 @@ if($continue == true) {
 
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
@@ -759,7 +765,7 @@ if($continue == true) {
 
         #Refresh page one time after executing
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
