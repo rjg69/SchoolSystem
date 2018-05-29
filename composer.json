@@ -9,6 +9,14 @@
         }
     ],
     "require": {
-        "phpoffice/phpspreadsheet": "^1.2"
-    }
+        "phpoffice/phpspreadsheet": "^1.2",
+        "savvior/kendoui": "^2017.3"
+    },
+
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.savvior.com"
+        }
+    ]
 }

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <?php
-    require_once('HeaderLayout.php');
+require_once('HeaderLayout.php');
 ?>
 <body>
 <?php
-    require_once('Navigation.php');
+require_once('Navigation.php');
 ?>
 <br />
         <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page.</p>

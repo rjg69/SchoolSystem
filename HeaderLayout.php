@@ -2,7 +2,7 @@
 session_start();
 
 if(!array_key_exists('Username', $_SESSION)){
-    header('Location: http://testproject.test/LoginPage.php');
+    header('Location: /LoginPage.php');
 }
 ?>
 <head>

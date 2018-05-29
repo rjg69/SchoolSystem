@@ -708,7 +708,7 @@ if($continue == true) {
      */
 
 }else{
-    header('Location: http://testproject.test/LoginPage.php');
+    header('Location: /LoginPage.php');
 }
 ?>
 
