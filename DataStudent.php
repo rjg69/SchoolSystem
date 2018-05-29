@@ -200,12 +200,11 @@ require_once('Navigation.php');
 
 <script type="text/javascript">
 
-
+/*
     $(function() {
         $("#uploader").pluploadQueue({
             runtimes : 'html5,html4',
-            max_file_size : '10mb',
-            url : 'upload.php',
+            url : '/StudentPhotos',
             max_file_size : '5000kb',
             multiple_queues : true,
             unique_names : true,
@@ -223,14 +222,17 @@ require_once('Navigation.php');
         });
     });
 
+*/
+
     // Custom example logic
-    /*var uploader = new plupload.Uploader({
+    //http://artax.karlin.mff.cuni.cz/~ttel5535/lib/plupload-1.5.2/examples/example_custom.html
+    var uploader = new plupload.Uploader({
         runtimes : 'html5,flash,silverlight,html4',
         browse_button : 'pickfiles', // you can pass in id...
         container: document.getElementById('container'), // ... or DOM Element itself
-        url : "DataStudent.php",
+        url : "/StudentPhotos",
         filters : {
-            max_file_size : '20kb',
+            max_file_size : '2000kb',
             mime_types: [
                 {title : "Image files", extensions : "jpg,gif,png"},
                 {title : "Zip files", extensions : "zip"}
@@ -260,13 +262,8 @@ require_once('Navigation.php');
                 document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
             }
         }
-    });*/
+    });
 </script>
-
-
-<div id="uploader">You browser doesn't have HTML 4 support.</div>
-
-<div class="outputimages"></div>
 
 
 
@@ -371,6 +368,12 @@ if($continue == true) {
             ClassroomTable
         ON 
             ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        WHERE
+		    StudentTable.StudentID IS NOT NULL
+	    AND
+		    ClassesTable.ClassID IS NOT NULL
+	    AND
+		    BookTable.BookID IS NOT NULL
         ORDER BY
             StudentTable.StudentID;
         ";
@@ -393,25 +396,6 @@ if($continue == true) {
     echo "<br />";
     echo "<br />";
     echo "<br />";
-
-    //IMAGES
-
-    /*$image = $_FILES['image']['name'];
-  	// Get text
-  	$image_text = mysqli_real_escape_string($db, $_POST['image_text']);
-
-  	// image file directory
-  	$target = "images/".basename($image);
-
-  	$sql = "INSERT INTO images (image, image_text) VALUES ('$image', '$image_text')";
-  	// execute query
-  	mysqli_query($db, $sql);
-
-  	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
-  		$msg = "Image uploaded successfully";
-  	}else{
-  		$msg = "Failed to upload image";
-  	}*/
 
     //Filter data to avoid repeat student data
     $studentIDList = array();
@@ -469,8 +453,6 @@ if($continue == true) {
         $outputData[] = $output;
     }
 
-    //var_dump($outputData);
-
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
@@ -527,24 +509,33 @@ if($continue == true) {
     $dataSource->data($outputData);
 
     $idColumn = new \Kendo\UI\GridColumn();
-    $idColumn->field('StudentID')->title("student id");
+    $idColumn->field('StudentID')->title("Student ID");
 
     $nameColumn = new \Kendo\UI\GridColumn();
-    $nameColumn->field('StudentName')->title("student id");
+    $nameColumn->field('StudentName')->title("Student Name");
 
     $studImageColumn = new \Kendo\UI\GridColumn();
-    $studImageColumn->field('StudentImage')->title("student id");
+    $studImageColumn->field('StudentImage')->title("Student Image");
 
     $classColumn = new \Kendo\UI\GridColumn();
-    $classColumn->field('ClassName')->title("student id");
+    $classColumn->field('ClassName')->title("Class Name");
 
     $bookColumn = new \Kendo\UI\GridColumn();
-    $bookColumn->field('BookName')->title("student id");
+    $bookColumn->field('BookName')->title("Book Name");
 
-    $grid = new \Kendo\UI\Grid('sortable-basic');
+    $grid = new \Kendo\UI\Grid('grid');
     $grid->addColumn($idColumn, $nameColumn, $studImageColumn, $classColumn, $bookColumn)->dataSource($dataSource);
 
     echo $grid->render();
+
+    ?>
+    <script>
+        $(function(){
+            var grid = $("#productGrid").data("kendoGrid");
+        })
+    </script>
+
+<?php
 
 
     /****************************************************************
@@ -552,7 +543,7 @@ if($continue == true) {
      ****************************************************************/
 
     $sortable = new \Kendo\UI\Sortable('grid');
-    $sortable->hint(new \Kendo\JavaScriptFunction('hint'))->placeholder(new \Kendo\JavaScriptFunction('placeholder'));
+  //$sortable->hint(new \Kendo\JavaScriptFunction('hint'))->placeholder(new \Kendo\JavaScriptFunction('placeholder'));
 
     echo $sortable->render();
 
@@ -733,7 +724,7 @@ if($continue == true) {
     }
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT NAME
+     * EDIT DESIGNATED STUDENT NAME -- MSSQL
      ****************************************************************
 
     if(isset($_GET['submit2'])){
@@ -751,7 +742,6 @@ if($continue == true) {
         $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
-
         $result = $dbc->query($sql, PDO::FETCH_ASSOC);
 
         sqlsrv_close($conn);
@@ -762,7 +752,7 @@ if($continue == true) {
     }
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT IMAGE
+     * EDIT DESIGNATED STUDENT IMAGE -- MSSQL
      ****************************************************************
 
     if(isset($_GET['submit3'])){
@@ -772,8 +762,6 @@ if($continue == true) {
 
         $msusername = "sa";
         $mspassword = "capcom5^";
-
-
 
         $sql = ("UPDATE StudentTable
                     SET StudentImage = '$image'
@@ -800,14 +788,8 @@ if($continue == true) {
      *
      * Assignment 3
      *
-     * https://www.youtube.com/watch?v=tAcx8N0VcgY  -- MySQL to MSSQL tutorial
      * https://docs.microsoft.com/en-us/sql/ssma/mysql/converting-mysql-databases-mysqltosql?view=sql-server-2017
      * http://php.net/manual/en/function.sqlsrv-execute.php
-     *
-     * Assignment 4
-     *
-     * https://www.w3schools.com/jquery/jquery_ajax_get_post.asp -- $.ajax and $.post methods
-     * https://jquery-form.github.io/form/
      *
      * Assignment 6
      *
