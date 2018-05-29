@@ -1,9 +1,13 @@
+<!DOCTYPE html>
 <?php
     require_once('HeaderLayout.php');
 ?>
 <body>
+<?php
+    require_once('Navigation.php');
+?>
 <br />
-        <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page. A full table containing student, book, and class data can be found below. Reduced views of the data and table manipulation functions can be accessed using the tabs above.</p>
+        <p>From the list above, select the data type with which you plan to work and follow the instructions on the subsequent page.</p>
 
         <br/>
         <h2><center><u>Home Page</u></center></h2>
@@ -55,26 +59,26 @@
         <br />
         <br />
         <br />
-        <h2><center><u>Alternative Carousel</u></center></h2>
+        <h2><center><u>OWL Carousel</u></center></h2>
         <br />
         <br />
         <br />
 
         <div class="owl-carousel">
             <div class="item">
-                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Luke Skywalker.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Luke Skywalker.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Yoda.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Yoda.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Admiral Akbar.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Admiral Akbar.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Chewbacca.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Chewbacca.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 100%; padding-left: 200px;" src = "StudentPhotos\Darth Maul.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Darth Maul.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
             </div>
         </div>
 
@@ -215,56 +219,6 @@
         foreach ($data as $entry) {
             $results [] = $entry;
         }
-
-        /*
-        echo "<table align = 'center' width = '70%'><tr>";
-
-        echo "<td width = 16.67%><u>Student Name</u></td>";
-        echo "<td width = 16.67%><u>Student Image</u></td>";
-        echo "<td width = 16.67%><u>Class Title</u></td>";
-        echo "<td width = 16.67%><u>Book Title</u></td>";
-        echo "<td width = 16.67%><u>Book Image</u></td>";
-        echo "<td width = 16.67%><u>ClassroomNumber</u></td>";
-        echo "</tr><tr>";
-
-        foreach ($results as $val) {
-            $key = $val['StudentID'];
-            if (!array_key_exists($key, $returnData) && $key != null) {
-                $returnData[$key] = array(
-                    'StudentName' => $val['StudentName'],
-                    'StudentImage' => 'StudentPhotos\\' . $val['StudentName'] . '.jpg',
-                    'ClassTitle' => $val['ClassName'],
-                    'BookTitle' => $val['BookName'],
-                    'BookImage' => $val['BookImage'],
-                    'ClassroomNumber' => $val['ClassroomNumber']
-                );
-            }
-            if(!in_array($key, $studentList) && $key != null){
-                echo "<td width = 16.67%>" . $returnData[$key]['StudentName'] . "</td>";
-                echo "<td width = 16.67%><img style = 'width: 100%; height: auto;' src = ($returnData[$key]['StudentImage']) /></td>";
-                $studentList[] = $key;
-            }else{
-                echo "<td width = '16.67%'></td>";
-                echo "<td width = '16.67%'></td>";
-            }
-
-            echo "<td width = 16.67%>" . $returnData[$key]['ClassTitle'] . "</td>";
-
-            if(!in_array($key, $bookList) && $key != null){
-                echo "<td width = 16.67%>" . $returnData[$key]['BookTitle'] . "</td>";
-                echo "<td width = 16.67%>" . $returnData[$key]['BookImage'] . "</td>";
-                $bookList[] = $key;
-            }else{
-                echo "<td width = '16.67%'></td>";
-                echo "<td width = '16.67%'></td>";
-            }
-
-            echo "<td width = 16.67%>" . $returnData[$key]['ClassroomNumber'] . "</td>";
-            echo "</tr><tr>";
-        }
-        echo "</tr></table>";
-        */
-
     ?>
 <br />
 <br />

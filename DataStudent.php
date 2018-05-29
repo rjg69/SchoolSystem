@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+<html>
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
-
 <body>
+<?php
+require_once('Navigation.php');
+?>
+
 <br />
 
 
@@ -68,22 +72,6 @@ require_once('HeaderLayout.php');
 <p position = relative top = "200px" align = 'center'>Using the buttons provided, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
 <br />
 <br />
-
-<!--Kendo Headers-->
-<div id="grid"></div>
-<script>
-    $("#grid").kendoGrid({
-        columns: [{
-            template: ""
-        }, "Student ID", "Student Name", "Student Image", "Class Title", "Book Title"],
-        dataBound: function() {
-            var grid = this;
-            grid.tbody.find("tr td:first-child").each(function(index, elem){
-                $(elem).text("Row header " + (index + 1));
-        });
-        }
-    });
-</script>
 
 <!--
     Add Modal
@@ -212,8 +200,31 @@ require_once('HeaderLayout.php');
 
 <script type="text/javascript">
 
+
+    $(function() {
+        $("#uploader").pluploadQueue({
+            runtimes : 'html5,html4',
+            max_file_size : '10mb',
+            url : 'upload.php',
+            max_file_size : '5000kb',
+            multiple_queues : true,
+            unique_names : true,
+            filters : [
+                {title : "Image files", extensions : "jpg,gif,png,jpeg"}
+            ]
+        });
+
+        var uploader = $('#uploader').pluploadQueue();
+
+        uploader.bind('FileUploaded', function() {
+            if (uploader.files.length == (uploader.total.uploaded + uploader.total.failed)) {
+                $(".outputimages").html('The output goes here');
+            }
+        });
+    });
+
     // Custom example logic
-    var uploader = new plupload.Uploader({
+    /*var uploader = new plupload.Uploader({
         runtimes : 'html5,flash,silverlight,html4',
         browse_button : 'pickfiles', // you can pass in id...
         container: document.getElementById('container'), // ... or DOM Element itself
@@ -249,109 +260,69 @@ require_once('HeaderLayout.php');
                 document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
             }
         }
+    });*/
+</script>
+
+
+<div id="uploader">You browser doesn't have HTML 4 support.</div>
+
+<div class="outputimages"></div>
+
+
+
+<!--Kendo Headers
+<div id="grid"></div>
+<script>
+
+    $("#grid").kendoGrid({
+        columns: [{
+            field: "StudentID",
+            title: "Student ID"
+        },{
+            field: "StudentName",
+            title: "Student Name"
+        },{
+
+            field: "StudentImage",
+            title: "Student Image"
+        },{
+
+            field: "ClassTitle",
+            title: "Class Title"
+        },{
+
+            field: "BookTitle",
+            title: "Book Title"
+        }],
+        dataBound: function() {
+            var grid = this;
+            grid.tbody.find("tr td:first-child").each(function(index, elem){
+                $(elem).text("Row header " + (index + 1));
+            });
+        }
     });
 </script>
-
-<!--Kendo hint and placeholder functions-->
-<script>
-    function hint(element) {
-        return element.clone().addClass("hint");
-    }
-
-    function placeholder(element) {
-        return element.clone().addClass("placeholder").text("drop here");
-    }
-</script>
-
-<!--Kendo sortable script-->
+-->
+<!--Kendo sortable script
 <div id="example">
-    <div class="demo-section k-content wide">
-        <div id="singleSort"></div>
-    </div>
-
-    <div class="demo-section k-content wide">
-        <div id="multipleSort"></div>
-    </div>
-
     <script>
-        $(document).ready(function () {
-            $("#singleSort").kendoGrid({
-                dataSource: {
-                    data: orders,
-                    pageSize: 6
-                },
-                sortable: {
-                    mode: "single",
-                    allowUnsort: false
-                },
-                pageable: {
-                    buttonCount: 5
-                },
-                scrollable: false,
-                columns: [
-                    {
-                        field: "ShipCountry",
-                        title: "Ship Country",
-                        sortable: {
-                            initialDirection: "desc"
-                        },
-                        width: 300
+            $(document).ready(function() {
+                $("#sortable-basic").kendoSortable({
+                    hint:function(element) {
+                        return element.clone().addClass("hint");
                     },
-                    {
-                        field: "Freight",
-                        width: 300
+                    placeholder:function(element) {
+                        return element.clone().addClass("placeholder").text("drop here");
                     },
-                    {
-                        field: "OrderDate",
-                        title: "Order Date",
-                        format: "{0:dd/MM/yyyy}"
+                    cursorOffset: {
+                        top: -10,
+                        left: -230
                     }
-                ]
+                });
             });
-
-            $("#multipleSort").kendoGrid({
-                dataSource: {
-                    data: orders,
-                    pageSize: 6
-                },
-                sortable: {
-                    mode: "multiple",
-                    allowUnsort: true,
-                    showIndexes: true
-                },
-                pageable: {
-                    buttonCount: 5
-                },
-                scrollable: false,
-                columns: [
-                    {
-                        field: "ShipCountry",
-                        title: "Ship Country",
-                        width: 300
-                    },
-                    {
-                        field: "Freight",
-                        width: 300
-                    },
-                    {
-                        field: "OrderDate",
-                        title: "Order Date",
-                        format: "{0:d}"
-                    }
-                ]
-            });
-        });
     </script>
 </div>
-
-<script>
-    $("#grid").kendoGrid({
-        columns: [ {
-            field: "name",
-            headerTemplate: kendo.template('# if (true) { # <input type="checkbox" id="check-all" /><label for="check-all">Check All</label> # } else { # this will never be displayed # } #')
-        }],
-    });
-</script>
+-->
 
 
 <?php
@@ -422,19 +393,25 @@ if($continue == true) {
     echo "<br />";
     echo "<br />";
     echo "<br />";
-    var_dump($results);
 
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
+    //IMAGES
+
+    /*$image = $_FILES['image']['name'];
+  	// Get text
+  	$image_text = mysqli_real_escape_string($db, $_POST['image_text']);
+
+  	// image file directory
+  	$target = "images/".basename($image);
+
+  	$sql = "INSERT INTO images (image, image_text) VALUES ('$image', '$image_text')";
+  	// execute query
+  	mysqli_query($db, $sql);
+
+  	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+  		$msg = "Image uploaded successfully";
+  	}else{
+  		$msg = "Failed to upload image";
+  	}*/
 
     //Filter data to avoid repeat student data
     $studentIDList = array();
@@ -492,25 +469,54 @@ if($continue == true) {
         $outputData[] = $output;
     }
 
-    var_dump($outputData);
+    //var_dump($outputData);
 
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
+     *
+     * https://stackoverflow.com/questions/22523298/error-sqlstatehy000-2002-no-connection-could-be-made-because-the-target-mac
+     *
      ****************************************************************
 
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
-
     $dsn = 'mysql:dbname=ryan_intern;host=10.99.100.38';
-    $user='ryan_intern';
-    $password='password';
+    $msuser = "sa";
+    $mspassword = "capcom5^";
 
-    try{
-        $dbh = new PDO($dsn, $user, $password);
-    }catch(PDOException $e){
-        echo 'Connection failed: ' . $e->getMessage();
-    }
+    $q = "
+        SELECT
+            StudentTable.StudentID,
+            StudentTable.StudentName,
+            StudentTable.StudentImage,
+            ClassesTable.ClassName,
+            BookTable.BookName,
+            BookTable.BookImage
+        FROM
+            StudentTable
+        LEFT JOIN
+            StudClass
+        ON
+            StudentTable.StudentID=StudClass.StudentID
+        LEFT JOIN
+            ClassesTable
+        ON 
+            ClassesTable.ClassID=StudClass.ClassID
+        LEFT JOIN
+            BookTable
+        ON  
+            ClassesTable.BookID=BookTable.BookID
+        LEFT JOIN
+            ClassroomTable
+        ON 
+            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        ORDER BY
+            StudentTable.StudentID;
+        ";
+
+    $dbh = new PDO($dsn, $msuser, $mspassword);
+    $queryRef = $dbh->query($q);
+    $results = $queryRef->fetchAll(PDO::FETCH_ASSOC);
+
 
 
     /****************************************************************
@@ -521,21 +527,21 @@ if($continue == true) {
     $dataSource->data($outputData);
 
     $idColumn = new \Kendo\UI\GridColumn();
-    $idColumn->field('StudentID');
+    $idColumn->field('StudentID')->title("student id");
 
     $nameColumn = new \Kendo\UI\GridColumn();
-    $nameColumn->field('StudentName');
+    $nameColumn->field('StudentName')->title("student id");
 
     $studImageColumn = new \Kendo\UI\GridColumn();
-    $studImageColumn->field('StudentImage');
+    $studImageColumn->field('StudentImage')->title("student id");
 
     $classColumn = new \Kendo\UI\GridColumn();
-    $classColumn->field('ClassName');
+    $classColumn->field('ClassName')->title("student id");
 
     $bookColumn = new \Kendo\UI\GridColumn();
-    $bookColumn->field('BookName');
+    $bookColumn->field('BookName')->title("student id");
 
-    $grid = new \Kendo\UI\Grid('grid');
+    $grid = new \Kendo\UI\Grid('sortable-basic');
     $grid->addColumn($idColumn, $nameColumn, $studImageColumn, $classColumn, $bookColumn)->dataSource($dataSource);
 
     echo $grid->render();
@@ -584,30 +590,29 @@ if($continue == true) {
 
     if(isset($_GET['submit'])){
 
-        $msid = $_GET['id'];
-        $msstudName = $_GET['StudentName'];
-        $msclass = $_GET['ClassTitle'];
-        $msbook = $_GET['BookTitle'];
+        $StudID = $_GET['id'];
+        $studName = $_GET['StudentName'];
+        $ClassID = $_GET['ClassID'];
+        $class = $_GET['ClassTitle'];
 
-        $msservername = "10.99.100.38";
         $msusername = "sa";
         $mspassword = "capcom5^";
-        $msdbname = "ryan_intern";
 
-        $changeData[] = $id;
+        $sql = "INSERT INTO StudentTable(StudentID, StudentName) VALUES ('$StudID', '$studName');";
+
+        $sqlb = "INSERT INTO StudClass(StudentID, ClassID) VALUES ('$StudID', '$ClassID');";
 
         $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
-        $sql = "INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')";
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+        $result = $dbc->query($sqlb, PDO::FETCH_ASSOC);
 
-        mssql_close($dbc);
-
+        sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
-
     }
 
 
@@ -649,20 +654,21 @@ if($continue == true) {
         $msid = $_GET['id'];
         $msstudName = $_GET['StudentName'];
 
-        $msservername = "10.99.100.38";
         $msusername = "sa";
         $mspassword = "capcom5^";
-        $msdbname = "ryan_intern";
 
-        $changeData[] = $id;
+        $sql = "DELETE FROM StudentTable WHERE StudentID = '$id' AND StudentName = '$name'";
 
-        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $sqlc = "DELETE FROM StudClass WHERE StudentID = '$id'";
+
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
         $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+        $result = $dbc->query($sqlc, PDO::FETCH_ASSOC);
 
-        mssql_close($dbc);
-
+        sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
@@ -727,92 +733,64 @@ if($continue == true) {
     }
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT VALUES
+     * EDIT DESIGNATED STUDENT NAME
      ****************************************************************
 
     if(isset($_GET['submit2'])){
 
-    $msid = $_GET['id'];
-    $msstudName = $_GET['StudentName'];
+        $msid = $_GET['id'];
+        $msstudName = $_GET['StudentName'];
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
-    $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
 
-    $changeData[] = $id;
+        $sql = ("UPDATE StudentTable
+                    SET StudentName = '$name'
+                    WHERE StudentID = '$StudID'");
 
-
-    $name = $_GET['StudentName'];
-    $id = $_GET['id'];
-    $class = $_GET['ClassTitle'];
-    $book = $_GET['BookTitle'];
-
-    $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
-
-    $sql = ("UPDATE SavviorSchool
-              SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
-              WHERE ID = '$id'");
-
-    $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
-
-     mssql_close($dbc);
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
 
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+
+        sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
     }
 
-
     /****************************************************************
-     *  OUTPUT DYNAMIC TABLE DISPLAY
+     * EDIT DESIGNATED STUDENT IMAGE
      ****************************************************************
 
+    if(isset($_GET['submit3'])){
 
-    echo "<table align = 'center' width = '70%'><tr>";
+        $msid = $_GET['id'];
+        $msstudImage = $_GET['StudentImage'];
 
-    echo "<td width = '15%'><u>StudentID</u></td>";
-    echo "<td width = '15%'><u>Student Name</u></td>";
-    echo "<td width = '20%'><u>Student Image</u></td>";
-    echo "<td width = '15%'><u>Class Title</u></td>";
-    echo "<td width = '15%'><u>Book Title</u></td>";
-    echo "</tr><tr>";
+        $msusername = "sa";
+        $mspassword = "capcom5^";
 
-    $j = 0;
-    $studentNameList = array();
 
-    foreach ($results as $val) {
-        $j = $j + 1;
-        $key = $val['StudentID'];
-        if (!array_key_exists($key, $reportData)) {
-            $returnData[$key] = array(
-                'StudentName' => $val['StudentName'],
-                'StudentImage' => '\StudentPhotos\\' . $val['StudentName'] . '.jpg',
-                'ClassTitle' => $val['ClassName'],
-                'BookTitle' => $val['BookName'],
-                'BookImage' =>  '\BookPhotos\\' . $val['BookName'] . '.jpg'
-            );
+
+        $sql = ("UPDATE StudentTable
+                    SET StudentImage = '$image'
+                    WHERE StudentID = '$StudID'");
+
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+
+        sqlsrv_close($conn);
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
-
-        if(!in_array($val['StudentName'], $studentNameList) && $val['StudentName'] != null){
-            echo "<td>" . $key . "</td>";
-            echo "<td>" . $returnData[$key]['StudentName'] . "</td>";
-            echo "<td>" . $returnData[$key]['StudentImage'] .  "</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
-            $studentNameList[] = $val['StudentName'];
-        }else{
-            echo "<td></td>";
-            echo "<td></td>";
-            echo "<td></td>";
-        }
-        echo "<td>" . $returnData[$key]['ClassTitle'] . "</td>";
-        echo "<td>" . $returnData[$key]['BookTitle'] . "</td>";
-        echo "</tr><tr>";
-
-        $j += 1;
     }
-    echo "</tr></table>";
+
 
 
     /**********************************************************************************************
@@ -831,44 +809,14 @@ if($continue == true) {
      * https://www.w3schools.com/jquery/jquery_ajax_get_post.asp -- $.ajax and $.post methods
      * https://jquery-form.github.io/form/
      *
-     * Assignment 5
-     *
-     * https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
-     *
      * Assignment 6
      *
      * http://docs.telerik.com/kendo-ui/php/widgets/grid/overview
      * http://docs.telerik.com/kendo-ui/php/widgets/sortable/overview
      *
-     * Assignment 7
-     *
-     * https://www.formget.com/login-form-in-php/     sessions example
-     * https://www.johnmorrisonline.com/build-php-login-form-using-sessions/
-     *
-     * Assignment 8
-     *
-     * http://php.net/manual/en/function.fputcsv.php -- export student and class data to text files
-     * https://stackoverflow.com/questions/15501463/creating-csv-file-with-php
-     *
-     * Assignment 9
-     *
-     * https://stackoverflow.com/questions/15699301/export-mysql-data-to-excel-in-php
-     * https://phpspreadsheet.readthedocs.io/en/develop/topics/accessing-cells/
-     *
      * Assignment 10
      *
      * http://www.plupload.com/
-     *
-     * Assignment 11
-     *
-     * https://getbootstrap.com/docs/4.0/components/carousel/
-     * https://codepen.io/grbav/pen/qNZjPy
-     * https://owlcarousel2.github.io/OwlCarousel2/demos/responsive.html
-     * https://github.com/OwlCarousel2/OwlCarousel2/blob/develop/docs/demos/test.html
-     *
-     * Assignment 12
-     *
-     * https://www.w3schools.com/html/html_responsive.asp
      **********************************************************************************************/
 
 }else{

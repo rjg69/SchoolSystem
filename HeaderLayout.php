@@ -1,4 +1,3 @@
-<html lang = "en">
 <?php
 session_start();
 
@@ -6,348 +5,8 @@ if(!array_key_exists('Username', $_SESSION)){
     header('Location: http://testproject.test/LoginPage.php');
 }
 ?>
-<!--
-    Add style conventions using CSS
--->
-<style>
+<head>
 
-    * {
-        box-sizing:border-box;
-    }
-
-    header{
-        color: darkblue;
-    }
-
-    button{
-        background-color: darkred;
-        color: white;
-    }
-
-    .modal-footer{
-        color: white;
-        background-color: darkred;
-    }
-
-    .modal-header{
-        color: white;
-        background-color: #1775B3;
-    }
-
-    .dropbtn {
-        background-color: #1775B3;
-        color: white;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-        height: 34px;
-    }
-
-    .dropbtn:hover, .dropbtn:focus {
-        background-color: #1775B8;
-    }
-
-    #myInput {
-        border-box: box-sizing;
-        background-position: 14px 12px;
-        background-repeat: no-repeat;
-        font-size: 10px;
-        padding: 14px 20px 12px 45px;
-        border: none;
-        border-bottom: 1px solid #ddd;
-    }
-
-    #myInput:focus {outline: 3px solid #ddd;}
-
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f6f6f6;
-        min-width: 230px;
-        overflow: auto;
-        border: 1px solid #ddd;
-        z-index: 1;
-    }
-
-    .dropdown-content a {
-        color: black;
-        padding: 0;
-        text-decoration: none;
-        display: block;
-    }
-
-    .dropdown a:hover {background-color: #ddd}
-
-    .show {display:block;}
-
-    .btn-group{
-        color: white;
-        background-color: #1775C3;
-    }
-
-    h1{
-        color: navy;
-        font-size: 2vw;
-        min-font-size: 12px;
-    }
-
-    h2{
-        color: navy;
-        font-size: 2vw;
-        min-font-size: 10px;
-    }
-
-    td{
-        text-align: center;
-    }
-
-    p{
-        color: black;
-        font-size: 0.75vw;
-    }
-
-    table{
-        position: relative;
-        top: 50px;
-    }
-
-    select{
-        color: white;
-        background-color: #1775B3;
-        position: relative;
-        text-align: center;
-        align-content: center;
-        height: 40px;
-    }
-
-    p{
-        position: relative;
-        text-align: center;
-        top: 25px;
-        color: navy;
-        left: 0;
-    }
-
-    .carousel-inner>.item>img{
-        margin:auto;
-    }
-
-    .carousel-indicators{
-        position: relative;
-        top: 5%;
-    }
-
-    .carousel{
-        height: 27%;
-        width: 60%;
-        position: relative;
-        top: 25px;
-        align-self: center;
-    }
-
-    .left {
-        padding:20px;
-        float:left;
-    }
-
-    .main {
-        padding:20px;
-        float:left;
-    }
-
-    .right {
-        padding:20px;
-        float:left;
-    }
-
-    .first{
-        padding: 5px;
-        float: left;
-        width: 3%;
-    }
-
-    .second{
-        padding: 5px;
-        float: left;
-        width: 4%;
-    }
-
-    .third{
-        padding: 5px;
-        float: left;
-        width: 3%;
-    }
-
-    .fourth{
-        padding: 5px;
-        float: left;
-        width: 3%;
-    }
-
-    .fifth{
-        padding: 5px;
-        float: left;
-        width: 3%;
-    }
-
-    @media screen and (max-width: 800px){
-        .first, .second, .third, .fourth, .fifth, .btn-toolbar{
-            width: 100%;
-            text-align: center;
-        }
-    }
-
-    #container{
-        width: 100px;
-        height: 100px;
-        position: relative;
-    }
-
-    #pickfiles, #uploadfiles{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top:0;
-        left: =;
-    }
-
-    #uploadfiles{
-        z-index: 10;
-    }
-
-    .btn-group{
-        width: 5%;
-        float: left;
-    }
-
-    .btn-group-justified{
-        text-align: center;
-    }
-
-    .demo-section h3 {
-        margin: 5px 0 15px 0;
-    }
-
-    .owl-carousel.owl-loaded {
-        display: inline-block;
-    }
-    .img-wrap {
-        background-size: cover;
-        background-position: bottom;
-        height: 300px;
-        width: 300px;
-
-        img {
-            visibility: hidden;
-        }
-    }
-
-    .owl-prev {
-        background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938188/left-arrow_rlxamy.png') left center no-repeat;
-        height: 54px;
-        position: absolute;
-        top: 50%;
-        width: 27px;
-        z-index: 1000;
-        left: 2%;
-        cursor: pointer;
-        color: transparent;
-        margin-top: -27px;
-    }
-
-    .owl-next {
-        background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938220/right-arrow_zwe9sf.png') right center no-repeat;
-        height: 54px;
-        position: absolute;
-        top: 50%;
-        width: 27px;
-        z-index: 1000;
-        right: 2%;
-        cursor: pointer;
-        color: transparent;
-        margin-top: -27px;
-    }
-
-    .owl-prev:hover,
-    .owl-next:hover {
-        opacity: 0.5;
-    }
-
-
-    /* Owl Carousel */
-
-
-    /* Popup Text */
-
-    .white-popup-block {
-        background: #FFF;
-        padding: 20px 30px;
-        text-align: left;
-        max-width: 650px;
-        margin: 40px auto;
-        position: relative;
-    }
-
-    .popuptext {
-        display: table;
-    }
-
-    .popuptext p {
-        margin-bottom: 10px;
-    }
-
-    .popuptext span {
-        font-weight: bold;
-        float: right;
-    }
-
-    /* Popup Text */
-
-    /* Icon CSS */
-    .item {
-        position: relative;
-    }
-
-    .item i {
-        display: none;
-        font-size: 4rem;
-        color: #FFF;
-        opacity: 1;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
-    }
-
-    .item a {
-        display: block;
-        width: 100%;
-    }
-
-    .item a:hover:before {
-        content: "";
-        background: rgba(0, 0, 0, 0.5);
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        z-index: 1;
-    }
-
-    .item a:hover i {
-        display: block;
-        z-index: 2;
-    }
-
-</style>
-
-<header>
-    <h1 align = "center"><u><b>Savvior School District</b></u></h1>
 
     <title>Savvior School District</title>
     <meta charset="utf-8">
@@ -370,9 +29,8 @@ if(!array_key_exists('Username', $_SESSION)){
     <link rel="stylesheet" href="vendor/savvior/kendoui/public/styles/kendo.default.mobile.min.css" />
 
     <!--jQuery-->
-    <script src = "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.js"></script>
+    <script src = "https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src = "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!--Form Validator-->
     <script src = "//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
@@ -390,9 +48,11 @@ if(!array_key_exists('Username', $_SESSION)){
     <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/plupload.dev.js"></script>
     <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/plupload.min.js"></script>
     <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/moxie.js"></script>
+    <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/jquery.plupload.queue/jquery.plupload.queue.js"></script>
 
     <!--Kendo-->
     <script src = "/vendor/savvior/kendoui/public/js/kendo.all.min.js"></script>
+    <script src = "/vendor/savvior/kendoui/public/js/kendo.web.min.js"></script>
 
     <!--OWL-->
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
@@ -570,38 +230,346 @@ if(!array_key_exists('Username', $_SESSION)){
              });
          });
      </script>
-</header>
 
-<body>
-
-<!--
-    Tabs
+    <!--
+    Add style conventions using CSS
 -->
+    <style>
 
-<div class = "first">
-    <a href="ManagementSystem.php" class = "first" data-toggle = "tooltip" data-placement = "top" title = "View All Data">Home</a>
-</div>
-<div class = "second">
-    <a href="DataStudent.php" class = "second" data-toggle = "tooltip" data-placement = "top" title = "View Student Data">Student</a>
-</div>
-<div class = "third">
-    <a href="DataBook.php" class = "third" data-toggle = "tooltip" data-placement = "top" title = "View Book Data">Book</a>
-</div>
-<div class = "fourth">
-    <a href="DataClass.php" class = "fourth" data-toggle = "tooltip" data-placement = "top" title = "View Class Data">Class</a>
-</div>
-<div class = "fifth">
-    <a href = "DataClassroom.php" class = "fifth" data-toggle = "tooltip" data-placement = "top" title = "View Classroom Data">Classroom</a>
-</div>
-<hr width = 100%>
+        * {
+            box-sizing:border-box;
+        }
 
-<div class='btn-toolbar'>
-    <div class='btn-group-justified'>
-        <a href = "Logout.php" class='btn btn-primary' id = 'Logout' title = 'Logout'>Logout</a>
-        <a href = "excExp.php" class='btn btn-primary' name = 'ExcelExport' id = 'ExcelExport' title = 'Excel Export'>Export Excel</a>
-        <a href = "textExp.php" class='btn btn-primary' name ='TextExport' id = 'TextExport' title = 'Text Export'>Export Text</a>
-    </div>
-</div>
+        header{
+            color: darkblue;
+        }
 
-<br />
-</body>
+        button{
+            background-color: darkred;
+            color: white;
+        }
+
+        .modal-footer{
+            color: white;
+            background-color: darkred;
+        }
+
+        .modal-header{
+            color: white;
+            background-color: #1775B3;
+        }
+
+        .dropbtn {
+            background-color: #1775B3;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            height: 34px;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #1775B8;
+        }
+
+        #myInput {
+            border-box: box-sizing;
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 10px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myInput:focus {outline: 3px solid #ddd;}
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f6f6f6;
+            min-width: 230px;
+            overflow: auto;
+            border: 1px solid #ddd;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 0;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {background-color: #ddd}
+
+        .show {display:block;}
+
+        .btn-group{
+            color: white;
+            background-color: #1775C3;
+        }
+
+        h1{
+            color: navy;
+            font-size: 2vw;
+            min-font-size: 12px;
+        }
+
+        h2{
+            color: navy;
+            font-size: 2vw;
+            min-font-size: 10px;
+        }
+
+        td{
+            text-align: center;
+        }
+
+        p{
+            color: black;
+            font-size: 0.75vw;
+            min-font-size: 8px;
+        }
+
+        table{
+            position: relative;
+            top: 50px;
+        }
+
+        select{
+            color: white;
+            background-color: #1775B3;
+            position: relative;
+            text-align: center;
+            align-content: center;
+            height: 40px;
+        }
+
+        p{
+            position: relative;
+            text-align: center;
+            top: 25px;
+            color: navy;
+            left: 0;
+        }
+
+        .carousel-inner>.item>img{
+            margin:auto;
+        }
+
+        .carousel-indicators{
+            position: relative;
+            top: 5%;
+        }
+
+        .carousel{
+            height: 27%;
+            width: 60%;
+            position: relative;
+            top: 25px;
+            align-self: center;
+        }
+
+        .left {
+            padding:20px;
+            float:left;
+        }
+
+        .main {
+            padding:20px;
+            float:left;
+        }
+
+        .right {
+            padding:20px;
+            float:left;
+        }
+
+        .first{
+            padding: 5px;
+            float: left;
+            width: 3%;
+        }
+
+        .second{
+            padding: 5px;
+            float: left;
+            width: 4%;
+        }
+
+        .third{
+            padding: 5px;
+            float: left;
+            width: 3%;
+        }
+
+        .fourth{
+            padding: 5px;
+            float: left;
+            width: 3%;
+        }
+
+        .fifth{
+            padding: 5px;
+            float: left;
+            width: 3%;
+        }
+
+        @media screen and (max-width: 1350px){
+            .first, .second, .third, .fourth, .fifth, .btn-toolbar{
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        #container{
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        #pickfiles, #uploadfiles{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top:0;
+        }
+
+        #uploadfiles{
+            z-index: 10;
+        }
+
+        .btn-group{
+            width: 5%;
+            float: left;
+        }
+
+        .btn-group-justified{
+            text-align: center;
+        }
+
+        .demo-section h3 {
+            margin: 5px 0 15px 0;
+        }
+
+        .owl-carousel.owl-loaded {
+            display: inline-block;
+        }
+        .img-wrap {
+            background-size: cover;
+            background-position: bottom;
+            height: 300px;
+            width: 300px;
+
+        img {
+            visibility: hidden;
+        }
+        }
+
+        .owl-prev {
+            background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938188/left-arrow_rlxamy.png') left center no-repeat;
+            height: 54px;
+            position: absolute;
+            top: 50%;
+            width: 27px;
+            z-index: 1000;
+            left: 2%;
+            cursor: pointer;
+            color: transparent;
+            margin-top: -27px;
+        }
+
+        .owl-next {
+            background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938220/right-arrow_zwe9sf.png') right center no-repeat;
+            height: 54px;
+            position: absolute;
+            top: 50%;
+            width: 27px;
+            z-index: 1000;
+            right: 2%;
+            cursor: pointer;
+            color: transparent;
+            margin-top: -27px;
+        }
+
+        .owl-prev:hover,
+        .owl-next:hover {
+            opacity: 0.5;
+        }
+
+
+        /* Owl Carousel */
+
+
+        /* Popup Text */
+
+        .white-popup-block {
+            background: #FFF;
+            padding: 20px 30px;
+            text-align: left;
+            max-width: 650px;
+            margin: 40px auto;
+            position: relative;
+        }
+
+        .popuptext {
+            display: table;
+        }
+
+        .popuptext p {
+            margin-bottom: 10px;
+        }
+
+        .popuptext span {
+            font-weight: bold;
+            float: right;
+        }
+
+        /* Popup Text */
+
+        /* Icon CSS */
+        .item {
+            position: relative;
+        }
+
+        .item i {
+            display: none;
+            font-size: 4rem;
+            color: #FFF;
+            opacity: 1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+        }
+
+        .item a {
+            display: block;
+            width: 100%;
+        }
+
+        .item a:hover:before {
+            content: "";
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .item a:hover i {
+            display: block;
+            z-index: 2;
+        }
+
+    </style>
+
+</head>
+

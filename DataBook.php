@@ -1,9 +1,9 @@
 <!DOCTYPE html>
+<body>
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
-<body>
 <br />
 
 <!--Data Manipulation Button Group-->
@@ -383,22 +383,50 @@ if($continue == true) {
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
+     *
+     * https://stackoverflow.com/questions/22523298/error-sqlstatehy000-2002-no-connection-could-be-made-because-the-target-mac
+     *
      ****************************************************************
 
-    $msservername = "10.99.100.38";
-    $msusername = "sa";
+    $dsn = 'mysql:dbname=ryan_intern;host=10.99.100.38';
+    $msuser = "sa";
     $mspassword = "capcom5^";
-    $msdbname = "ryan_intern";
 
-    $connectionInfo = array("Database" => $msdbname, "UID"=>$msusername, "PWD" => $mspassword);
-    $conn = sqlsrv_connect($msservername, $connectionInfo);
+    $q = "
+        SELECT
+            StudentTable.StudentID,
+            StudentTable.StudentName,
+            StudentTable.StudentImage,
+            ClassesTable.ClassName,
+            BookTable.BookName,
+            BookTable.BookImage
+        FROM
+            StudentTable
+        LEFT JOIN
+            StudClass
+        ON
+            StudentTable.StudentID=StudClass.StudentID
+        LEFT JOIN
+            ClassesTable
+        ON 
+            ClassesTable.ClassID=StudClass.ClassID
+        LEFT JOIN
+            BookTable
+        ON  
+            ClassesTable.BookID=BookTable.BookID
+        LEFT JOIN
+            ClassroomTable
+        ON 
+            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        ORDER BY
+            StudentTable.StudentID;
+        ";
 
-    if($conn){
-    echo "connection established <br />";
-    }else{
-    echo "connection could not be established <br />";
-    die( print_r( sqlsrv_errors(), true));
-    }
+    $dbh = new PDO($dsn, $msuser, $mspassword);
+    $queryRef = $dbh->query($q);
+    $results = $queryRef->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 
     /****************************************************************
@@ -466,31 +494,38 @@ if($continue == true) {
     }
 
     /****************************************************************
-     *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
+     *  ADD NEW BOOK TO THE DATABASE -- MSSQL
      ****************************************************************
 
     if(isset($_GET['submit'])){
 
-        $msid = $_GET['id'];
-        $msstudName = $_GET['StudentName'];
-        $msclass = $_GET['ClassTitle'];
-        $msbook = $_GET['BookTitle'];
+        $BookID = $_GET['BookID'];
+        $bookName = $_GET['BookName'];
+        $ClassID = $_GET['ClassID'];
+        $class = $_GET['ClassTitle'];
 
-        $msservername = "10.99.100.38";
         $msusername = "sa";
         $mspassword = "capcom5^";
-        $msdbname = "ryan_intern";
 
-        $changeData[] = $id;
 
-        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+        $sqlb = "INSERT INTO BookTable(BookID, BookName) VALUES ('$BookID', '$bookName');";
 
-        $sql = "INSERT INTO SavviorSchool(ID, StudentName, ClassTitle, BookTitle) VALUES ('$msid', '$msstudName', '$msclass', '$msbook')";
-        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $sqlc = "INSERT INTO ClassesTable(ClassID, ClassName, BookID) VALUES ('$ClassID', '$class', '$BookID');";
 
-        mssql_close($dbc);
 
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+        $result = $dbc->query($sqlb, PDO::FETCH_ASSOC);
+
+        sqlsrv_close($conn);
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
     }
+
 
 
     /****************************************************************
@@ -530,22 +565,27 @@ if($continue == true) {
     if(isset($_GET['submit1'])){
 
         $msid = $_GET['id'];
-        $msstudName = $_GET['StudentName'];
+        $msbookName = $_GET['BookName'];
 
-        $msservername = "10.99.100.38";
         $msusername = "sa";
         $mspassword = "capcom5^";
-        $msdbname = "ryan_intern";
 
-        $changeData[] = $id;
+    $sql = "DELETE FROM BookTable WHERE BookID = '$msid' AND BookName = '$msbookName'";
 
-        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
+    $sqlClass = "DELETE BookID FROM ClassesTable WHERE BookID = '$msid'";
+
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
         $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-        $result = mssql_query($dbc, $sql) or die('Error querying MSSQL database');
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+        $result = $dbc->query($sqlc, PDO::FETCH_ASSOC);
 
-        mssql_close($dbc);
+        sqlsrv_close($conn);
 
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
     }
 
 
@@ -608,167 +648,64 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT VALUES
+     * EDIT DESIGNATED BOOOK TITLE
      ****************************************************************
 
     if(isset($_GET['submit2'])){
 
         $msid = $_GET['id'];
-        $msstudName = $_GET['StudentName'];
+        $msbookName = $_GET['BookName'];
 
-        $msservername = "10.99.100.38";
         $msusername = "sa";
         $mspassword = "capcom5^";
-        $msdbname = "ryan_intern";
 
-        $changeData[] = $id;
+        //book query
+        $sql = ("UPDATE BookTable
+        SET BookName = 'msbookName'
+        WHERE BookID = '$msid'");
 
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
-        if ($_GET['StudentName']) {
-            $name = $_GET['StudentName'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == $_GET['ID']){
-                    $name = $data['id']['StudentName'];
-                }
-            }
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+
+        sqlsrv_close($conn);
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
-
-        if ($_GET['id']) {
-            $id = $_GET['id'];
-        } else {
-            $id = null;
-        }
-
-        if ($_GET['ClassTitle']) {
-            $class = $_GET['ClassTitle'];
-        }else{
-            foreach($data as $user){
-                if($data['id'] == 'ID'){
-                    $name = $data['id']['ClassTitle'];
-                }
-            }
-        }
-
-        if ($_GET['BookTitle']) {
-            $book = $_GET['BookTitle'];
-        }else {
-            foreach ($data as $user) {
-                if ($data['id'] == 'ID') {
-                    $name = $data['id']['BookTitle'];
-                }
-            }
-        }
-
-        $dbc = mssql_connect($msservername, $msusername, $mspassword, $msdbname) or die('Error connecting to the SQL Server database.');
-
-        $sql = ("UPDATE SavviorSchool
-    SET StudentName = '$name', ClassTitle = '$class', BookTitle = '$book'
-    WHERE ID = '$id'");
-
-        mssql_close($dbc);
-
     }
 
-    /****************************************************************
-     *  OUTPUT DYNAMIC TABLE DISPLAY
-     ****************************************************************/
+     /****************************************************************
+     * EDIT DESIGNATED BOOOK IMAGE
+     ****************************************************************
+
+    if(isset($_GET['submit2'])){
+
+        $msid = $_GET['id'];
+        $msimage = $_GET['BookImage'];
+
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+
+        //student query
+        $sql = ("UPDATE BookTable
+                    SET BookImage = '$msimage'
+                    WHERE BookID = '$msid'");
+
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
 
-    echo "<table align = 'center' width = '70%'><tr>";
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
 
-    echo "<td width = '16.67%'><u>Book ID</u></td>";
-    echo "<td width = '16.67%'><u>Book Title</u></td>";
-    echo "<td width = '16.67%'><u>Book Image</u></td>";
-    echo "<td width = '16.67%'><u>Class ID</u></td>";
-    echo "<td width = '16.67%'><u>Class Name</u></td>";
-    echo "</tr><tr>";
+        sqlsrv_close($conn);
 
-    $j = 0;
-    $usedBooks = array();
-
-    foreach ($results as $val) {
-        $j = $j + 1;
-        $key = $val['BookID'];
-            if (!array_key_exists($key, $reportData)){
-                $returnData[$key] = array(
-                    'BookID' => $val['BookID'],
-                    'BookTitle' => $val['BookName'],
-                    'BookImage' =>  '\BookPhotos\\' . $val['BookName'] . '.jpg',
-                    'ClassID' => $val['ClassID'],
-                    'ClassTitle' => $val['ClassName']
-                );
-            }
-
-        if(!in_array($key, $usedBooks) && $key != null){
-            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['BookID'] . "</td>";
-            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['BookTitle'] . "</td>";
-            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['BookImage'] ."</td>"; //"<img style = 'width: 100%; height: auto;' src = $returnData[$key]['StudentImage'] />" . "</td>";
-            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['ClassID'] . "</td>";
-            echo "<td align = 'center' width = '20%'>" . $returnData[$key]['ClassTitle'] . "</td>";
-            echo "</tr><tr>";
-            $usedBooks[] = $key;
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
-        echo "</tr><tr>";
-
-        $j += 1;
     }
-    echo "</tr></table>";
-
-    /**********************************************************************************************
-     * Assignment 1 & 2
-     * CREATE TABLES FOR CLASSES, STUDENTS, BOOKS, AND CLASSROOMS
-     * CONNECT CLASS AND STUDENT WITH JOIN TABLE, CONNECT 1 TO 1 CLASSES AND BOOKS, CLASSES AND CLASSROOMS
-     *
-     * Assignment 3
-     *
-     * https://www.youtube.com/watch?v=tAcx8N0VcgY  -- MySQL to MSSQL tutorial
-     * https://docs.microsoft.com/en-us/sql/ssma/mysql/converting-mysql-databases-mysqltosql?view=sql-server-2017
-     *
-     * Assignment 4
-     *
-     * https://www.w3schools.com/jquery/jquery_ajax_get_post.asp -- $.ajax and $.post methods
-     * https://jquery-form.github.io/form/
-     *
-     * Assignment 5
-     *
-     * https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
-     *
-     * Assignment 6
-     *
-     * http://docs.telerik.com/kendo-ui/php/widgets/grid/overview
-     * http://docs.telerik.com/kendo-ui/php/widgets/sortable/overview
-     *
-     * Assignment 7
-     *
-     * https://www.formget.com/login-form-in-php/     sessions example
-     * https://www.johnmorrisonline.com/build-php-login-form-using-sessions/
-     *
-     * Assignment 8
-     *
-     * http://php.net/manual/en/function.fputcsv.php -- export student and class data to text files
-     * https://stackoverflow.com/questions/15501463/creating-csv-file-with-php
-     *
-     * Assignment 9
-     *
-     * https://stackoverflow.com/questions/15699301/export-mysql-data-to-excel-in-php
-     * https://phpspreadsheet.readthedocs.io/en/develop/topics/accessing-cells/
-     *
-     * Assignment 10
-     *
-     * http://www.plupload.com/
-     *
-     * Assignment 11
-     *
-     * https://getbootstrap.com/docs/4.0/components/carousel/
-     * https://codepen.io/grbav/pen/qNZjPy
-     * https://owlcarousel2.github.io/OwlCarousel2/demos/responsive.html
-     * https://github.com/OwlCarousel2/OwlCarousel2/blob/develop/docs/demos/test.html
-     *
-     * Assignment 12
-     *
-     * https://www.w3schools.com/html/html_responsive.asp
-     **********************************************************************************************/
+     */
 
 }else{
     header('Location: http://testproject.test/LoginPage.php');
