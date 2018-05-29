@@ -196,33 +196,10 @@ require_once('Navigation.php');
 
 <!--
     Update Student Image Script
+    https://www.plupload.com/examples/core
 -->
 
 <script type="text/javascript">
-
-/*
-    $(function() {
-        $("#uploader").pluploadQueue({
-            runtimes : 'html5,html4',
-            url : '/StudentPhotos',
-            max_file_size : '5000kb',
-            multiple_queues : true,
-            unique_names : true,
-            filters : [
-                {title : "Image files", extensions : "jpg,gif,png,jpeg"}
-            ]
-        });
-
-        var uploader = $('#uploader').pluploadQueue();
-
-        uploader.bind('FileUploaded', function() {
-            if (uploader.files.length == (uploader.total.uploaded + uploader.total.failed)) {
-                $(".outputimages").html('The output goes here');
-            }
-        });
-    });
-
-*/
 
     // Custom example logic
     //http://artax.karlin.mff.cuni.cz/~ttel5535/lib/plupload-1.5.2/examples/example_custom.html
@@ -266,62 +243,6 @@ require_once('Navigation.php');
 </script>
 
 
-
-<!--Kendo Headers
-<div id="grid"></div>
-<script>
-
-    $("#grid").kendoGrid({
-        columns: [{
-            field: "StudentID",
-            title: "Student ID"
-        },{
-            field: "StudentName",
-            title: "Student Name"
-        },{
-
-            field: "StudentImage",
-            title: "Student Image"
-        },{
-
-            field: "ClassTitle",
-            title: "Class Title"
-        },{
-
-            field: "BookTitle",
-            title: "Book Title"
-        }],
-        dataBound: function() {
-            var grid = this;
-            grid.tbody.find("tr td:first-child").each(function(index, elem){
-                $(elem).text("Row header " + (index + 1));
-            });
-        }
-    });
-</script>
--->
-<!--Kendo sortable script
-<div id="example">
-    <script>
-            $(document).ready(function() {
-                $("#sortable-basic").kendoSortable({
-                    hint:function(element) {
-                        return element.clone().addClass("hint");
-                    },
-                    placeholder:function(element) {
-                        return element.clone().addClass("placeholder").text("drop here");
-                    },
-                    cursorOffset: {
-                        top: -10,
-                        left: -230
-                    }
-                });
-            });
-    </script>
-</div>
--->
-
-
 <?php
 
 $continue = include 'LoginCheck.php';
@@ -343,39 +264,42 @@ if($continue == true) {
     $dbname = "ryan_intern";
 
     $q = "
-        SELECT
-            StudentTable.StudentID,
-            StudentTable.StudentName,
-            StudentTable.StudentImage,
-            ClassesTable.ClassName,
-            BookTable.BookName,
-            BookTable.BookImage
-        FROM
-            StudentTable
-        LEFT JOIN
-            StudClass
-        ON
-            StudentTable.StudentID=StudClass.StudentID
-        LEFT JOIN
-            ClassesTable
-        ON 
-            ClassesTable.ClassID=StudClass.ClassID
-        LEFT JOIN
-            BookTable
-        ON  
-            ClassesTable.BookID=BookTable.BookID
-        LEFT JOIN
-            ClassroomTable
-        ON 
-            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
-        WHERE
-		    StudentTable.StudentID IS NOT NULL
-	    AND
-		    ClassesTable.ClassID IS NOT NULL
-	    AND
-		    BookTable.BookID IS NOT NULL
-        ORDER BY
-            StudentTable.StudentID;
+            SELECT
+                StudentTable.StudentID,
+                StudentTable.StudentName,
+                StudentTable.StudentImage,
+                ClassesTable.ClassID,
+                ClassesTable.ClassName,
+                ClassroomTable.ClassroomNumber,
+                BookTable.BookName
+            FROM
+                StudentTable
+            LEFT JOIN
+                StudClass
+            ON
+                StudentTable.StudentID=StudClass.StudentID
+            LEFT JOIN
+                ClassesTable
+            ON
+                ClassesTable.ClassID=StudClass.ClassID
+            LEFT JOIN
+                ClassroomTable
+            ON
+                ClassroomTable.ClassroomID=ClassesTable.ClassroomID
+            LEFT JOIN
+                BookTable
+            ON
+                BookTable.BookID=ClassesTable.BookID
+            WHERE
+                ClassesTable.ClassroomID IS NOT NULL
+            AND
+                ClassesTable.ClassID IS NOT NULL
+            AND 
+                ClassesTable.BookID IS NOT NULL
+            AND
+                BookTable.BookName IS NOT NULL
+            ORDER BY
+                StudentTable.StudentID
         ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -390,14 +314,8 @@ if($continue == true) {
         $results [] = $entry;
     }
 
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-
     //Filter data to avoid repeat student data
+    //https://stackoverflow.com/questions/9959131/loading-an-image-through-php
     $studentIDList = array();
     $outputData = array();
 
@@ -413,44 +331,6 @@ if($continue == true) {
                 'BookImage' => '\BookPhotos\\' . $val['BookName'] . '.jpg'
             );
         }
-    }
-
-    //Generate Output Data for Kendo Grid Display
-    $usedNames = array();
-    $usedID = array();
-    $usedImage = array();
-
-    foreach($results as $val){
-
-        $skipName = $val['StudentName'];
-        $skipID = $val['StudentID'];
-        $skipImage = $val['StudentImage'];
-
-        if(in_array($skipName, $usedNames)){
-            $output['StudentName'] = null;
-        }else{
-            $output['StudentName'] = $val['StudentName'];
-            $usedNames[] = $output['StudentName'];
-        }
-
-        if(in_array($skipID, $usedID)){
-            $output['StudentID'] = null;
-        }else{
-            $output['StudentID'] = $val['StudentID'];
-            $usedID[] = $output['StudentID'];
-        }
-
-        if(in_array($skipImage, $usedImage)){
-            $output['StudentImage'] = null;
-        }else{
-            $output['StudentImage'] = $val['StudentImage'];
-            $usedImage[] = $output['StudentImage'];
-        }
-
-        $output['ClassName'] = $val['ClassName'];
-        $output['BookName'] = $val['BookName'];
-
-        $outputData[] = $output;
     }
 
 
@@ -506,7 +386,7 @@ if($continue == true) {
      ****************************************************************/
 
     $dataSource = new \Kendo\Data\DataSource();
-    $dataSource->data($outputData);
+    $dataSource->data($results);
 
     $idColumn = new \Kendo\UI\GridColumn();
     $idColumn->field('StudentID')->title("Student ID");
@@ -779,27 +659,7 @@ if($continue == true) {
         }
     }
 
-
-
-    /**********************************************************************************************
-     * Assignment 1 & 2
-     * CREATE TABLES FOR CLASSES, STUDENTS, BOOKS, AND CLASSROOMS
-     * CONNECT CLASS AND STUDENT WITH JOIN TABLE, CONNECT 1 TO 1 CLASSES AND BOOKS, CLASSES AND CLASSROOMS
-     *
-     * Assignment 3
-     *
-     * https://docs.microsoft.com/en-us/sql/ssma/mysql/converting-mysql-databases-mysqltosql?view=sql-server-2017
-     * http://php.net/manual/en/function.sqlsrv-execute.php
-     *
-     * Assignment 6
-     *
-     * http://docs.telerik.com/kendo-ui/php/widgets/grid/overview
-     * http://docs.telerik.com/kendo-ui/php/widgets/sortable/overview
-     *
-     * Assignment 10
-     *
-     * http://www.plupload.com/
-     **********************************************************************************************/
+******************************************/
 
 }else{
     header('Location: /LoginPage.php');
