@@ -333,7 +333,7 @@ if($continue == true) {
      *
      * https://stackoverflow.com/questions/22523298/error-sqlstatehy000-2002-no-connection-could-be-made-because-the-target-mac
      *
-     ****************************************************************
+     ****************************************************************/
 
     $dsn = 'sqlsrv:Server=10.99.100.38;Database=ryan_intern';
     $msuser = "sa";
@@ -435,10 +435,11 @@ if($continue == true) {
 
         $sqlc = "INSERT INTO ClassesTable(ClassroomID, ClassTitle, ClassID) VALUES ('$ClassroomNum', '$class', '$ClassID');";
 
-        $dbh = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $username, $password);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $dbh->exec($sqlc);
-        $dbh->exec($sqlb);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sqlb, PDO::FETCH_ASSOC);
 
         sqlsrv_close($conn);
 
@@ -489,13 +490,9 @@ if($continue == true) {
         $sql = "DELETE FROM ClassroomTable WHERE ClassroomNumber = '$ClassNum'";
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
@@ -606,7 +603,8 @@ if($continue == true) {
                     WHERE ClassroomID = '$msoldID'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
@@ -632,7 +630,8 @@ if($continue == true) {
                     WHERE ClassroomNumber = '$ClassNum'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
@@ -658,7 +657,8 @@ if($continue == true) {
                     WHERE ClassroomNumber = '$ClassNum'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {

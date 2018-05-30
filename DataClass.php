@@ -396,33 +396,32 @@ if($continue == true) {
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
-     *
-     * https://stackoverflow.com/questions/22523298/error-sqlstatehy000-2002-no-connection-could-be-made-because-the-target-mac
-     *
-     ****************************************************************
+     ****************************************************************/
 
     $dsn = 'sqlsrv:Server=10.99.100.38;Database=ryan_intern';
     $msuser = "sa";
     $mspassword = "capcom5^";
 
     $q = "
-        SELECT
+         SELECT
+            ClassesTable.ClassName,
+            ClassesTable.ClassID,
             StudentTable.StudentID,
             StudentTable.StudentName,
-            StudentTable.StudentImage,
-            ClassesTable.ClassName,
             BookTable.BookName,
-            BookTable.BookImage
+            BookTable.BookImage,
+            BookTable.BookID,
+            ClassroomTable.ClassroomID
         FROM
-            StudentTable
+            ClassesTable
         LEFT JOIN
             StudClass
         ON
-            StudentTable.StudentID=StudClass.StudentID
-        LEFT JOIN
-            ClassesTable
-        ON 
             ClassesTable.ClassID=StudClass.ClassID
+        LEFT JOIN
+            StudentTable
+        ON
+            StudentTable.StudentID=StudClass.StudentID
         LEFT JOIN
             BookTable
         ON  
@@ -432,21 +431,18 @@ if($continue == true) {
         ON 
             ClassesTable.ClassroomID=ClassroomTable.ClassroomID
         WHERE
-            BookTable.BookName IS NOT NULL
-        AND
-            ClassroomTable.ClassroomID IS NOT NULL
-        AND
-            StudentTable.StudentID IS NOT NULL
+		    BookTable.BookName IS NOT NULL
+	    AND
+		    ClassroomTable.ClassroomID IS NOT NULL
+	    AND
+		    StudentTable.StudentID IS NOT NULL
         ORDER BY
-            StudentTable.StudentID;
+            ClassesTable.ClassID;
         ";
 
     $dbh = new PDO($dsn, $msuser, $mspassword);
     $queryRef = $dbh->query($q);
     $results = $queryRef->fetchAll(PDO::FETCH_ASSOC);
-
-
-
 
 
     /****************************************************************
@@ -523,25 +519,23 @@ if($continue == true) {
 
     if(isset($_GET['submit'])){
 
-        $StudID = $_GET['ClassID'];
-        $studName = $_GET['StudentName'];
+        $BookID = $_GET['BookID'];
+        $bookName = $_GET['BookName'];
         $ClassID = $_GET['ClassID'];
         $class = $_GET['ClassTitle'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
 
-        $sql = "INSERT INTO StudentTable(StudentID, StudentName) VALUES ('$StudID', '$studName');";
+        $sqlb = "INSERT INTO BookTable(BookID, BookName) VALUES ('$BookID', '$bookName');";
 
-        $sqlb = "INSERT INTO StudClass(StudentID, ClassID) VALUES ('$StudID', '$ClassID');";
+        $sqlc = "INSERT INTO ClassesTable(ClassID, ClassName, BookID) VALUES ('$ClassID', '$class', '$BookID');";
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
         $dbc->query($sqlb, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
@@ -584,31 +578,26 @@ if($continue == true) {
 
     if(isset($_GET['submit1'])){
 
-        $msid = $_GET['ClassID'];
-        $msstudName = $_GET['StudentName'];
+        $ClassName = $_GET['ClassTitle'];
+        $ClassID = $_GET['ClassID'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
 
-        $sql = "DELETE FROM StudentTable WHERE StudentID = '$id' AND StudentName = '$name'";
+        $sql = "DELETE FROM ClassesTable WHERE ClassName = '$ClassName'";
 
-        $sqlc = "DELETE FROM StudClass WHERE StudentID = '$id'";
+        $sqls = "DELETE FROM StudClass WHERE ClassID = '$ClassID'";
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
         $dbc->query($sql, PDO::FETCH_ASSOC);
         $dbc->query($sqlc, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
-
-
 
     /****************************************************************
      * EDIT BOOK ID
@@ -752,8 +741,8 @@ if($continue == true) {
 
     if(isset($_GET['submit2'])){
 
-        $msid = $_GET['ClassID'];
-        $msstudName = $_GET['StudentName'];
+        $ClassID = $_GET['ClassID'];
+        $BookID = $_GET['BookID'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
@@ -763,8 +752,7 @@ if($continue == true) {
                     WHERE ClassID = '$ClassID'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
@@ -780,8 +768,8 @@ if($continue == true) {
 
     if(isset($_GET['submit3'])){
 
-        $msid = $_GET['ClassID'];
-        $msstudName = $_GET['StudentName'];
+        $room = $_GET['ClassroomNumber'];
+        $oldRoom = $_GET['OldClassroomNumber'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
@@ -792,8 +780,7 @@ if($continue == true) {
                     WHERE ClassroomID = '$oldRoom'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
@@ -809,8 +796,8 @@ if($continue == true) {
 
     if(isset($_GET['submit4'])){
 
-        $msid = $_GET['ClassID'];
-        $msstudName = $_GET['StudentName'];
+        $title = $_GET['ClassTitle'];
+        $ClassID = $_GET['ClassID'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
@@ -821,8 +808,7 @@ if($continue == true) {
                     WHERE ClassID = '$ClassID'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
@@ -838,8 +824,8 @@ if($continue == true) {
 
     if(isset($_GET['submit5'])){
 
-        $msid = $_GET['ClassID'];
-        $msstudName = $_GET['StudentName'];
+        $classID = $_GET['ClassID'];
+        $studID = $_GET['StudentID'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
@@ -850,8 +836,7 @@ if($continue == true) {
                 ");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
@@ -867,8 +852,8 @@ if($continue == true) {
 
     if(isset($_GET['submit6'])){
 
-        $msid = $_GET['ClassID'];
-        $msstudName = $_GET['StudentName'];
+        $classID = $_GET['ClassID'];
+        $studID = $_GET['StudentID'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
@@ -877,8 +862,7 @@ if($continue == true) {
                     WHERE StudentID = '$studID' AND ClassID = '$classID'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
 

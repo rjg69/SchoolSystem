@@ -85,14 +85,14 @@ require_once('Navigation.php');
             </div>
             <div class="modal-body">
                 <form action = "" method = "GET">
-                    <h2>Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
-                    <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
-                    <h2>Class</h2><br>
+                    <h2>Book Name</h2><br>
+                    <input type = "text" name = "BookName"><br>
+                    <h2>Book ID</h2><br>
+                    <input type = "text" name = "BookID"><br>
+                    <h2>Class Title</h2><br>
                     <input type = "text" name = "ClassTitle"><br>
-                    <h2>Book</h2><br>
-                    <input type = "text" name = "BookTitle"><br>
+                    <h2>Class ID</h2><br>
+                    <input type = "text" name = "ClassID"><br>
                     <input type = "submit" value = "Submit" name = "submit">
                 </form>
             </div>
@@ -117,9 +117,9 @@ require_once('Navigation.php');
             <div class="modal-body">
                 <form>
                     <h2>Name</h2><br>
-                    <input type = "text" name = "StudentName"><br>
+                    <input type = "text" name = "BookName"><br>
                     <h2>ID</h2><br>
-                    <input type = "text" name = "id"><br>
+                    <input type = "text" name = "BookID"><br>
                     <input type = "submit" value = "Submit" name = "submit1">
                 </form>
             </div>
@@ -143,7 +143,7 @@ require_once('Navigation.php');
             <div class="modal-body">
                 <form>
                     <h2>Book Title</h2><br>
-                    <input type = "text" name = "BookTitle"><br>
+                    <input type = "text" name = "BookName"><br>
                     <h2>Book ID</h2><br>
                     <input type = "text" name = "BookID"><br>
                     <input type = "submit" value = "Submit" name = "submit2">
@@ -287,7 +287,7 @@ if($continue == true) {
             AND
                 BookTable.BookID IS NOT NULL
             ORDER BY
-                ClassesTable.ClassID;
+              BookTable.BookID;
         ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -305,51 +305,35 @@ if($continue == true) {
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
-     *
-     * https://stackoverflow.com/questions/22523298/error-sqlstatehy000-2002-no-connection-could-be-made-because-the-target-mac
-     *
-     ****************************************************************
+     ****************************************************************/
 
     $dsn = 'sqlsrv:Server=10.99.100.38;Database=ryan_intern';
     $msuser = "sa";
     $mspassword = "capcom5^";
 
     $q = "
-        SELECT
-            StudentTable.StudentID,
-            StudentTable.StudentName,
-            StudentTable.StudentImage,
-            ClassesTable.ClassName,
-            BookTable.BookName,
-            BookTable.BookImage
-        FROM
-            StudentTable
-        LEFT JOIN
-            StudClass
-        ON
-            StudentTable.StudentID=StudClass.StudentID
-        LEFT JOIN
-            ClassesTable
-        ON 
-            ClassesTable.ClassID=StudClass.ClassID
-        LEFT JOIN
-            BookTable
-        ON  
-            ClassesTable.BookID=BookTable.BookID
-        LEFT JOIN
-            ClassroomTable
-        ON 
-            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
-        WHERE
-            ClassesTable.ClassName IS NOT NULL
-        AND
-            ClassesTable.ClassID IS NOT NULL
-        AND
-            BookTable.BookName IS NOT NULL
-        AND
-            BookTable.BookID IS NOT NULL
-        ORDER BY
-            StudentTable.StudentID;
+         SELECT
+                ClassesTable.ClassName,
+                ClassesTable.ClassID,
+                BookTable.BookName,
+                BookTable.BookImage,
+                BookTable.BookID
+            FROM
+                BookTable
+            LEFT JOIN
+                ClassesTable
+            ON 
+                ClassesTable.BookID=BookTable.BookID
+            WHERE
+                ClassesTable.ClassName IS NOT NULL
+            AND
+                ClassesTable.ClassID IS NOT NULL
+            AND
+                BookTable.BookName IS NOT NULL
+            AND
+                BookTable.BookID IS NOT NULL
+            ORDER BY
+              BookTable.BookID;
         ";
 
     $dbh = new PDO($dsn, $msuser, $mspassword);
@@ -442,12 +426,10 @@ if($continue == true) {
 
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sqlc, PDO::FETCH_ASSOC);
         $dbc->query($sqlb, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
@@ -503,13 +485,10 @@ if($continue == true) {
     $sqlClass = "DELETE BookID FROM ClassesTable WHERE BookID = '$msid'";
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
         $dbc->query($sql, PDO::FETCH_ASSOC);
-        $dbc->query($sqlc, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sqlClass, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
@@ -589,11 +568,11 @@ if($continue == true) {
 
         //book query
         $sql = ("UPDATE BookTable
-        SET BookName = '$msbookName'
-        WHERE BookID = '$msid'");
+                    SET BookName = '$msbookName'
+                    WHERE BookID = '$msid'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
@@ -620,8 +599,7 @@ if($continue == true) {
                     WHERE BookID = '$msid'");
 
         $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
