@@ -102,59 +102,8 @@ require_once('Navigation.php');
                         items: 3
                     }
                 }
-            })
-            $(document).ready(function() {
-                $('.popup-youtube, .popup-text').magnificPopup({
-                    disableOn: 320,
-                    type: 'iframe',
-                    mainClass: 'mfp-fade',
-                    removalDelay: 160,
-                    preloader: false,
-                    fixedContentPos: true
-                });
-            });
-            $(document).ready(function() {
-                $('.popup-text').magnificPopup({
-                    type: 'inline',
-                    preloader: false,
-                    focus: '#name',
-                    callbacks: {
-                        beforeOpen: function() {
-                            if ($(window).width() < 700) {
-                                this.st.focus = false;
-                            } else {
-                                this.st.focus = '#name';
-                            }
-                        }
-                    }
-                });
             });
         </script>
-
-
-        <!--
-            Export to Excel
-        -->
-        <div class="modal" tabindex="-1" role="dialog" id = "ExcelExport">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id = "modalLabel">Excel Export</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form method = "post" action = "DataStudent.php">
-                            <h3>File Name:</h3>
-                            <input type = "text" name = "filenameExcel">
-                            <input class = 'pull-right' type = "submit" value = "Submit" name = "submite" onclick = "exportExcel();">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 <br />
 <br />
 <br />

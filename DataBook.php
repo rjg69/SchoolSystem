@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<body>
+<html>
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
-<br />
+<body>
+<?php
+require_once('Navigation.php');
+?>
 
+<br />
 <!--Data Manipulation Button Group-->
 <div class="btn-toolbar">
     <div class = 'btn-group-justified'>
@@ -66,6 +70,9 @@ require_once('HeaderLayout.php');
 
 <p position = relative top = "100px" align = 'center'>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
 
+<br />
+<br />
+<br />
 <!--
     Add Modal
 -->
@@ -238,86 +245,6 @@ require_once('HeaderLayout.php');
     }
 </script>
 
-<!--Kendo sortable script-->
-<div id="example">
-    <div class="demo-section k-content wide">
-        <div id="singleSort"></div>
-    </div>
-
-    <div class="demo-section k-content wide">
-        <div id="multipleSort"></div>
-    </div>
-
-    <script>
-        $(document).ready(function () {
-            $("#singleSort").kendoGrid({
-                dataSource: {
-                    data: orders,
-                    pageSize: 6
-                },
-                sortable: {
-                    mode: "single",
-                    allowUnsort: false
-                },
-                pageable: {
-                    buttonCount: 5
-                },
-                scrollable: false,
-                columns: [
-                    {
-                        field: "ShipCountry",
-                        title: "Ship Country",
-                        sortable: {
-                            initialDirection: "desc"
-                        },
-                        width: 300
-                    },
-                    {
-                        field: "Freight",
-                        width: 300
-                    },
-                    {
-                        field: "OrderDate",
-                        title: "Order Date",
-                        format: "{0:dd/MM/yyyy}"
-                    }
-                ]
-            });
-
-            $("#multipleSort").kendoGrid({
-                dataSource: {
-                    data: orders,
-                    pageSize: 6
-                },
-                sortable: {
-                    mode: "multiple",
-                    allowUnsort: true,
-                    showIndexes: true
-                },
-                pageable: {
-                    buttonCount: 5
-                },
-                scrollable: false,
-                columns: [
-                    {
-                        field: "ShipCountry",
-                        title: "Ship Country",
-                        width: 300
-                    },
-                    {
-                        field: "Freight",
-                        width: 300
-                    },
-                    {
-                        field: "OrderDate",
-                        title: "Order Date",
-                        format: "{0:d}"
-                    }
-                ]
-            });
-        });
-    </script>
-</div>
 
 <?php
 
@@ -339,33 +266,28 @@ if($continue == true) {
     $password = "capcom5^";
     $dbname = "ryan_intern";
 
-    $q = "
-        SELECT
-            ClassesTable.ClassName,
-            ClassesTable.ClassID,
-            BookTable.BookName,
-            BookTable.BookImage,
-            BookTable.BookID
-        FROM
-            StudentTable
-        LEFT JOIN
-            StudClass
-        ON
-            StudentTable.StudentID=StudClass.StudentID
-        LEFT JOIN
-            ClassesTable
-        ON 
-            ClassesTable.ClassID=StudClass.ClassID
-        LEFT JOIN
-            BookTable
-        ON  
-            ClassesTable.BookID=BookTable.BookID
-        LEFT JOIN
-            ClassroomTable
-        ON 
-            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
-        ORDER BY
-            ClassesTable.ClassID;
+    $q = "  SELECT
+                ClassesTable.ClassName,
+                ClassesTable.ClassID,
+                BookTable.BookName,
+                BookTable.BookImage,
+                BookTable.BookID
+            FROM
+                BookTable
+            LEFT JOIN
+                ClassesTable
+            ON 
+                ClassesTable.BookID=BookTable.BookID
+            WHERE
+                ClassesTable.ClassName IS NOT NULL
+            AND
+                ClassesTable.ClassID IS NOT NULL
+            AND
+                BookTable.BookName IS NOT NULL
+            AND
+                BookTable.BookID IS NOT NULL
+            ORDER BY
+                ClassesTable.ClassID;
         ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -418,6 +340,14 @@ if($continue == true) {
             ClassroomTable
         ON 
             ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        WHERE
+            ClassesTable.ClassName IS NOT NULL
+        AND
+            ClassesTable.ClassID IS NOT NULL
+        AND
+            BookTable.BookName IS NOT NULL
+        AND
+            BookTable.BookID IS NOT NULL
         ORDER BY
             StudentTable.StudentID;
         ";
@@ -425,8 +355,6 @@ if($continue == true) {
     $dbh = new PDO($dsn, $msuser, $mspassword);
     $queryRef = $dbh->query($q);
     $results = $queryRef->fetchAll(PDO::FETCH_ASSOC);
-
-
 
 
     /****************************************************************
@@ -489,13 +417,13 @@ if($continue == true) {
         $dbh->exec($sqlc);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
 
     /****************************************************************
      *  ADD NEW BOOK TO THE DATABASE -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit'])){
 
@@ -522,7 +450,7 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
 
@@ -553,14 +481,14 @@ if($continue == true) {
         $dbh->exec($sqlClass);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
 
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit1'])){
 
@@ -584,12 +512,12 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
 
 
-     *
+
     /****************************************************************
      * EDIT DESIGNATED BOOK TITLE
      ****************************************************************/
@@ -648,8 +576,8 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED BOOOK TITLE
-     ****************************************************************
+     * EDIT DESIGNATED BOOOK TITLE -- MSSQL
+     ****************************************************************/
 
     if(isset($_GET['submit2'])){
 
@@ -672,15 +600,15 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
 
      /****************************************************************
-     * EDIT DESIGNATED BOOOK IMAGE
-     ****************************************************************
+     * EDIT DESIGNATED BOOOK IMAGE -- MSSQL
+     ****************************************************************/
 
-    if(isset($_GET['submit2'])){
+    if(isset($_GET['submit3'])){
 
         $msid = $_GET['id'];
         $msimage = $_GET['BookImage'];
@@ -702,10 +630,9 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
         }
     }
-     */
 
 }else{
     header('Location: /LoginPage.php');

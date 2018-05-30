@@ -336,44 +336,48 @@ if($continue == true) {
 
     /****************************************************************
      *  GET TOTAL DATA - MSSQL
-     *
-     * https://stackoverflow.com/questions/22523298/error-sqlstatehy000-2002-no-connection-could-be-made-because-the-target-mac
-     *
-     ****************************************************************
+     ****************************************************************/
 
-    $dsn = 'mysql:dbname=ryan_intern;host=10.99.100.38';
+    $dsn = 'sqlsrv:Server=10.99.100.38;Database=ryan_intern';
     $msuser = "sa";
     $mspassword = "capcom5^";
 
-    $q = "
-        SELECT
-            StudentTable.StudentID,
-            StudentTable.StudentName,
-            StudentTable.StudentImage,
-            ClassesTable.ClassName,
-            BookTable.BookName,
-            BookTable.BookImage
-        FROM
-            StudentTable
-        LEFT JOIN
-            StudClass
-        ON
-            StudentTable.StudentID=StudClass.StudentID
-        LEFT JOIN
-            ClassesTable
-        ON 
-            ClassesTable.ClassID=StudClass.ClassID
-        LEFT JOIN
-            BookTable
-        ON  
-            ClassesTable.BookID=BookTable.BookID
-        LEFT JOIN
-            ClassroomTable
-        ON 
-            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
-        ORDER BY
-            StudentTable.StudentID;
-        ";
+    $q =    "SELECT
+                StudentTable.StudentID,
+                StudentTable.StudentName,
+                StudentTable.StudentImage,
+                ClassesTable.ClassName,
+                BookTable.BookName,
+                BookTable.BookImage
+            FROM
+                StudentTable
+            LEFT JOIN
+                StudClass
+            ON
+                StudentTable.StudentID=StudClass.StudentID
+            LEFT JOIN
+                ClassesTable
+            ON
+                ClassesTable.ClassID=StudClass.ClassID
+            LEFT JOIN
+                BookTable
+            ON
+                ClassesTable.BookID=BookTable.BookID
+            LEFT JOIN
+                ClassroomTable
+            ON
+                ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+            WHERE
+                ClassesTable.ClassroomID IS NOT NULL
+            AND
+                ClassesTable.ClassID IS NOT NULL
+            AND
+                ClassesTable.BookID IS NOT NULL
+            AND
+                BookTable.BookName IS NOT NULL
+            ORDER BY
+                StudentTable.StudentID;
+            ";
 
     $dbh = new PDO($dsn, $msuser, $mspassword);
     $queryRef = $dbh->query($q);
@@ -408,22 +412,12 @@ if($continue == true) {
 
     echo $grid->render();
 
-    ?>
-    <script>
-        $(function(){
-            var grid = $("#productGrid").data("kendoGrid");
-        })
-    </script>
-
-<?php
-
-
     /****************************************************************
      *  ASSIGNMENT 6 - SORTABLE BOOK & CLASS LISTS
      ****************************************************************/
 
     $sortable = new \Kendo\UI\Sortable('grid');
-  //$sortable->hint(new \Kendo\JavaScriptFunction('hint'))->placeholder(new \Kendo\JavaScriptFunction('placeholder'));
+    $sortable->hint(new \Kendo\JavaScriptFunction('hint'))->placeholder(new \Kendo\JavaScriptFunction('placeholder'));
 
     echo $sortable->render();
 
@@ -457,7 +451,7 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit'])){
 
@@ -478,8 +472,6 @@ if($continue == true) {
 
         $result = $dbc->query($sql, PDO::FETCH_ASSOC);
         $result = $dbc->query($sqlb, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
@@ -518,7 +510,7 @@ if($continue == true) {
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit1'])){
 
@@ -605,7 +597,7 @@ if($continue == true) {
 
     /****************************************************************
      * EDIT DESIGNATED STUDENT NAME -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit2'])){
 
@@ -633,7 +625,7 @@ if($continue == true) {
 
     /****************************************************************
      * EDIT DESIGNATED STUDENT IMAGE -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit3'])){
 
@@ -658,8 +650,6 @@ if($continue == true) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
         }
     }
-
-******************************************/
 
 }else{
     header('Location: /LoginPage.php');

@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<body>
+<html>
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
+<body>
+<?php
+require_once('Navigation.php');
+?>
+
 <br />
 
 
@@ -26,9 +31,9 @@ require_once('HeaderLayout.php');
             <span class="caret"></span></button>
         <div id = "myDropdown" class = "dropdown-content" style = "left: 55%;">
             <input id="myInput" type="text" placeholder="Search.." onkeyup="filterFunction()">
-            <a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class Title</a>
-            <a href="#" data-toggle = "modal" data-target = "#UpdateModal">Class ID</a>
-            <a href="#" data-toggle = "modal" data-target = "#UpdateModal">Classroom Number</a>
+            <a href="#" data-toggle = "modal" data-target = "#UpdateClassroomNumberModal">Classroom Number</a>
+            <a href="#" data-toggle = "modal" data-target = "#UpdateClassroomIDModal">Class ID</a>
+            <a href="#" data-toggle = "modal" data-target = "#UpdateClassTitleModal">Class Title</a>
         </div>
 
     </div>
@@ -64,6 +69,10 @@ require_once('HeaderLayout.php');
 <hr width = 75%>
 
 <p>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
+<br/>
+<br/>
+<br/>
+
 
 <!--https://stackoverflow.com/questions/16323360/submitting-html-form-using-jquery-ajax-->
 <script type = "text/javascript">
@@ -138,7 +147,7 @@ require_once('HeaderLayout.php');
     Update Modal Classroom Number
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassroomNumberModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -165,7 +174,7 @@ require_once('HeaderLayout.php');
     Update Modal Classroom ID
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassroomIDModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -193,7 +202,7 @@ require_once('HeaderLayout.php');
     Update Modal Classroom Class Title
 -->
 
-<div class="modal" tabindex="-1" role="dialog" id = "UpdateModal">
+<div class="modal" tabindex="-1" role="dialog" id = "UpdateClassTitleModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -269,87 +278,6 @@ require_once('HeaderLayout.php');
     }
 </script>
 
-<!--Kendo sortable script-->
-<div id="example">
-    <div class="demo-section k-content wide">
-        <div id="singleSort"></div>
-    </div>
-
-    <div class="demo-section k-content wide">
-        <div id="multipleSort"></div>
-    </div>
-
-    <script>
-        $(document).ready(function () {
-            $("#singleSort").kendoGrid({
-                dataSource: {
-                    data: orders,
-                    pageSize: 6
-                },
-                sortable: {
-                    mode: "single",
-                    allowUnsort: false
-                },
-                pageable: {
-                    buttonCount: 5
-                },
-                scrollable: false,
-                columns: [
-                    {
-                        field: "ShipCountry",
-                        title: "Ship Country",
-                        sortable: {
-                            initialDirection: "desc"
-                        },
-                        width: 300
-                    },
-                    {
-                        field: "Freight",
-                        width: 300
-                    },
-                    {
-                        field: "OrderDate",
-                        title: "Order Date",
-                        format: "{0:dd/MM/yyyy}"
-                    }
-                ]
-            });
-
-            $("#multipleSort").kendoGrid({
-                dataSource: {
-                    data: orders,
-                    pageSize: 6
-                },
-                sortable: {
-                    mode: "multiple",
-                    allowUnsort: true,
-                    showIndexes: true
-                },
-                pageable: {
-                    buttonCount: 5
-                },
-                scrollable: false,
-                columns: [
-                    {
-                        field: "ShipCountry",
-                        title: "Ship Country",
-                        width: 300
-                    },
-                    {
-                        field: "Freight",
-                        width: 300
-                    },
-                    {
-                        field: "OrderDate",
-                        title: "Order Date",
-                        format: "{0:d}"
-                    }
-                ]
-            });
-        });
-    </script>
-</div>
-
 <?php
 
 $continue = include 'LoginCheck.php';
@@ -370,7 +298,7 @@ if($continue == true) {
     $password = "capcom5^";
     $dbname = "ryan_intern";
 
-    $q = "
+    $q = "        
         SELECT
             ClassesTable.ClassName,
             ClassesTable.ClassID,
@@ -381,6 +309,8 @@ if($continue == true) {
             ClassroomTable
         ON
             ClassroomTable.ClassroomID=ClassesTable.ClassroomID
+        WHERE
+		    ClassroomTable.ClassroomNumber IS NOT NULL
         ORDER BY
             ClassesTable.ClassID;
         ";
@@ -403,7 +333,7 @@ if($continue == true) {
      *
      * https://stackoverflow.com/questions/22523298/error-sqlstatehy000-2002-no-connection-could-be-made-because-the-target-mac
      *
-     ****************************************************************/
+     ****************************************************************
 
     $dsn = 'mysql:dbname=ryan_intern;host=10.99.100.38';
     $msuser = "sa";
@@ -411,40 +341,24 @@ if($continue == true) {
 
     $q = "
         SELECT
-            StudentTable.StudentID,
-            StudentTable.StudentName,
-            StudentTable.StudentImage,
             ClassesTable.ClassName,
-            BookTable.BookName,
-            BookTable.BookImage
+            ClassesTable.ClassID,
+            ClassroomTable.ClassroomNumber
         FROM
-            StudentTable
-        LEFT JOIN
-            StudClass
-        ON
-            StudentTable.StudentID=StudClass.StudentID
-        LEFT JOIN
             ClassesTable
-        ON 
-            ClassesTable.ClassID=StudClass.ClassID
-        LEFT JOIN
-            BookTable
-        ON  
-            ClassesTable.BookID=BookTable.BookID
         LEFT JOIN
             ClassroomTable
-        ON 
-            ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        ON
+            ClassroomTable.ClassroomID=ClassesTable.ClassroomID
+        WHERE
+            ClassroomTable.ClassroomNumber IS NOT NULL
         ORDER BY
-            StudentTable.StudentID;
+            ClassesTable.ClassID;
         ";
 
     $dbh = new PDO($dsn, $msuser, $mspassword);
     $queryRef = $dbh->query($q);
     $results = $queryRef->fetchAll(PDO::FETCH_ASSOC);
-
-
-
 
 
     /****************************************************************
@@ -500,13 +414,13 @@ if($continue == true) {
         $dbh->exec($sqlc);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
         }
     }
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit'])){
 
@@ -531,7 +445,7 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
         }
     }
 
@@ -558,14 +472,14 @@ if($continue == true) {
         $dbh->exec($sql);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
         }
     }
 
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit1'])){
 
@@ -575,9 +489,7 @@ if($continue == true) {
         $msusername = "sa";
         $mspassword = "capcom5^";
 
-        $sql = "DELETE FROM StudentTable WHERE StudentID = '$id' AND StudentName = '$name'";
-
-        $sqlc = "DELETE FROM StudClass WHERE StudentID = '$id'";
+        $sql = "DELETE FROM ClassroomTable WHERE ClassroomNumber = '$ClassNum'";
 
         $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
@@ -589,7 +501,7 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
         }
     }
 
@@ -680,20 +592,21 @@ if($continue == true) {
 
 
     /****************************************************************
-     * EDIT DESIGNATED STUDENT VALUES -- MSSQL
-     ****************************************************************
+     * EDIT DESIGNATED CLASSROOM NUMBER -- MSSQL
+     ****************************************************************/
 
     if(isset($_GET['submit2'])){
 
-        $msid = $_GET['id'];
-        $msstudName = $_GET['StudentName'];
+        $msoldID = $_GET['OldClass'];
+        $msnewID = $_GET['NewClass'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
 
-        $sql = ("UPDATE StudentTable
-        SET StudentName = '$name'
-        WHERE StudentID = '$StudID'");
+
+        $sql = ("UPDATE ClassroomTable
+                    SET ClassroomNumber = '$msnewID'
+                    WHERE ClassroomID = '$msoldID'");
 
         $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
@@ -704,10 +617,69 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
         }
     }
-*/
+
+
+    /****************************************************************
+     * EDIT DESIGNATED CLASS ID -- MSSQL
+     ****************************************************************/
+
+    if(isset($_GET['submit3'])){
+
+        $ClassID = $_GET['ClassID'];
+        $ClassNum = $_GET['ClassNum'];
+
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+
+        $sql = ("UPDATE ClassroomTable
+                    SET ClassroomID = '$ClassID'
+                    WHERE ClassroomNumber = '$ClassNum'");
+
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+
+
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+
+        sqlsrv_close($conn);
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
+        }
+    }
+
+
+    /****************************************************************
+     * EDIT DESIGNATED CLASS TITLE -- MSSQL
+     ****************************************************************/
+
+    if(isset($_GET['submit4'])){
+
+        $ClassNum = $_GET['ClassNum'];
+        $ClassTitle = $_GET['ClassTitle'];
+
+        $msusername = "sa";
+        $mspassword = "capcom5^";
+
+        $sql = ("UPDATE ClassroomTable
+                    SET ClassTitle = '$ClassTitle'
+                    WHERE ClassroomNumber = '$ClassNum'");
+
+        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+
+
+        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+
+        sqlsrv_close($conn);
+
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
+        }
+    }
 
 }else{
     header('Location: /LoginPage.php');

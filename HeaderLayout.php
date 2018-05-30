@@ -141,6 +141,17 @@ if(!array_key_exists('Username', $_SESSION)){
         }
          */
     </script>
+    <!--Kendo Sortable Example https://demos.telerik.com/kendo-ui/sortable/integration-grid -->
+
+    <script>
+        function hint(element) {
+            return element.clone().addClass("hint");
+        }
+
+        function placeholder(element) {
+            return element.clone().addClass("placeholder").text("drop here");
+        }
+    </script>
 
     <script>
         $("form").validate({
@@ -159,12 +170,13 @@ if(!array_key_exists('Username', $_SESSION)){
              var uploader = new plupload.Uploader({
                  runtimes : 'html5,flash,silverlight,html4',
                  browse_button : 'pickfiles', // you can pass in id...
-                 container: $('container'), // ... or DOM Element itself
+                 multi_selection: false,
+                 container: 'container', // ... or DOM Element itself
                  max_file_size : '20kb',
 
                  // Fake server response here
                  // url : '../upload.php',
-                 url: "/echo/json",
+                 url : "/StudentPhotos",
 
                  flash_swf_url : 'http://rawgithub.com/moxiecode/moxie/master/bin/flash/Moxie.cdn.swf',
                  silverlight_xap_url : 'http://rawgithub.com/moxiecode/moxie/master/bin/silverlight/Moxie.cdn.xap',
@@ -333,7 +345,6 @@ if(!array_key_exists('Username', $_SESSION)){
 
         p{
             color: black;
-            font-size: 0.75vw;
             min-font-size: 8px;
         }
 

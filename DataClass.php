@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<body>
+<html>
 <?php
 require 'vendor/autoload.php';
 require_once('HeaderLayout.php');
 ?>
+<body>
+<?php
+require_once('Navigation.php');
+?>
+
 <br />
 
 <!--Data Manipulation Button Group-->
@@ -70,6 +75,10 @@ require_once('HeaderLayout.php');
 <hr width = 75%>
 
 <p position = relative top = "100px" align = 'center'>Using the buttons above, select a function to perform on the data displayed below. Note: Any changes you make to the data below will also be carried over to the master table on the Home Page.</p>
+
+<br/>
+<br/>
+<br/>
 
 <!--
     Add Modal
@@ -313,86 +322,6 @@ require_once('HeaderLayout.php');
     }
 </script>
 
-<!--Kendo sortable script-->
-<div id="example">
-    <div class="demo-section k-content wide">
-        <div id="singleSort"></div>
-    </div>
-
-    <div class="demo-section k-content wide">
-        <div id="multipleSort"></div>
-    </div>
-
-    <script>
-        $(document).ready(function () {
-            $("#singleSort").kendoGrid({
-                dataSource: {
-                    data: orders,
-                    pageSize: 6
-                },
-                sortable: {
-                    mode: "single",
-                    allowUnsort: false
-                },
-                pageable: {
-                    buttonCount: 5
-                },
-                scrollable: false,
-                columns: [
-                    {
-                        field: "ShipCountry",
-                        title: "Ship Country",
-                        sortable: {
-                            initialDirection: "desc"
-                        },
-                        width: 300
-                    },
-                    {
-                        field: "Freight",
-                        width: 300
-                    },
-                    {
-                        field: "OrderDate",
-                        title: "Order Date",
-                        format: "{0:dd/MM/yyyy}"
-                    }
-                ]
-            });
-
-            $("#multipleSort").kendoGrid({
-                dataSource: {
-                    data: orders,
-                    pageSize: 6
-                },
-                sortable: {
-                    mode: "multiple",
-                    allowUnsort: true,
-                    showIndexes: true
-                },
-                pageable: {
-                    buttonCount: 5
-                },
-                scrollable: false,
-                columns: [
-                    {
-                        field: "ShipCountry",
-                        title: "Ship Country",
-                        width: 300
-                    },
-                    {
-                        field: "Freight",
-                        width: 300
-                    },
-                    {
-                        field: "OrderDate",
-                        title: "Order Date",
-                        format: "{0:d}"
-                    }
-                ]
-            });
-        });
-    </script>
-</div>
 
 <?php
 
@@ -442,6 +371,12 @@ if($continue == true) {
             ClassroomTable
         ON 
             ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        WHERE
+		    BookTable.BookName IS NOT NULL
+	    AND
+		    ClassroomTable.ClassroomID IS NOT NULL
+	    AND
+		    StudentTable.StudentID IS NOT NULL
         ORDER BY
             ClassesTable.ClassID;
         ";
@@ -496,6 +431,12 @@ if($continue == true) {
             ClassroomTable
         ON 
             ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+        WHERE
+            BookTable.BookName IS NOT NULL
+        AND
+            ClassroomTable.ClassroomID IS NOT NULL
+        AND
+            StudentTable.StudentID IS NOT NULL
         ORDER BY
             StudentTable.StudentID;
         ";
@@ -578,7 +519,7 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit'])){
 
@@ -639,7 +580,7 @@ if($continue == true) {
 
     /****************************************************************
      * REMOVE ALL VALUES ASSOCIATED WITH A GIVEN ID -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit1'])){
 
@@ -663,7 +604,7 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
@@ -807,7 +748,7 @@ if($continue == true) {
 
     /****************************************************************
      * EDIT DESIGNATED BOOK ID -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit2'])){
 
@@ -830,14 +771,14 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
 
     /****************************************************************
      * EDIT DESIGNATED CLASSROOM NUMBER -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit3'])){
 
@@ -861,14 +802,14 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
 
     /****************************************************************
      * EDIT DESIGNATED CLASS TITLE -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit4'])){
 
@@ -892,14 +833,14 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
 
     /****************************************************************
      * EDIT DESIGNATED CLASS ADD TO ROSTER -- MSSQL
-     ****************************************************************
+     ****************************************************************/
 
     if(isset($_GET['submit5'])){
 
@@ -923,14 +864,14 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
 
 
     /****************************************************************
-     * EDIT DESIGNATED REMOVE FROM ROSTER -- MSSQL
-     ****************************************************************
+     * EDIT DESIGNATED CLASS REMOVE FROM ROSTER -- MSSQL
+     ****************************************************************/
 
     if(isset($_GET['submit6'])){
 
@@ -952,10 +893,9 @@ if($continue == true) {
         sqlsrv_close($conn);
 
         if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
         }
     }
-*/
 
 
 
