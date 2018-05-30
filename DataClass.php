@@ -409,7 +409,6 @@ if($continue == true) {
             StudentTable.StudentID,
             StudentTable.StudentName,
             BookTable.BookName,
-            BookTable.BookImage,
             BookTable.BookID,
             ClassroomTable.ClassroomID
         FROM
@@ -466,11 +465,9 @@ if($continue == true) {
     $bookName = new \Kendo\UI\GridColumn();
     $bookName->field('BookName');
 
-    $bookImageColumn = new \Kendo\UI\GridColumn();
-    $bookImageColumn->field('BookImage');
 
     $grid = new \Kendo\UI\Grid('grid');
-    $grid->addColumn($classID, $className, $studentName, $bookID, $bookName, $bookImageColumn)->dataSource($dataSource);
+    $grid->addColumn($classID, $className, $studentName, $bookID, $bookName)->dataSource($dataSource);
 
     echo $grid->render();
 

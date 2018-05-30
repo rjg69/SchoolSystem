@@ -66,16 +66,16 @@ require_once('Navigation.php');
 
         <div class="owl-carousel">
             <div class="item">
-                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Luke Skywalker.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Chewbacca.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Yoda.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Kit Fisto.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
                     <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Admiral Akbar.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
             </div>
             <div class="item">
-                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Chewbacca.jpg"><i class="fa fa-play" aria-hidden="true"></i>
+                    <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Count Dooku.jpg"><i class="fa fa-play" aria-hidden="true"></i>
             </div>
             <div class="item">
                     <img style="left: 25%; width: 100%; padding-left: 100px;" src = "StudentPhotos\Darth Maul.jpg"><i class="fa fa-newspaper-o" aria-hidden="true"></i>

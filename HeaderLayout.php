@@ -453,9 +453,9 @@ if(!array_key_exists('Username', $_SESSION)){
             height: 300px;
             width: 300px;
 
-        img {
-            visibility: hidden;
-        }
+            img {
+                visibility: hidden;
+            }
         }
 
         .owl-prev {
