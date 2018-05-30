@@ -197,6 +197,12 @@ require_once('Navigation.php');
 <!--
     Update Student Image Script
     https://www.plupload.com/examples/core
+
+    Image Upload (Used in dynamic table generation WITHOUT KENDO
+    https://stackoverflow.com/questions/9959131/loading-an-image-through-php -- used every time a row was generated to pull picture for necessary student
+
+    Font Size Adjustment
+    https://stackoverflow.com/questions/23984629/how-to-set-min-font-size-in-css
 -->
 
 <script type="text/javascript">
@@ -557,9 +563,9 @@ if($continue == true) {
         $dbh->exec($sql);
 
         #Refresh page one time after executing
-        //if (!isset($_GET['reload'])) {
-        //    echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-        //}
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
     }
 
 
@@ -611,9 +617,9 @@ if($continue == true) {
 
         $dbc->query($sql, PDO::FETCH_ASSOC);
 
-        //if (!isset($_GET['reload'])) {
-        //    echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-        //}
+        if (!isset($_GET['reload'])) {
+            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        }
     }
 
     /****************************************************************
