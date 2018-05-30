@@ -119,7 +119,7 @@ require_once('Navigation.php');
                     <h2>Student Name</h2><br>
                     <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
                     <h2>Student ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" required><br>
+                    <input type = "text" placeholder = "ID" name = "StudID" required><br>
                     <input href = "DataStudent.php" type = "submit" value = "Submit" name = "submit1">
                 </form>
             </div>
@@ -143,7 +143,7 @@ require_once('Navigation.php');
             <div class="modal-body">
                 <form method = "get" action = "DataStudent.php" id = "UpdateStudentNameModal">
                     <h2>Student ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" required><br>
+                    <input type = "text" placeholder = "ID" name = "StudID" required><br>
                     <h2>Student Name</h2><br>
                     <input type = "text" placeholder = "Student Name" name = "StudentName" required><br>
                     <input type = "submit" value = "Submit" name = "submit2">
@@ -169,7 +169,7 @@ require_once('Navigation.php');
             <div class="modal-body" style = "position: relative;">
                 <form method = "get" action = "DataStudent.php" id = "UpdateStudentImageModal">
                     <h2>Student ID</h2><br>
-                    <input type = "text" placeholder = "ID" name = "id" style = "position: relative" required><br>
+                    <input type = "text" placeholder = "ID" name = "StudID" style = "position: relative" required><br>
 
                     <h2>Student Image</h2><br>
                     <div id="filelist">Please Select Images to Upload and Send.</div>
@@ -370,10 +370,6 @@ if($continue == true) {
             WHERE
                 ClassesTable.ClassroomID IS NOT NULL
             AND
-                ClassesTable.ClassID IS NOT NULL
-            AND
-                ClassesTable.BookID IS NOT NULL
-            AND
                 BookTable.BookName IS NOT NULL
             ORDER BY
                 StudentTable.StudentID;
@@ -451,11 +447,13 @@ if($continue == true) {
 
     /****************************************************************
      *  ADD NEW STUDENT TO THE DATABASE -- MSSQL
+     *
+     * https://docs.microsoft.com/en-us/sql/connect/php/example-application-pdo-sqlsrv-driver?view=sql-server-2017
      ****************************************************************/
 
     if(isset($_GET['submit'])){
 
-        $StudID = $_GET['id'];
+        $StudID = $_GET['StudID'];
         $studName = $_GET['StudentName'];
         $ClassID = $_GET['ClassID'];
         $class = $_GET['ClassTitle'];
@@ -467,11 +465,11 @@ if($continue == true) {
 
         $sqlb = "INSERT INTO StudClass(StudentID, ClassID) VALUES ('$StudID', '$ClassID');";
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-        $result = $dbc->query($sqlb, PDO::FETCH_ASSOC);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sqlb, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
@@ -486,7 +484,7 @@ if($continue == true) {
     if (isset($_GET['submit1'])) {
 
         $name = $_GET['StudentName'];
-        $id = $_GET['id'];
+        $id = $_GET['StudID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -514,8 +512,8 @@ if($continue == true) {
 
     if(isset($_GET['submit1'])){
 
-        $msid = $_GET['id'];
-        $msstudName = $_GET['StudentName'];
+        $id = $_GET['StudID'];
+        $name = $_GET['StudentName'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
@@ -524,14 +522,11 @@ if($continue == true) {
 
         $sqlc = "DELETE FROM StudClass WHERE StudentID = '$id'";
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-        $result = $dbc->query($sqlc, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sqlc, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
@@ -547,7 +542,7 @@ if($continue == true) {
     if (isset($_GET['submit2'])) {
 
         $name = $_GET['StudentName'];
-        $StudID = $_GET['id'];
+        $StudID = $_GET['StudID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -562,9 +557,9 @@ if($continue == true) {
         $dbh->exec($sql);
 
         #Refresh page one time after executing
-        if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-        }
+        //if (!isset($_GET['reload'])) {
+        //    echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        //}
     }
 
 
@@ -575,7 +570,7 @@ if($continue == true) {
     if (isset($_GET['submit3'])) {
 
         $image = $_GET['StudentImage'];
-        $StudID = $_GET['id'];
+        $StudID = $_GET['StudID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -601,8 +596,8 @@ if($continue == true) {
 
     if(isset($_GET['submit2'])){
 
-        $msid = $_GET['id'];
-        $msstudName = $_GET['StudentName'];
+        $StudID = $_GET['StudID'];
+        $name = $_GET['StudentName'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
@@ -611,16 +606,14 @@ if($continue == true) {
                     SET StudentName = '$name'
                     WHERE StudentID = '$StudID'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
-        sqlsrv_close($conn);
-
-        if (!isset($_GET['reload'])) {
-            echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
-        }
+        //if (!isset($_GET['reload'])) {
+        //    echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';
+        //}
     }
 
     /****************************************************************
@@ -629,8 +622,8 @@ if($continue == true) {
 
     if(isset($_GET['submit3'])){
 
-        $msid = $_GET['id'];
-        $msstudImage = $_GET['StudentImage'];
+        $StudID = $_GET['StudID'];
+        $image = $_GET['StudentImage'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
@@ -639,12 +632,10 @@ if($continue == true) {
                     SET StudentImage = '$image'
                     WHERE StudentID = '$StudID'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
+        $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataStudent.php?reload=1">';

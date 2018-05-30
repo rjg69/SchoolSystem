@@ -115,31 +115,6 @@ if(!array_key_exists('Username', $_SESSION)){
 
         });
 
-        /*
-          function validate(contact){
-          var form = document.contact,
-              name = form.name.value,
-              email = form.email.value,
-              message = form.message.value;
-
-          if (name.length == 0 || name.length > 200) {
-            alert ("You must enter a name.");
-            return false;
-          }
-
-          if (email.length == 0 || email.length > 200) {
-            alert ("You must enter a email.");
-            return false;
-          }
-
-          if (message.length == 0) {
-            alert ("You must enter a message.");
-            return false;
-          }
-
-          return true;
-        }
-         */
     </script>
     <!--Kendo Sortable Example https://demos.telerik.com/kendo-ui/sortable/integration-grid -->
 

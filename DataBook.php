@@ -310,7 +310,7 @@ if($continue == true) {
      *
      ****************************************************************
 
-    $dsn = 'mysql:dbname=ryan_intern;host=10.99.100.38';
+    $dsn = 'sqlsrv:Server=10.99.100.38;Database=ryan_intern';
     $msuser = "sa";
     $mspassword = "capcom5^";
 
@@ -441,11 +441,11 @@ if($continue == true) {
         $sqlc = "INSERT INTO ClassesTable(ClassID, ClassName, BookID) VALUES ('$ClassID', '$class', '$BookID');";
 
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-        $result = $dbc->query($sqlb, PDO::FETCH_ASSOC);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sqlb, PDO::FETCH_ASSOC);
 
         sqlsrv_close($conn);
 
@@ -463,7 +463,7 @@ if($continue == true) {
     if (isset($_GET['submit1'])) {
 
         $BookName = $_GET['BookName'];
-        $BookID = $_GET['id'];
+        $BookID = $_GET['BookID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -492,7 +492,7 @@ if($continue == true) {
 
     if(isset($_GET['submit1'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['BookID'];
         $msbookName = $_GET['BookName'];
 
         $msusername = "sa";
@@ -502,12 +502,12 @@ if($continue == true) {
 
     $sqlClass = "DELETE BookID FROM ClassesTable WHERE BookID = '$msid'";
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
         $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-        $result = $dbc->query($sqlc, PDO::FETCH_ASSOC);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sqlc, PDO::FETCH_ASSOC);
 
         sqlsrv_close($conn);
 
@@ -553,7 +553,7 @@ if($continue == true) {
     if (isset($_GET['submit3'])) {
 
         $image = $_GET['BookImage'];
-        $BookID = $_GET['id'];
+        $BookID = $_GET['BookID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -581,7 +581,7 @@ if($continue == true) {
 
     if(isset($_GET['submit2'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['BookID'];
         $msbookName = $_GET['BookName'];
 
         $msusername = "sa";
@@ -589,15 +589,13 @@ if($continue == true) {
 
         //book query
         $sql = ("UPDATE BookTable
-        SET BookName = 'msbookName'
+        SET BookName = '$msbookName'
         WHERE BookID = '$msid'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';
@@ -610,7 +608,7 @@ if($continue == true) {
 
     if(isset($_GET['submit3'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['BookID'];
         $msimage = $_GET['BookImage'];
 
         $msusername = "sa";
@@ -621,13 +619,11 @@ if($continue == true) {
                     SET BookImage = '$msimage'
                     WHERE BookID = '$msid'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataBook.php?reload=1">';

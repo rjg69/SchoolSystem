@@ -28,14 +28,11 @@ if (isset($_POST['submite'])) {
             SELECT
                 StudentTable.StudentID,
                 StudentTable.StudentName,
-                StudentTable.StudentImage,
-                ClassesTable.BookID,
                 ClassesTable.ClassID,
                 ClassesTable.ClassName,
-                ClassesTable.ClassroomID,
-                BookTable.BookName,
-                BookTable.BookImage,
-                ClassroomTable.ClassroomNumber
+                ClassroomTable.ClassroomNumber,
+                BookTable.BookID,
+                BookTable.BookName
             FROM
                 StudentTable
             LEFT JOIN
@@ -45,17 +42,17 @@ if (isset($_POST['submite'])) {
             LEFT JOIN
                 ClassesTable
             ON
-                StudClass.ClassID=ClassesTable.ClassID
-            LEFT JOIN
-                BookTable
-            ON
-                ClassesTable.BookID=BookTable.BookID
+                ClassesTable.ClassID=StudClass.ClassID
             LEFT JOIN
                 ClassroomTable
             ON
-                ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+                ClassroomTable.ClassroomID=ClassesTable.ClassroomID
+            LEFT JOIN
+                BookTable
+            ON
+                BookTable.BookID=ClassesTable.BookID
             ORDER BY
-                ClassesTable.ClassID;
+                StudentTable.StudentID
             ";
 
     $dbh = new PDO('mysql:host=10.99.100.54;dbname=ryan_intern', $username, $password);
@@ -65,7 +62,7 @@ if (isset($_POST['submite'])) {
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setTitle('Excel Export');
 
-    $headerArray = ['Student ID', 'Student Name', 'Student Image', 'Class ID', 'Class Title', 'Book ID', 'Book Title', 'Book Image', 'Classroom Number'];
+    $headerArray = ['Student ID', 'Student Name', 'Class ID', 'Class Title', 'Book ID', 'Book Title', 'Classroom Number'];
     $spreadsheet->getActiveSheet()
         ->fromArray(
             $headerArray,   // The data to set
@@ -79,12 +76,10 @@ if (isset($_POST['submite'])) {
         $row = array(
             $data['StudentID'],
             $data['StudentName'],
-            $data['StudentImage'],
             $data['ClassID'],
             $data['ClassName'],
             $data['BookID'],
             $data['BookName'],
-            $data['BookImage'],
             $data['ClassroomNumber']
         );
 

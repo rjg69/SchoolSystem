@@ -401,7 +401,7 @@ if($continue == true) {
      *
      ****************************************************************
 
-    $dsn = 'mysql:dbname=ryan_intern;host=10.99.100.38';
+    $dsn = 'sqlsrv:Server=10.99.100.38;Database=ryan_intern';
     $msuser = "sa";
     $mspassword = "capcom5^";
 
@@ -523,7 +523,7 @@ if($continue == true) {
 
     if(isset($_GET['submit'])){
 
-        $StudID = $_GET['id'];
+        $StudID = $_GET['ClassID'];
         $studName = $_GET['StudentName'];
         $ClassID = $_GET['ClassID'];
         $class = $_GET['ClassTitle'];
@@ -535,11 +535,11 @@ if($continue == true) {
 
         $sqlb = "INSERT INTO StudClass(StudentID, ClassID) VALUES ('$StudID', '$ClassID');";
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-        $result = $dbc->query($sqlb, PDO::FETCH_ASSOC);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sqlb, PDO::FETCH_ASSOC);
 
         sqlsrv_close($conn);
 
@@ -556,7 +556,7 @@ if($continue == true) {
     if (isset($_GET['submit1'])) {
 
         $ClassName = $_GET['ClassTitle'];
-        $ClassID = $_GET['id'];
+        $ClassID = $_GET['ClassID'];
 
         $username = "sa";
         $password = "capcom5^";
@@ -584,7 +584,7 @@ if($continue == true) {
 
     if(isset($_GET['submit1'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['ClassID'];
         $msstudName = $_GET['StudentName'];
 
         $msusername = "sa";
@@ -594,12 +594,12 @@ if($continue == true) {
 
         $sqlc = "DELETE FROM StudClass WHERE StudentID = '$id'";
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
         $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-        $result = $dbc->query($sqlc, PDO::FETCH_ASSOC);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
+        $dbc->query($sqlc, PDO::FETCH_ASSOC);
 
         sqlsrv_close($conn);
 
@@ -752,7 +752,7 @@ if($continue == true) {
 
     if(isset($_GET['submit2'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['ClassID'];
         $msstudName = $_GET['StudentName'];
 
         $msusername = "sa";
@@ -762,13 +762,11 @@ if($continue == true) {
                     SET BookID = '$BookID'
                     WHERE ClassID = '$ClassID'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
@@ -782,7 +780,7 @@ if($continue == true) {
 
     if(isset($_GET['submit3'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['ClassID'];
         $msstudName = $_GET['StudentName'];
 
         $msusername = "sa";
@@ -793,13 +791,11 @@ if($continue == true) {
                     SET ClassroomID = '$room'
                     WHERE ClassroomID = '$oldRoom'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
@@ -813,7 +809,7 @@ if($continue == true) {
 
     if(isset($_GET['submit4'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['ClassID'];
         $msstudName = $_GET['StudentName'];
 
         $msusername = "sa";
@@ -824,13 +820,11 @@ if($continue == true) {
                     SET ClassName = '$title'
                     WHERE ClassID = '$ClassID'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
@@ -844,7 +838,7 @@ if($continue == true) {
 
     if(isset($_GET['submit5'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['ClassID'];
         $msstudName = $_GET['StudentName'];
 
         $msusername = "sa";
@@ -855,13 +849,11 @@ if($continue == true) {
                     VALUES ('$studID', '$classID')
                 ");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';
@@ -875,7 +867,7 @@ if($continue == true) {
 
     if(isset($_GET['submit6'])){
 
-        $msid = $_GET['id'];
+        $msid = $_GET['ClassID'];
         $msstudName = $_GET['StudentName'];
 
         $msusername = "sa";
@@ -884,13 +876,11 @@ if($continue == true) {
         $sql = ("DELETE FROM StudClass
                     WHERE StudentID = '$studID' AND ClassID = '$classID'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
 
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClass.php?reload=1">';

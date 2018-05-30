@@ -335,7 +335,7 @@ if($continue == true) {
      *
      ****************************************************************
 
-    $dsn = 'mysql:dbname=ryan_intern;host=10.99.100.38';
+    $dsn = 'sqlsrv:Server=10.99.100.38;Database=ryan_intern';
     $msuser = "sa";
     $mspassword = "capcom5^";
 
@@ -424,23 +424,21 @@ if($continue == true) {
 
     if(isset($_GET['submit'])){
 
-        $StudID = $_GET['id'];
-        $studName = $_GET['StudentName'];
         $ClassID = $_GET['ClassID'];
         $class = $_GET['ClassTitle'];
+        $ClassroomNum = $_GET['RoomNumber'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
 
-        $sql = "INSERT INTO StudentTable(StudentID, StudentName) VALUES ('$StudID', '$studName');";
+        $sqlb = "INSERT INTO ClassroomTable(ClassroomID, ClassroomNumber) VALUES ('$ClassroomNum', '$ClassroomNum');";
 
-        $sqlb = "INSERT INTO StudClass(StudentID, ClassID) VALUES ('$StudID', '$ClassID');";
+        $sqlc = "INSERT INTO ClassesTable(ClassroomID, ClassTitle, ClassID) VALUES ('$ClassroomNum', '$class', '$ClassID');";
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-        $result = $dbc->query($sqlb, PDO::FETCH_ASSOC);
+        $dbh = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $username, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->exec($sqlc);
+        $dbh->exec($sqlb);
 
         sqlsrv_close($conn);
 
@@ -483,20 +481,19 @@ if($continue == true) {
 
     if(isset($_GET['submit1'])){
 
-        $msid = $_GET['id'];
-        $msstudName = $_GET['StudentName'];
+        $ClassNum = $_GET['RoomNumber'];
 
         $msusername = "sa";
         $mspassword = "capcom5^";
 
         $sql = "DELETE FROM ClassroomTable WHERE ClassroomNumber = '$ClassNum'";
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
         $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
 
         $sql = "DELETE FROM SavviorSchool WHERE ID = '$id' AND StudentName = '$name'";
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-        $result = $dbc->query($sqlc, PDO::FETCH_ASSOC);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         sqlsrv_close($conn);
 
@@ -608,13 +605,9 @@ if($continue == true) {
                     SET ClassroomNumber = '$msnewID'
                     WHERE ClassroomID = '$msoldID'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
-
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
@@ -638,13 +631,9 @@ if($continue == true) {
                     SET ClassroomID = '$ClassID'
                     WHERE ClassroomNumber = '$ClassNum'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
-
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';
@@ -668,13 +657,9 @@ if($continue == true) {
                     SET ClassTitle = '$ClassTitle'
                     WHERE ClassroomNumber = '$ClassNum'");
 
-        $dbc = new PDO('mysql:dbname=ryan_intern;host=10.99.100.38', $msusername, $mspassword);
-        $dbc->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-
-
-        $result = $dbc->query($sql, PDO::FETCH_ASSOC);
-
-        sqlsrv_close($conn);
+        $dbc = new PDO('sqlsrv:Server=10.99.100.38;Database=ryan_intern', $msusername, $mspassword);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbc->query($sql, PDO::FETCH_ASSOC);
 
         if (!isset($_GET['reload'])) {
             echo '<meta http-equiv = Refresh content = "0;url=http://testproject.test/DataClassroom.php?reload=1">';

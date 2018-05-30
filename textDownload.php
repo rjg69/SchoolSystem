@@ -23,13 +23,10 @@ if (isset($_POST['submitt'])) {
                 StudentTable.StudentID,
                 StudentTable.StudentName,
                 StudentTable.StudentImage,
-                ClassesTable.BookID,
                 ClassesTable.ClassID,
                 ClassesTable.ClassName,
-                ClassesTable.ClassroomID,
-                BookTable.BookName,
-                BookTable.BookImage,
-                ClassroomTable.ClassroomNumber
+                ClassroomTable.ClassroomNumber,
+                BookTable.BookName
             FROM
                 StudentTable
             LEFT JOIN
@@ -39,17 +36,25 @@ if (isset($_POST['submitt'])) {
             LEFT JOIN
                 ClassesTable
             ON
-                StudClass.ClassID=ClassesTable.ClassID
-            LEFT JOIN
-                BookTable
-            ON
-                ClassesTable.BookID=BookTable.BookID
+                ClassesTable.ClassID=StudClass.ClassID
             LEFT JOIN
                 ClassroomTable
             ON
-                ClassesTable.ClassroomID=ClassroomTable.ClassroomID
+                ClassroomTable.ClassroomID=ClassesTable.ClassroomID
+            LEFT JOIN
+                BookTable
+            ON
+                BookTable.BookID=ClassesTable.BookID
+            WHERE
+                ClassesTable.ClassroomID IS NOT NULL
+            AND
+                ClassesTable.ClassID IS NOT NULL
+            AND 
+                ClassesTable.BookID IS NOT NULL
+            AND
+                BookTable.BookName IS NOT NULL
             ORDER BY
-                ClassesTable.ClassID;
+                StudentTable.StudentID;
             ";
 
     //pull all necessary data

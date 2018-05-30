@@ -65,7 +65,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <h2>Congratulations!</h2><br/>
-                    <p>Your data successfully exported to an Excel file!</p>
+                    <p>Your data successfully exported to an Excel file! Once opening the file, if a warning arises click 'Yes' and the data will be accessible.</p>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" width = "100%" data-dismiss="modal">Close</button>
                     </div>
