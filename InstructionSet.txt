@@ -38,7 +38,7 @@ Assignment #5 - Add additional jQuery / Javascript Libraries
 
 Assignment #6 - Using Composer / Autoload
     Use Composer to install KendoUI
-    https://bitbucket.org/savvior/kendoui
+    //bitbucket
     Update your HTML tables to use KendoGrid
     http://docs.telerik.com/kendo-ui/php/widgets/grid/overview
     Make a list of sortable books or classes that saves the order to the database
@@ -49,7 +49,7 @@ Assignment #7 - Add login functionality using sessions
 Assignment #8 - Export student and class lists to text files ( fputcsv() )
 
 Assignment #9 - Implement PHP Excel to export all school information to a single Excel file (remember, you can have multiple worksheets)
-    https://github.com/PHPOffice/PHPExcel
+    https://github.com/PHPOffice/PHPSpreadsheet
 
 Assignment #10 - Update your uploader forms to use plupload
     http://www.plupload.com/
